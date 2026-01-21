@@ -74,7 +74,7 @@ function setup() {
     /***CODE
      * console.log(document.querySelector("#parent"));
     */
-    /***OUTPUT: 
+    /***OUTPUT:
      * <section id="parent">
             <div class="inner-container">
                 <div class="content-container">
@@ -197,31 +197,33 @@ function setup() {
     /*************************************** */
     /* 1: Select the first paragraph and replace the text within the paragraph... */
     /***CODE */
+    document.querySelectorAll("p")[0].textContent = "New text in paragraph one: text changed by Ray Hernaez on the following date: January 20, 2026.";
     /*************************************** */
     /* 2: Select all elements in the HTML that have the class name content-container
      and change the background color ... of first and second ...*/
     /***CODE */
-
+    let contentContainer = document.querySelectorAll(".content-container");
+    contentContainer[0].style.background = "orange";
+    contentContainer[1].style.background = "purple";
     /*************************************** */
     /* 3: Change the src element of the first image element on the page to be ...
     /***CODE */
-
+    document.querySelectorAll("img")[0].src = "task-2-images/seven.png";
     /*************************************** */
     /* 4: Select the third paragraph element on the page and 
     replace the content (within the paragraph) to be an h2 element which contains the text `TEST 123`
     /***CODE */
-
+    document.querySelectorAll("p")[2].innerHTML = "<h2>TEST 123</h2>";
     /*************************************** */
     /* 5: Select the fourth paragraph element on the page and 
     add to the existing content an h2 element containing the text `TEST 123`
     /***CODE */
-
+    document.querySelectorAll("p")[3].innerHTML += "<h2>TEST 123</h2>";
     /*************************************** */
     /* 6: Select the fifth paragraph element on the page and add to the existing content 
     an img element that holds `one.png`, and add the class newStyle to said paragraph element.
     /***CODE */
-
-
+    document.querySelectorAll("p")[4].innerHTML += "<img src='task-2-images/one.png' >";
     /*************************************** */
     /* 7: Add the following array variable: let colors = ['red','blue','green','orange'];, 
     then access all elements with class name inner-container and save to a variable called `innerContainers`. 
@@ -230,7 +232,12 @@ function setup() {
     (i.e. colors[0] should be allocated to the first innerContainers element, colors[1] to the second, etc ...) 
     a background using that color.
     /***CODE */
+    let colors = ['red', 'blue', 'green', 'orange'];
+    let innerContainers = document.querySelectorAll(".inner-container");
 
+    for (let i = 0; i < colors.length; i++) {
+        innerContainers[i].style.background = colors[i];
+    }
     /*************************************** */
     /*** END PART TWO MODIFY */
 
