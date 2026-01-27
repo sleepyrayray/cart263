@@ -228,7 +228,7 @@ function setup() {
     /* 6: Select the fifth paragraph element on the page and add to the existing content
     an img element that holds `one.png`, and add the class newStyle to said paragraph element.
     /***CODE 
-     * document.querySelectorAll("p")[4].innerHTML += "<img src='task-2-images/one.png' >";
+     * document.querySelectorAll("p")[4].innerHTML += "<img src='task-2-images/one.png' class='newStyle' />";
     */
     /*************************************** */
     /* 7: Add the following array variable: let colors = ['red','blue','green','orange'];,
@@ -264,6 +264,7 @@ function setup() {
     passing the current allPTagsThree element as the parent with each iteration.*/
     /***CODE 
      * let allPTagsThree = document.querySelectorAll("p");
+    
     function customCreateElement(parent) {
         let newP = document.createElement("p");
         newP.textContent = "using create Element";
