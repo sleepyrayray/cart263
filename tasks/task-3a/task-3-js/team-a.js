@@ -47,8 +47,8 @@ function setup_A() {
     console.log("in ani-B -teamA");
 
     // make sure stamps position correctly inside this canvas
-    parentCanvas.style.position = "relative";
-    parentCanvas.style.overflow = "hidden";
+    // parentCanvas.style.position = "relative";
+    // parentCanvas.style.overflow = "hidden";
 
     // mousemove = paint
     parentCanvas.addEventListener("mousemove", paintGlow);

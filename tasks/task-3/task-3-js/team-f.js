@@ -46,6 +46,30 @@ function setup_F() {
   function aniB(parentCanvas) {
     console.log("in ani-B -teamF");
 
+    parentCanvas.addEventListener("mousemove", paintRainbow);
+
+    function paintRainbow(e) {
+      let canvas = this.getBoundingClientRect();
+      let x = e.clientX - canvas.left;
+      let y = e.clientY - canvas.top;
+
+      // create dot
+      let dot = document.createElement("div");
+      dot.classList.add("TEAM_F_paintDot");
+
+      // dot position
+      dot.style.left = x + "px";
+      dot.style.top = y + "px";
+
+      // randomize colors
+      let r = Math.floor(Math.random() * 256);
+      let g = Math.floor(Math.random() * 256);
+      let b = Math.floor(Math.random() * 256);
+      dot.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+
+    this.appendChild(dot);
+
   }
   /****************ANI C ************************************ */
   /** PUT ALL YOUR CODE FOR INTERACTIVE PATTERN C INSIDE HERE */

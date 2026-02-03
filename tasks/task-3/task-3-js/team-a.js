@@ -4,7 +4,7 @@ function setup_A() {
   console.log("in a");
   /**************************************************** */
   //get the buttons
-  activateButtons(`#TEAM_A`, "ani_canvA",aniA,aniB,aniC,aniD);
+  activateButtons(`#TEAM_A`, "ani_canvA", aniA, aniB, aniC, aniD);
   /**************** ANI A ************************************ */
   /** PUT ALL YOUR CODE FOR INTERACTIVE PATTERN A INSIDE HERE */
   /**************** ANI A ************************************ */
@@ -43,8 +43,48 @@ function setup_A() {
    * **/
 
   function aniB(parentCanvas) {
-      console.log("in ani-B -teamA");
-    
+    console.log("in ani-B -teamA");
+
+    // make sure stamps position correctly inside this canvas
+    // parentCanvas.style.position = "relative";
+    // parentCanvas.style.overflow = "hidden";
+
+    // mousemove = paint
+    parentCanvas.addEventListener("mousemove", paintGlow);
+
+    function paintGlow(e) {
+      // "this" is the parentCanvas because the event listener is attached to it
+      const rect = this.getBoundingClientRect();
+
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const stamp = document.createElement("div");
+      stamp.classList.add("TEAM_A_glowStamp");
+
+      // position the stamp
+      stamp.style.left = x + "px";
+      stamp.style.top = y + "px";
+
+      // random color
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      stamp.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+      // stamp.style.boxShadow = `0 0 12px rgb(${r}, ${g}, ${b})`;
+
+      this.appendChild(stamp);
+
+      // // fade out, then remove
+      // setTimeout(() => {
+      //   stamp.style.opacity = "0";
+      // }, 10);
+
+      // setTimeout(() => {
+      //   stamp.remove();
+      // }, 800);
+    }
+
   }
   /****************ANI C ************************************ */
   /** PUT ALL YOUR CODE FOR INTERACTIVE PATTERN C INSIDE HERE */
@@ -67,7 +107,7 @@ function setup_A() {
    */
 
   function aniC(parentCanvas) {
-      console.log("in ani-C -teamA");
+    console.log("in ani-C -teamA");
 
     /*** THIS IS THE CALLBACK FOR KEY DOWN (* DO NOT CHANGE THE NAME *..) */
     windowKeyDownRef = function (e) {
@@ -101,7 +141,7 @@ function setup_A() {
    * remember you can define other functions inside....
    * Do not change any code above or the HTML markup.
    * **/
-   function aniD(parentCanvas) {
+  function aniD(parentCanvas) {
     console.log("in ani-D -teamA");
-    }
+  }
 }
