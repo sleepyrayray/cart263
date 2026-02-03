@@ -62,7 +62,7 @@ function resetButtons(teamButtons,activeButton){
   /* NO NEED TO MODIFY THIS FUNCTION :) */
   /*** helper function to activate buttons */
   /**************************************************** */
-  function activateButtons(team, teamCanvas,aniA,aniB,aniC,aniD) {
+  function activateButtons(team, teamCanvas,aniA,aniB,aniC) {
     let teamButtons = document.querySelectorAll(`${team} .team-nav p`);
     //2:
     //console.log(teamButtons);
@@ -109,14 +109,6 @@ function resetButtons(teamButtons,activeButton){
           }
           case "4": {
             console.log("D");
-             //reset the canvases
-            resetCanvases(`${team} .aniCanvas`);
-            //reset buttons
-            resetButtons(teamButtons, this);
-            //activate canvas D
-            document.getElementById(`${teamCanvas}_D`).style.display = "block";
-            //run fourth
-            aniD(document.getElementById(`${teamCanvas}_D`));
             break;
           }
           case "5": {

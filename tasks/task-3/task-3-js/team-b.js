@@ -4,7 +4,7 @@ function setup_B() {
   console.log("in b");
   /**************************************************** */
   //get the buttons
-  activateButtons(`#TEAM_B`, "ani_canvB",aniA,aniB,aniC);
+  activateButtons(`#TEAM_B`, "ani_canvB",aniA,aniB,aniC,aniD);
 
   function aniA(parentCanvas) {
     console.log("in ani-A -teamB");
@@ -70,4 +70,23 @@ function setup_B() {
     window.addEventListener("keydown", windowKeyDownRef);
     window.addEventListener("keyup", windowKeyUpRef);
   }
+
+  /****************ANI D************************************ */
+  /** PUT ALL YOUR CODE FOR INTERACTIVE PATTERN D INSIDE HERE */
+  /****************ANI D************************************ */
+  /**************** TASK *******************************************
+   * YOU CAN USE ALL NOTES --- and see my examples in team-h.js for inspiration and possibly help:).
+   * 1: create a creative, visual pattern using text, divs as shapes, images ...
+   * 2: add in animation using requestAnimationFrame somewhere to make the sketch animate :)
+   *
+   * NOTE::: PLEASE::: if you add any custom css PLEASE use the style.css and prefix any class names with your team label
+   * i.e. you want to create a custom div class and you are in "Team_A" then call your class TEAM_A_ANI_A_Div -
+   * this is so that your styles are not overriden by other teams.
+   * NOTE::: All your code is to be added here inside this function -
+   * remember you can define other functions inside....
+   * Do not change any code above or the HTML markup.
+   * **/
+   function aniD(parentCanvas) {
+    console.log("in ani-D -teamB");
+    }
 }
