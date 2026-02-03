@@ -46,6 +46,10 @@ function setup_F() {
   function aniB(parentCanvas) {
     console.log("in ani-B -teamF");
 
+    // keep it inside the canvas
+    parentCanvas.style.position = "relative";
+    parentCanvas.style.overflow = "hidden";
+
     parentCanvas.addEventListener("mousemove", paintRainbow);
 
     function paintRainbow(e) {
@@ -56,6 +60,7 @@ function setup_F() {
       // create dot
       let dot = document.createElement("div");
       dot.classList.add("TEAM_F_paintDot");
+      dot.textContent = "🙂";
 
       // dot position
       dot.style.left = x + "px";
@@ -66,10 +71,17 @@ function setup_F() {
       let g = Math.floor(Math.random() * 256);
       let b = Math.floor(Math.random() * 256);
       dot.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+      this.appendChild(dot);
+
+      setTimeout(() => {
+        dot.style.opacity = "0";
+      }, 10);
+
+      setTimeout(() => {
+        dot.remove();
+      }, 1000);
     }
-
-    this.appendChild(dot);
-
   }
   /****************ANI C ************************************ */
   /** PUT ALL YOUR CODE FOR INTERACTIVE PATTERN C INSIDE HERE */
@@ -127,6 +139,56 @@ function setup_F() {
    * **/
   function aniD(parentCanvas) {
     console.log("in ani-D -teamF");
-  }
 
+    // keep inside canvas
+    parentCanvas.style.position = "relative";
+    parentCanvas.style.overflow = "hidden";
+
+    // create face
+    let face = document.createElement("div");
+    face.classList.add("TEAM_F_face");
+    parentCanvas.appendChild(face);
+
+    // create eyes
+    let leftEye = document.createElement("div");
+    leftEye.classList.add("TEAM_F_eye", "TEAM_F_eyeLeft");
+    face.appendChild(leftEye);
+
+    let rightEye = document.createElement("div");
+    rightEye.classList.add("TEAM_F_eye", "TEAM_F_eyeRight");
+    face.appendChild(rightEye);
+
+    // create mouth (from image)
+    let mouth = document.createElement("img");
+    mouth.src = "assets/images/F_mouth.png";
+    mouth.classList.add("TEAM_F_mouth");
+    face.appendChild(mouth);
+
+    // animate
+    let timer = 0; // our own time counter
+
+    function animate() {
+      timer += 0.02;
+
+      // scaleY go -1 to 1 and back and so on...
+      let scaleY = Math.sin(timer);
+
+      // flip mouth
+      mouth.style.transform = `translateX(-50%) scaleY(${scaleY})`;
+
+      // happiness value
+      let happiness = 1 - (scaleY + 1) / 2;
+
+      // dull yellow -> vibrant yellow
+      let r = Math.floor(180 + 75 * happiness);
+      let g = Math.floor(160 + 95 * happiness);
+      let b = Math.floor(20 * (1 - happiness));
+
+      face.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  }
 }
