@@ -178,7 +178,6 @@ h5 {
   transform: translate(-50%, -50%);
   /* adds trailing effect */
   transition: opacity 1s linear;
-  /* pointer-events: none; */
   /* smiley emoji */
   display: flex;
   align-items: center;
@@ -188,7 +187,7 @@ h5 {
   cursor: none;
 }
 
-.TEAM_F_face {
+/* .TEAM_F_face {
   position: absolute;
   width: 220px;
   height: 220px;
@@ -224,4 +223,21 @@ h5 {
   width: 120px;
   height: auto;
   transform-origin: center;
+} */
+
+.TEAM_F_joyImg {
+  width: 375px;
+  height: 375px;
+}
+
+.TEAM_F_sun {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #f47805, #f44d05 40%, #f41505);
+  box-shadow: 0 0 40px 15px rgba(219, 173, 20, 0.5);
+  transition: top 0.4s ease-out;
 }

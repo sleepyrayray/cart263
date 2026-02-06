@@ -24,6 +24,19 @@ function setup_F() {
 
   function aniA(parentCanvas) {
     console.log("in ani-A -teamF");
+    const imgUrls = [];
+    for (let i = 0; i < 10; i++) {
+      imgUrls.push(`assets/${i}.jpg`)
+    }
+    let newElement = document.createElement('img');
+    newElement.src = imgUrls[1];
+    newElement.classList.add('TEAM_F_joyImg');
+    parentCanvas.appendChild(newElement);
+    parentCanvas.addEventListener('click', changeImgHandler);
+
+    function changeImgHandler() {
+      newElement.src = imgUrls[Math.floor(Math.random() * 10)];
+    }
   }
 
 
@@ -105,12 +118,36 @@ function setup_F() {
 
   function aniC(parentCanvas) {
     console.log("in ani-C -teamF");
+    parentCanvas.style.overflow = "hidden";
+    parentCanvas.style.background = "linear-gradient(to bottom, #1b0ce8 0%, #463bea 50%, #6157ec 70%, #ecdd7b 100%)";
+    let sunY = 340;
+    let sun = document.createElement('div');
+    sun.classList.add('TEAM_F_sun');
+    parentCanvas.appendChild(sun);
+    function updateSunPosition() {
+      sun.style.top = sunY + "px";
+    }
+    updateSunPosition();
 
     /*** THIS IS THE CALLBACK FOR KEY DOWN (* DO NOT CHANGE THE NAME *..) */
     windowKeyDownRef = function (e) {
       //code for key down in here
       console.log(e);
       console.log("f-down");
+      if (e.code === 'Space') {
+        console.log('Space is pressed');
+        e.preventDefault();
+        if (sunY >= 40) {
+          sunY = sunY - 20;
+          updateSunPosition();
+        };
+      } else if (e.code === 'Backspace') {
+        e.preventDefault();
+        if (sunY <= 280) {
+          sunY = sunY + 20;
+          updateSunPosition();
+        };
+      }
     };
 
     /*** THIS IS THE CALLBACK FOR KEY UP (*DO NOT CHANGE THE NAME..) */
@@ -122,6 +159,26 @@ function setup_F() {
     window.addEventListener("keydown", windowKeyDownRef);
     window.addEventListener("keyup", windowKeyUpRef);
   }
+
+  // function aniC(parentCanvas) {
+  //   console.log("in ani-C -teamF");
+
+  //   /*** THIS IS THE CALLBACK FOR KEY DOWN (* DO NOT CHANGE THE NAME *..) */
+  //   windowKeyDownRef = function (e) {
+  //     //code for key down in here
+  //     console.log(e);
+  //     console.log("f-down");
+  //   };
+
+  //   /*** THIS IS THE CALLBACK FOR KEY UP (*DO NOT CHANGE THE NAME..) */
+  //   windowKeyUpRef = function (e) {
+  //     console.log(e);
+  //     console.log("f-up");
+  //   };
+  //   //DO NOT REMOVE
+  //   window.addEventListener("keydown", windowKeyDownRef);
+  //   window.addEventListener("keyup", windowKeyUpRef);
+  // }
   /****************ANI D************************************ */
   /** PUT ALL YOUR CODE FOR INTERACTIVE PATTERN D INSIDE HERE */
   /****************ANI D************************************ */
@@ -140,55 +197,54 @@ function setup_F() {
   function aniD(parentCanvas) {
     console.log("in ani-D -teamF");
 
-    // keep inside canvas
-    parentCanvas.style.position = "relative";
-    parentCanvas.style.overflow = "hidden";
+    // // keep inside canvas
+    // parentCanvas.style.position = "relative";
+    // parentCanvas.style.overflow = "hidden";
 
-    // create face
-    let face = document.createElement("div");
-    face.classList.add("TEAM_F_face");
-    parentCanvas.appendChild(face);
+    // // create face
+    // let face = document.createElement("div");
+    // face.classList.add("TEAM_F_face");
+    // parentCanvas.appendChild(face);
 
-    // create eyes
-    let leftEye = document.createElement("div");
-    leftEye.classList.add("TEAM_F_eye", "TEAM_F_eyeLeft");
-    face.appendChild(leftEye);
+    // // create eyes
+    // let leftEye = document.createElement("div");
+    // leftEye.classList.add("TEAM_F_eye", "TEAM_F_eyeLeft");
+    // face.appendChild(leftEye);
 
-    let rightEye = document.createElement("div");
-    rightEye.classList.add("TEAM_F_eye", "TEAM_F_eyeRight");
-    face.appendChild(rightEye);
+    // let rightEye = document.createElement("div");
+    // rightEye.classList.add("TEAM_F_eye", "TEAM_F_eyeRight");
+    // face.appendChild(rightEye);
 
-    // create mouth (from image)
-    let mouth = document.createElement("img");
-    mouth.src = "assets/images/F_mouth.png";
-    mouth.classList.add("TEAM_F_mouth");
-    face.appendChild(mouth);
+    // // create mouth (from image)
+    // let mouth = document.createElement("img");
+    // mouth.src = "assets/images/F_mouth.png";
+    // mouth.classList.add("TEAM_F_mouth");
+    // face.appendChild(mouth);
 
-    // animate
-    let timer = 0; // our own time counter
+    // // animate
+    // let timer = 0; // our own time counter
 
-    function animate() {
-      timer += 0.02;
+    // function animate() {
+    //   timer += 0.02;
 
-      // scaleY go -1 to 1 and back and so on...
-      let scaleY = Math.sin(timer);
+    //   // scaleY go -1 to 1 and back and so on...
+    //   let scaleY = Math.sin(timer);
 
-      // flip mouth
-      mouth.style.transform = `translateX(-50%) scaleY(${scaleY})`;
+    //   // flip mouth
+    //   mouth.style.transform = `translateX(-50%) scaleY(${scaleY})`;
 
-      // happiness value
-      let happiness = 1 - (scaleY + 1) / 2;
+    //   // happiness value
+    //   let happiness = 1 - (scaleY + 1) / 2;
 
-      // dull yellow -> vibrant yellow
-      let r = Math.floor(180 + 75 * happiness);
-      let g = Math.floor(160 + 95 * happiness);
-      let b = Math.floor(20 * (1 - happiness));
+    //   // dull yellow -> vibrant yellow
+    //   let r = Math.floor(180 + 75 * happiness);
+    //   let g = Math.floor(160 + 95 * happiness);
+    //   let b = Math.floor(20 * (1 - happiness));
 
-      face.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    //   face.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 
-      requestAnimationFrame(animate);
-    }
-
-    requestAnimationFrame(animate);
+    //   requestAnimationFrame(animate);
+    // }
+    // requestAnimationFrame(animate);
   }
 }
