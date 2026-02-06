@@ -160,25 +160,6 @@ function setup_F() {
     window.addEventListener("keyup", windowKeyUpRef);
   }
 
-  // function aniC(parentCanvas) {
-  //   console.log("in ani-C -teamF");
-
-  //   /*** THIS IS THE CALLBACK FOR KEY DOWN (* DO NOT CHANGE THE NAME *..) */
-  //   windowKeyDownRef = function (e) {
-  //     //code for key down in here
-  //     console.log(e);
-  //     console.log("f-down");
-  //   };
-
-  //   /*** THIS IS THE CALLBACK FOR KEY UP (*DO NOT CHANGE THE NAME..) */
-  //   windowKeyUpRef = function (e) {
-  //     console.log(e);
-  //     console.log("f-up");
-  //   };
-  //   //DO NOT REMOVE
-  //   window.addEventListener("keydown", windowKeyDownRef);
-  //   window.addEventListener("keyup", windowKeyUpRef);
-  // }
   /****************ANI D************************************ */
   /** PUT ALL YOUR CODE FOR INTERACTIVE PATTERN D INSIDE HERE */
   /****************ANI D************************************ */
@@ -196,55 +177,5 @@ function setup_F() {
    * **/
   function aniD(parentCanvas) {
     console.log("in ani-D -teamF");
-
-    // // keep inside canvas
-    // parentCanvas.style.position = "relative";
-    // parentCanvas.style.overflow = "hidden";
-
-    // // create face
-    // let face = document.createElement("div");
-    // face.classList.add("TEAM_F_face");
-    // parentCanvas.appendChild(face);
-
-    // // create eyes
-    // let leftEye = document.createElement("div");
-    // leftEye.classList.add("TEAM_F_eye", "TEAM_F_eyeLeft");
-    // face.appendChild(leftEye);
-
-    // let rightEye = document.createElement("div");
-    // rightEye.classList.add("TEAM_F_eye", "TEAM_F_eyeRight");
-    // face.appendChild(rightEye);
-
-    // // create mouth (from image)
-    // let mouth = document.createElement("img");
-    // mouth.src = "assets/images/F_mouth.png";
-    // mouth.classList.add("TEAM_F_mouth");
-    // face.appendChild(mouth);
-
-    // // animate
-    // let timer = 0; // our own time counter
-
-    // function animate() {
-    //   timer += 0.02;
-
-    //   // scaleY go -1 to 1 and back and so on...
-    //   let scaleY = Math.sin(timer);
-
-    //   // flip mouth
-    //   mouth.style.transform = `translateX(-50%) scaleY(${scaleY})`;
-
-    //   // happiness value
-    //   let happiness = 1 - (scaleY + 1) / 2;
-
-    //   // dull yellow -> vibrant yellow
-    //   let r = Math.floor(180 + 75 * happiness);
-    //   let g = Math.floor(160 + 95 * happiness);
-    //   let b = Math.floor(20 * (1 - happiness));
-
-    //   face.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-
-    //   requestAnimationFrame(animate);
-    // }
-    // requestAnimationFrame(animate);
   }
 }

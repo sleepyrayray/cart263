@@ -168,6 +168,11 @@ h5 {
 
 /*CSS TEAM F**/
 
+.TEAM_F_joyImg {
+  width: 375px;
+  height: 375px;
+}
+
 .TEAM_F_paintDot {
   position: absolute;
   width: 100px;
@@ -185,49 +190,6 @@ h5 {
   font-size: 50px;
   /* hide cursor */
   cursor: none;
-}
-
-/* .TEAM_F_face {
-  position: absolute;
-  width: 220px;
-  height: 220px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: rgb(170, 170, 0);
-  border: 4px solid black;
-}
-
-.TEAM_F_eye {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: black;
-  top: 70px;
-}
-
-.TEAM_F_eyeLeft {
-  left: 70px;
-}
-
-.TEAM_F_eyeRight {
-  right: 70px;
-}
-
-.TEAM_F_mouth {
-  position: absolute;
-  left: 50%;
-  top: 130px;
-  width: 120px;
-  height: auto;
-  transform-origin: center;
-} */
-
-.TEAM_F_joyImg {
-  width: 375px;
-  height: 375px;
 }
 
 .TEAM_F_sun {
