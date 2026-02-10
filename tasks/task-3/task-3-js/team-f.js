@@ -123,6 +123,9 @@ function setup_F() {
     let sunY = 340;
     let sun = document.createElement('div');
     sun.classList.add('TEAM_F_sun');
+    let rays = document.createElement('div');
+    rays.classList.add('TEAM_F_rays');
+    sun.appendChild(rays);
     parentCanvas.appendChild(sun);
     function updateSunPosition() {
       sun.style.top = sunY + "px";
@@ -131,18 +134,20 @@ function setup_F() {
 
     /*** THIS IS THE CALLBACK FOR KEY DOWN (* DO NOT CHANGE THE NAME *..) */
     windowKeyDownRef = function (e) {
-      //code for key down in here
+      //
       console.log(e);
       console.log("f-down");
       if (e.code === 'Space') {
         console.log('Space is pressed');
         e.preventDefault();
+        sun.classList.add("active");
         if (sunY >= 40) {
           sunY = sunY - 20;
           updateSunPosition();
         };
       } else if (e.code === 'Backspace') {
         e.preventDefault();
+        sun.classList.add("active");
         if (sunY <= 280) {
           sunY = sunY + 20;
           updateSunPosition();
@@ -152,8 +157,9 @@ function setup_F() {
 
     /*** THIS IS THE CALLBACK FOR KEY UP (*DO NOT CHANGE THE NAME..) */
     windowKeyUpRef = function (e) {
-      console.log(e);
-      console.log("f-up");
+      if (e.code === 'Space' || e.code === 'Backspace') {
+        sun.classList.remove("active");
+      }
     };
     //DO NOT REMOVE
     window.addEventListener("keydown", windowKeyDownRef);
