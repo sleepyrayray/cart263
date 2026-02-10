@@ -178,79 +178,62 @@ function setup_F() {
   function aniD(parentCanvas) {
     console.log("in ani-D -teamF");
 
-    // create a canvas inside this parentCanvas
-    const canvas = document.createElement("canvas");
+    // make sure canvas area is clean
+    parentCanvas.innerHTML = "";
+
+    // create canvas
+    let canvas = document.createElement("canvas");
+    canvas.width = 400;
+    canvas.height = 400;
     parentCanvas.appendChild(canvas);
 
-    const ctx = canvas.getContext("2d");
+    let ctx = canvas.getContext("2d");
+    let t = 0; // time for animation
 
-    // make the canvas match the parent size
-    const rect = parentCanvas.getBoundingClientRect();
-    canvas.width = Math.floor(rect.width);
-    canvas.height = Math.floor(rect.height);
-
-    let t = 0; // animation time
-
-    // hand-drawn effect
-    function jitter(val, range = 2) {
-      return val + (Math.random() - 0.5) * range;
-    }
-
-    function drawFace(mouthCurve) {
+    // animation loop
+    function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // center the face
-      const cx = canvas.width / 2;
-      const cy = canvas.height / 2;
-      const radius = Math.min(canvas.width, canvas.height) * 0.35;
-
-      // Face outline
-      ctx.fillStyle = "#FFD966"; // skin color
+      // face color
+      ctx.fillStyle = "#FFD966";
       ctx.beginPath();
 
-      for (let angle = 0; angle < Math.PI * 2; angle += 0.1) {
-        const x = cx + (radius + (Math.random() - 0.5) * 4) * Math.cos(angle);
-        const y = cy + (radius + (Math.random() - 0.5) * 4) * Math.sin(angle);
-        if (angle === 0) ctx.moveTo(x, y);
+      // draw face not perfect so look hand made
+      let cx = 200;
+      let cy = 200;
+      let r = 150;
+      for (let a = 0; a < Math.PI * 2; a += 0.1) {
+        let x = cx + (r + (Math.random() - 0.5) * 4) * Math.cos(a);
+        let y = cy + (r + (Math.random() - 0.5) * 4) * Math.sin(a);
+        if (a === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
-
       ctx.closePath();
       ctx.fill();
 
-      // Eyes
-      const eyeOffset = Math.sin(t * 3) * 2;
+      // eyes move little bit
+      let eyeMove = Math.sin(t * 3) * 2;
       ctx.fillStyle = "#000";
       ctx.beginPath();
-      ctx.arc(jitter(cx - radius * 0.4), jitter(cy - radius * 0.35 + eyeOffset, 1), radius * 0.13, 0, Math.PI * 2);
-      ctx.arc(jitter(cx + radius * 0.4), jitter(cy - radius * 0.35 + eyeOffset, 1), radius * 0.13, 0, Math.PI * 2);
+      ctx.arc(140 + (Math.random() - 0.5) * 2, 150 + eyeMove, 20, 0, Math.PI * 2);
+      ctx.arc(260 + (Math.random() - 0.5) * 2, 150 + eyeMove, 20, 0, Math.PI * 2);
       ctx.fill();
-      ctx.closePath();
 
-      // Mouth (hand drawn curve)
+      // mouth change sad to happy
+      let mouthCurve = Math.sin(t) * 50;
       ctx.strokeStyle = "#000";
-      ctx.lineWidth = 4 + Math.random(); // slight variation
+      ctx.lineWidth = 4 + Math.random();
       ctx.beginPath();
-
-      ctx.moveTo(jitter(cx - radius * 0.55), jitter(cy + radius * 0.45));
-      ctx.quadraticCurveTo(
-        jitter(cx),
-        jitter(cy + radius * 0.45 + mouthCurve, 3),
-        jitter(cx + radius * 0.55),
-        jitter(cy + radius * 0.45)
-      );
-
+      ctx.moveTo(120, 270);
+      ctx.quadraticCurveTo(200, 270 + mouthCurve, 280, 270);
       ctx.stroke();
-      ctx.closePath();
-    }
 
-    function animate() {
-      const mouthCurve = Math.sin(t) * (Math.min(canvas.width, canvas.height) * 0.12); // changes from sad to happy
-      drawFace(mouthCurve);
+      // update time and loop
       t += 0.02;
-      requestAnimationFrame(animate);
+      requestAnimationFrame(draw);
     }
 
-    animate();
+    // start animation
+    draw();
   }
 }
