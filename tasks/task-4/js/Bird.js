@@ -17,10 +17,10 @@ class Bird {
         this.isInGrass = false;
 
         if (this.color === "white") {
-            this.birdImg.src = "../assets/white-bird.png";
+            this.birdImg.src = "assets/white-bird.png";
         }
         else {
-            this.birdImg.src = "../assets/black-bird.png";
+            this.birdImg.src = "assets/black-bird.png";
         }
     }
 
