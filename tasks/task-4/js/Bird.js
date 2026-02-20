@@ -64,7 +64,7 @@ class Bird {
                 if (self.isInGrass) {
                     document.querySelector(".sky").appendChild(self.birdImg);
                     self.isInGrass = false;
-                    self.baseY = 60 + Math.random() * 140;
+                    self.baseY = 50 + Math.random() * 220;
                 }
                 // slower than sunny
                 self.time += 0.05;
