@@ -33,13 +33,77 @@ window.onload = function () {
     birds: [],
     maxBirds: 15,
     birdColor: "white",
-    weather: {
-      // sunny/rainy/cold
-      state: "sunny"
-    },
+    weather: null,
   };
   // new  sun instancce
   let sun = new Sun(10, 10, { r: 240, g: 206, b: 83 })
+
+  // TEAM F: Weather
+  let weather = new Weather("Hot", "Cold", "Rainy", 20);
+
+  garden.weather = weather;
+
+  //syncing the colours of the garden with the weather 
+  function syncGardenColorsWithWeather() {
+    if (weather.currentState === weather.hotState) {
+      garden.sky.skyColor = { r: 120, g: 185, b: 255 };
+      garden.grass.grassColor = { r: 130, g: 190, b: 110 };
+    } else if (weather.currentState === weather.coldState) {
+      garden.sky.skyColor = { r: 170, g: 195, b: 225 };
+      garden.grass.grassColor = { r: 100, g: 150, b: 105 };
+    } else {
+      garden.sky.skyColor = { r: 95, g: 140, b: 185 };
+      garden.grass.grassColor = { r: 110, g: 165, b: 110 };
+    }
+
+    //update the sky and grass divs to interpolate the new colours
+    //the sun
+    garden.sky.skyDiv.style.background = `rgb(${garden.sky.skyColor.r},${garden.sky.skyColor.g},${garden.sky.skyColor.b})`;
+    //the grass
+    garden.grass.grassDiv.style.background = `rgb(${garden.grass.grassColor.r},${garden.grass.grassColor.g},${garden.grass.grassColor.b})`;
+  }
+
+  //Starting the weather cycle, changing the temperature and weather at different intervals 
+  function startWeatherCycle() {
+
+    //weather states array
+    const states = [weather.hotState, weather.rainyState, weather.coldState];
+
+    //weather state changes at a slower interval.
+    setInterval(function () {
+
+      //pick a random weather state
+      const nextState = states[Math.floor(Math.random() * states.length)];
+      //set the weather to that state 
+      weather.setState(nextState);
+      //set the temperature to a temperature within the range of the weather state
+      weather.setTemperature(weather.getRandomTemperatureForState(nextState));
+      //render the weather
+      weather.renderWeather();
+      //changing the colours of the garden
+      syncGardenColorsWithWeather();
+      //repeat every 9 seconds
+    }, 9000);
+
+    //Temperature drifts at a faster interval within the current weather range.
+    setInterval(function () {
+
+      //Get the current range of allowed temperatures for a given weather state
+      const range = weather.getTemperatureRangeForState(weather.currentState);
+      //creating a random temperature change between -2 and +2 degrees
+      const drift = Math.floor(Math.random() * 5) - 2;
+      //Ensuring that the new temperature with the drift is still within the range of the current weather state
+      const nextTemperature = Math.max(
+        range.min,
+        Math.min(range.max, weather.currentTemperature + drift)
+      );
+      //set the temperature to the new temperature with the drift
+      weather.setTemperature(nextTemperature);
+      //render the weather 
+      weather.renderWeather();
+      //repeat every 3.5 seconds
+    }, 3500);
+  }
 
   function createAndRenderTheGarden() {
     /* note how we use dot notation....*/
@@ -49,6 +113,8 @@ window.onload = function () {
     document.getElementsByTagName("main")[0].appendChild(garden.sky.skyDiv);
     //sun
     sun.renderSun();
+    //weather types
+    weather.renderWeather();
 
     //grass
     garden.grass.grassDiv.classList.add("grass");
@@ -79,7 +145,6 @@ window.onload = function () {
       garden.flowers[i].renderFlower();
     }
   }
-  createAndRenderTheGarden();
 
   // TEAM E: Add Birds
   function addBird() {
@@ -100,7 +165,7 @@ window.onload = function () {
 
     // render and animate bird
     bird.renderBird();
-    bird.animateBird(garden.weather);
+    bird.animateBird(weather);
 
     // alternate bird color
     if (garden.birdColor === "white") {
@@ -111,7 +176,12 @@ window.onload = function () {
     }
   }
 
+  createAndRenderTheGarden();
+  syncGardenColorsWithWeather();
+  startWeatherCycle();
   addBird();
+
+  // Spacebar to add a bird (max 15)
   window.addEventListener("keydown", function (e) {
     if (e.code === "Space") {
       e.preventDefault();

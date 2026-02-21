@@ -46,10 +46,10 @@ class Bird {
         let self = this;
 
         function move() {
-            let state = weather.state;
+            let state = weather.currentState;
 
-            // sunny
-            if (state === "sunny") {
+            // hot
+            if (state === weather.hotState) {
                 if (self.isInGrass) {
                     document.querySelector(".sky").appendChild(self.birdImg);
                     self.isInGrass = false;
@@ -60,7 +60,7 @@ class Bird {
                 self.y = self.baseY + Math.sin(self.time) * 20;
             }
             // rainy
-            else if (state === "rainy") {
+            else if (state === weather.rainyState) {
                 if (self.isInGrass) {
                     document.querySelector(".sky").appendChild(self.birdImg);
                     self.isInGrass = false;
@@ -72,7 +72,7 @@ class Bird {
                 self.y = self.baseY + Math.sin(self.time) * 10;
             }
             // cold
-            else if (state === "cold") {
+            else if (state === weather.coldState) {
                 if (!self.isInGrass) {
                     document.querySelector(".grass").appendChild(self.birdImg);
                     self.isInGrass = true;
