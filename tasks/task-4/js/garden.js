@@ -165,7 +165,7 @@ window.onload = function () {
 
     // render and animate bird
     bird.renderBird();
-    bird.animateBird(weather);
+    bird.animateBird(garden.weather);
 
     // alternate bird color
     if (garden.birdColor === "white") {
