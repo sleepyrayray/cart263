@@ -6,6 +6,7 @@ console.log("go");
 /* for loading the video */
 let videoEl = document.getElementById("video-birds");
 let boardBMicStarted = false;
+let boardCMicStarted = false;
 window.addEventListener("click", function(){
     if(videoEl.currentTime ===0){
         videoEl.play()
@@ -15,6 +16,12 @@ window.addEventListener("click", function(){
     if(boardBMicStarted === false){
         boardBMicStarted = true;
         setupMicrophoneForBoardB(soundRectangle);
+    }
+
+    // start the microphone for Board C after a user click
+    if(boardCMicStarted === false){
+        boardCMicStarted = true;
+        setupMicrophoneForBoardC(soundWave);
     }
 })
 
@@ -56,7 +63,10 @@ drawingBoardB.display();
 
 let drawingBoardC = new DrawingBoard(theCanvases[2],theContexts[2],theCanvases[2].id);
 //add a freestyle object to canvas C
-drawingBoardC.addObj(new FreeStyleObj(10,100,300,"#CF9FFF","#CF9FFF", drawingBoardC.context))
+// drawingBoardC.addObj(new FreeStyleObj(10,100,300,"#CF9FFF","#CF9FFF", drawingBoardC.context))
+// this freestyle shape becomes a sound wave on Board C
+let soundWave = new FreeStyleObj(0,150,400,"rgb(173,216,230)","rgb(173,216,230)", drawingBoardC.context);
+drawingBoardC.addObj(soundWave)
 drawingBoardC.display();
 
 let drawingBoardD = new DrawingBoard(theCanvases[3],theContexts[3],theCanvases[3].id);
@@ -124,6 +134,59 @@ async function setupMicrophoneForBoardB(rectangleObj) {
             }
 
             requestAnimationFrame(readMicrophoneLevel);
+        }
+    } catch (err) {
+        console.log("had an error getting the microphone");
+    }
+}
+
+async function setupMicrophoneForBoardC(freeStyleObj) {
+    // get the microphone and send its average sound level to the wave
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioContext = new AudioContext();
+
+    try {
+        // Chrome sometimes keeps audio paused until the user clicks
+        if(audioContext.state === "suspended"){
+            await audioContext.resume();
+        }
+
+        let audioStream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+        });
+
+        // pass the mic stream into the Web Audio API
+        let microphoneIn = audioContext.createMediaStreamSource(audioStream);
+        let filter = audioContext.createBiquadFilter();
+        let analyser = audioContext.createAnalyser();
+
+        microphoneIn.connect(filter);
+        filter.connect(analyser);
+
+        analyser.fftSize = 32;
+        let frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+        requestAnimationFrame(readWaveLevel);
+
+        function readWaveLevel() {
+            let sum = 0;
+            let average = 0;
+
+            analyser.getByteFrequencyData(frequencyData);
+
+            // add up the frequency values and get the average
+            for (let i = 0; i < frequencyData.length; i++) {
+                sum += frequencyData[i];
+            }
+
+            average = sum / frequencyData.length;
+            freeStyleObj.micLevel = average * 4;
+
+            if(freeStyleObj.micLevel > 255){
+                freeStyleObj.micLevel = 255;
+            }
+
+            requestAnimationFrame(readWaveLevel);
         }
     } catch (err) {
         console.log("had an error getting the microphone");
