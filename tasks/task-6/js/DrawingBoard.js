@@ -165,6 +165,14 @@ class DrawingBoard {
       }
     }
   }
+
+  drawBoardAText() {
+    // show small helper text for the planet controls
+    this.context.fillStyle = "#FFFFFF";
+    this.context.font = "12px Arial";
+    this.context.fillText("Left-click to add planets", 10, 20);
+    this.context.fillText("Right-click to remove planets", 245, 20);
+  }
   /* method to add obj to canvas */
   addObj(objToAdd) {
     this.objectsOnCanvas.push(objToAdd);
@@ -185,6 +193,10 @@ class DrawingBoard {
      // this.context.clearRect(0,0,this.canvas.width,this.canvas.height)
      this.objectsOnCanvas[i].update();
      this.objectsOnCanvas[i].display();
+    }
+
+    if (this.drawingBoardId === "partA") {
+      this.drawBoardAText();
     }
   }
 
