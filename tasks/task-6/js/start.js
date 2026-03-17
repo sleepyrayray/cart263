@@ -5,9 +5,16 @@ console.log("go");
 
 /* for loading the video */
 let videoEl = document.getElementById("video-birds");
+let boardBMicStarted = false;
 window.addEventListener("click", function(){
     if(videoEl.currentTime ===0){
         videoEl.play()
+    }
+
+    // start the microphone after a user click
+    if(boardBMicStarted === false){
+        boardBMicStarted = true;
+        setupMicrophoneForBoardB(soundRectangle);
     }
 })
 
@@ -39,8 +46,12 @@ drawingBoardA.display();
 
 let drawingBoardB = new DrawingBoard(theCanvases[1],theContexts[1],theCanvases[1].id);
 //add a rectangular object to canvas B
-drawingBoardB.addObj(new RectangularObj(100,100,50,70,"#FF5733","#E6E6FA",drawingBoardB.context))
+// drawingBoardB.addObj(new RectangularObj(100,100,50,70,"#FF5733","#E6E6FA",drawingBoardB.context))
+// this rectangle listens to the microphone on Board B
+let soundRectangle = new RectangularObj(0,130,20,40,"rgb(255,0,0)","#000000",drawingBoardB.context);
+drawingBoardB.addObj(soundRectangle)
 drawingBoardB.display();
+// setupMicrophoneForBoardB(soundRectangle);
 
 
 let drawingBoardC = new DrawingBoard(theCanvases[2],theContexts[2],theCanvases[2].id);
@@ -63,6 +74,60 @@ function animationLoop(){
     drawingBoardC.animate();
     drawingBoardD.run(videoEl)
     window.requestAnimationFrame(animationLoop);
+}
+
+async function setupMicrophoneForBoardB(rectangleObj) {
+    // get the microphone and send its average sound level to the rectangle
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioContext = new AudioContext();
+
+    try {
+        // Chrome sometimes keeps audio paused until the user clicks
+        if(audioContext.state === "suspended"){
+            await audioContext.resume();
+        }
+
+        let audioStream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+        });
+
+        // pass the mic stream into the Web Audio API
+        let microphoneIn = audioContext.createMediaStreamSource(audioStream);
+        let filter = audioContext.createBiquadFilter();
+        let analyser = audioContext.createAnalyser();
+
+        microphoneIn.connect(filter);
+        filter.connect(analyser);
+
+        analyser.fftSize = 32;
+        let frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+        requestAnimationFrame(readMicrophoneLevel);
+
+        function readMicrophoneLevel() {
+            let sum = 0;
+            let average = 0;
+
+            analyser.getByteFrequencyData(frequencyData);
+
+            // add up the frequency values and get the average
+            for (let i = 0; i < frequencyData.length; i++) {
+                sum += frequencyData[i];
+            }
+
+            average = sum / frequencyData.length;
+            // boost the mic value a bit so the change is easier to see
+            rectangleObj.micLevel = average * 4;
+
+            if(rectangleObj.micLevel > 255){
+                rectangleObj.micLevel = 255;
+            }
+
+            requestAnimationFrame(readMicrophoneLevel);
+        }
+    } catch (err) {
+        console.log("had an error getting the microphone");
+    }
 }
 
 

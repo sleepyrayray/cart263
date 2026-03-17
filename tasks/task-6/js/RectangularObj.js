@@ -11,6 +11,14 @@ class RectangularObj {
     this.startAngle = 0;
     this.endAngle = Math.PI * 2; //full rotation
     this.context = context;
+
+    // Extra values for Board B
+    this.baseWidth = w;
+    this.baseHeight = h;
+    this.middleY = y + (h / 2);
+    this.micLevel = 0;
+    this.displayMicLevel = 0;
+    this.slideSpeed = 1;
   }
 
   display() {
@@ -22,8 +30,45 @@ class RectangularObj {
   }
 
   update(){
-    //update freestyle
-   // this.x+=1;
-    //console.log("rectangle update")
+    // smooth the microphone value so the motion is not too jumpy
+    this.displayMicLevel = this.displayMicLevel + (this.micLevel - this.displayMicLevel) * 0.08;
+
+    // grow from sound, with more height than width
+    this.width = this.baseWidth + (this.displayMicLevel * 0.12);
+    this.height = this.baseHeight + (this.displayMicLevel * 1.0);
+
+    // keep the height inside the canvas
+    if (this.height > this.context.canvas.height - 10) {
+      this.height = this.context.canvas.height - 10;
+    }
+
+    // keep the rectangle centered vertically while it grows
+    this.y = this.middleY - (this.height / 2);
+
+    // shift the fill color from red to green
+    let greenValue = parseInt(this.displayMicLevel * 2);
+    if (greenValue > 255) {
+      greenValue = 255;
+    }
+
+    let redValue = 255 - greenValue;
+    if (redValue < 0) {
+      redValue = 0;
+    }
+
+    this.fill_color = "rgb(" + redValue + "," + greenValue + ",0)";
+
+    // slide from one side of the canvas to the other
+    this.x += this.slideSpeed;
+
+    if (this.x <= 0) {
+      this.x = 0;
+      this.slideSpeed = 1;
+    }
+
+    if (this.x + this.width >= this.context.canvas.width) {
+      this.x = this.context.canvas.width - this.width;
+      this.slideSpeed = -1;
+    }
 }
 }

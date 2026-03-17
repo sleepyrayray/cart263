@@ -135,7 +135,7 @@ class DrawingBoard {
       mouseY,
       randomRadius,
       planetColors[randomColorIndex],
-      "#FFFFFF",
+      "#000000",
       this.context
     );
 
