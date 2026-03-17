@@ -40,6 +40,10 @@ class DrawingBoard {
     }
     if(this.drawingBoardId ==="partD"){
       console.log("in D")
+      for (let i = 0; i < this.objectsOnCanvas.length; i++) {
+        let currentObj = this.objectsOnCanvas[i];
+        currentObj.updatePositionRect(this.mouseOffsetX, this.mouseOffsetY);
+      }
    }
   }
 
@@ -64,6 +68,16 @@ class DrawingBoard {
     }
     if(this.drawingBoardId ==="partD"){
       console.log("in D")
+      for (let i = 0; i < this.objectsOnCanvas.length; i++) {
+        let currentObj = this.objectsOnCanvas[i];
+
+        if (currentObj.shapeCol === "#000000") {
+          currentObj.changeColor("#FFFFFF");
+        }
+        else {
+          currentObj.changeColor("#000000");
+        }
+      }
       }
   }
 
