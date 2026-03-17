@@ -10,6 +10,19 @@ class CircularObj {
     this.startAngle = 0;
     this.endAngle = Math.PI * 2; //full rotation
     this.context = context;
+
+    // Extra values for the sun and the planets on Board A
+    this.isSun = false;
+    this.isPlanet = false;
+    this.baseRadius = radius;
+    this.pulseAmount = 0;
+    this.pulseSpeed = 0;
+    this.pulseAngle = 0;
+    this.centerX = x;
+    this.centerY = y;
+    this.orbitRadius = 0;
+    this.angle = 0;
+    this.orbitSpeed = 0;
   }
 
   display() {
@@ -34,5 +47,30 @@ class CircularObj {
     //update circle
     //this.x += 1;
     //console.log("circle update");
+    if (this.isSun === true) {
+      // make the sun slowly grow and shrink
+      this.pulseAngle += this.pulseSpeed;
+      this.radius = this.baseRadius + Math.sin(this.pulseAngle) * this.pulseAmount;
+    }
+
+    if (this.isPlanet === true) {
+      // move the planet around the sun
+      this.angle += this.orbitSpeed;
+      this.x = this.centerX + Math.cos(this.angle) * this.orbitRadius;
+      this.y = this.centerY + Math.sin(this.angle) * this.orbitRadius;
+    }
+  }
+
+  containsPoint(pointX, pointY) {
+    // check if a mouse click happened inside this circle
+    let distanceX = pointX - this.x;
+    let distanceY = pointY - this.y;
+    let distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+    if (distance <= this.radius) {
+      return true;
+    }
+
+    return false;
   }
 }

@@ -25,7 +25,14 @@ for(let i =0; i<theCanvases.length; i++){
 
 let drawingBoardA = new DrawingBoard(theCanvases[0],theContexts[0],theCanvases[0].id);
 //add a circular object to canvas A
-drawingBoardA.addObj(new CircularObj(100,100,20,"#FFC300","#E6E6FA", drawingBoardA.context))
+// drawingBoardA.addObj(new CircularObj(100,100,20,"#FFC300","#E6E6FA", drawingBoardA.context))
+// this circle is our sun
+let sun = new CircularObj(200,150,40,"#FFD84D","#FFF4A3", drawingBoardA.context);
+sun.isSun = true;
+sun.baseRadius = 40;
+sun.pulseAmount = 2;
+sun.pulseSpeed = 0.01;
+drawingBoardA.addObj(sun);
 drawingBoardA.display();
 
 
