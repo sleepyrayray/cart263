@@ -9,7 +9,7 @@ class RectangularObj {
     this.fill_color = f_color;
     this.stroke_color = s_color;
     this.startAngle = 0;
-    this.endAngle = Math.PI * 2; //full rotation
+    this.endAngle = Math.PI * 2;
     this.context = context;
 
     // Extra values for Board B
@@ -22,18 +22,18 @@ class RectangularObj {
   }
 
   display() {
-    this.context.fillStyle = this.fill_color; // change the color we are using
-    this.context.fillRect(this.x, this.y,this.width, this.height);
-    this.context.strokeStyle = this.stroke_color; // change the color we are using
-    this.context.lineWidth = 2; //change stroke
-    this.context.strokeRect(this.x, this.y,this.width, this.height);
+    this.context.fillStyle = this.fill_color;
+    this.context.fillRect(this.x, this.y, this.width, this.height);
+    this.context.strokeStyle = this.stroke_color;
+    this.context.lineWidth = 2;
+    this.context.strokeRect(this.x, this.y, this.width, this.height);
   }
 
-  update(){
-    // smooth the microphone value so the motion is not too jumpy
+  update() {
+    // smooth the microphone value
     this.displayMicLevel = this.displayMicLevel + (this.micLevel - this.displayMicLevel) * 0.08;
 
-    // grow from sound, with more height than width
+    // grow from sound
     this.width = this.baseWidth + (this.displayMicLevel * 0.12);
     this.height = this.baseHeight + (this.displayMicLevel * 1.0);
 
@@ -45,7 +45,7 @@ class RectangularObj {
     // keep the rectangle centered vertically while it grows
     this.y = this.middleY - (this.height / 2);
 
-    // shift the fill color from red to green
+    // from red to green
     let greenValue = parseInt(this.displayMicLevel * 2);
     if (greenValue > 255) {
       greenValue = 255;
@@ -70,5 +70,5 @@ class RectangularObj {
       this.x = this.context.canvas.width - this.width;
       this.slideSpeed = -1;
     }
-}
+  }
 }

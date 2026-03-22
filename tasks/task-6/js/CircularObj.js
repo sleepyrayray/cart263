@@ -8,7 +8,8 @@ class CircularObj {
     this.fill_color = f_color;
     this.stroke_color = s_color;
     this.startAngle = 0;
-    this.endAngle = Math.PI * 2; //full rotation
+    //full rotation
+    this.endAngle = Math.PI * 2;
     this.context = context;
 
     // Extra values for the sun and the planets on Board A
@@ -26,8 +27,8 @@ class CircularObj {
   }
 
   display() {
-    this.context.fillStyle = this.fill_color; // change the color we are using
-    this.context.strokeStyle = this.stroke_color; // change the color we are using
+    this.context.fillStyle = this.fill_color;
+    this.context.strokeStyle = this.stroke_color;
     this.context.beginPath();
     this.context.arc(
       this.x,
@@ -37,8 +38,8 @@ class CircularObj {
       this.endAngle,
       true
     );
-    this.context.fill(); // set the fill
-    this.context.lineWidth = 2; //change stroke
+    this.context.fill();
+    this.context.lineWidth = 2;
     this.context.closePath();
     this.context.stroke();
   }

@@ -1,6 +1,6 @@
 class DrawingBoard {
   /* Constructor */
-  constructor(canvas, context,drawingBoardId) {
+  constructor(canvas, context, drawingBoardId) {
     this.canvas = canvas;
     this.context = context;
     this.objectsOnCanvas = [];
@@ -15,7 +15,7 @@ class DrawingBoard {
       self.overCanvas(e);
     });
 
-    // listen for right click so we can remove planets on Board A
+    // right click to remove planets on Board A
     this.canvas.addEventListener("contextmenu", function (e) {
       self.rightClickCanvas(e);
     });
@@ -29,44 +29,44 @@ class DrawingBoard {
     console.log(this.mouseOffsetX, this.mouseOffsetY);
     //differentiate which canvas
     //you can remove the console.logs /// 
-    if(this.drawingBoardId ==="partA"){
+    if (this.drawingBoardId === "partA") {
       console.log("in A")
     }
-    if(this.drawingBoardId ==="partB"){
+    if (this.drawingBoardId === "partB") {
       console.log("in B")
     }
-    if(this.drawingBoardId ==="partC"){
+    if (this.drawingBoardId === "partC") {
       console.log("in C")
     }
-    if(this.drawingBoardId ==="partD"){
+    if (this.drawingBoardId === "partD") {
       console.log("in D")
       for (let i = 0; i < this.objectsOnCanvas.length; i++) {
         let currentObj = this.objectsOnCanvas[i];
         currentObj.updatePositionRect(this.mouseOffsetX, this.mouseOffsetY);
       }
-   }
+    }
   }
 
   clickCanvas(e) {
-   // console.log("clicked");
+    // console.log("clicked");
     this.canvasBoundingRegion = this.canvas.getBoundingClientRect();
     this.mouseOffsetX = parseInt(e.clientX - this.canvasBoundingRegion.x);
     this.mouseOffsetY = parseInt(e.clientY - this.canvasBoundingRegion.y);
     //console.log(this.mouseOffsetX, this.mouseOffsetY);
-     
+
     //differentiate which canvas
-   //you can remove the console.logs /// 
-     if(this.drawingBoardId ==="partA"){
+    //you can remove the console.logs /// 
+    if (this.drawingBoardId === "partA") {
       console.log("in A")
       this.addPlanetToBoardA(this.mouseOffsetX, this.mouseOffsetY);
     }
-    if(this.drawingBoardId ==="partB"){
+    if (this.drawingBoardId === "partB") {
       console.log("in B")
     }
-    if(this.drawingBoardId ==="partC"){
+    if (this.drawingBoardId === "partC") {
       console.log("in C")
     }
-    if(this.drawingBoardId ==="partD"){
+    if (this.drawingBoardId === "partD") {
       console.log("in D")
       for (let i = 0; i < this.objectsOnCanvas.length; i++) {
         let currentObj = this.objectsOnCanvas[i];
@@ -78,7 +78,7 @@ class DrawingBoard {
           currentObj.changeColor("#000000");
         }
       }
-      }
+    }
   }
 
   rightClickCanvas(e) {
@@ -202,11 +202,11 @@ class DrawingBoard {
   /* method to add animate objects on canvas */
   animate() {
     // clear once, then redraw every object
-    this.context.clearRect(0,0,this.canvas.width,this.canvas.height)
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     for (let i = 0; i < this.objectsOnCanvas.length; i++) {
-     // this.context.clearRect(0,0,this.canvas.width,this.canvas.height)
-     this.objectsOnCanvas[i].update();
-     this.objectsOnCanvas[i].display();
+      // this.context.clearRect(0,0,this.canvas.width,this.canvas.height)
+      this.objectsOnCanvas[i].update();
+      this.objectsOnCanvas[i].display();
     }
 
     if (this.drawingBoardId === "partA") {
@@ -214,7 +214,7 @@ class DrawingBoard {
     }
   }
 
-  run(videoElement){
+  run(videoElement) {
     for (let i = 0; i < this.objectsOnCanvas.length; i++) {
       this.objectsOnCanvas[i].update(videoElement);
       this.objectsOnCanvas[i].display();
