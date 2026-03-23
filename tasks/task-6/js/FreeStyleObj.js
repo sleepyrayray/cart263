@@ -12,8 +12,7 @@ class FreeStyleObj {
     this.angularSpeed = .07;
     this.context = context;
 
-    // Extra values for Board C
-    this.baseColorRed = 173;
+    // Values used for task 3
     this.baseColorGreen = 216;
     this.baseColorBlue = 230;
     this.baseWaveHeight = 1;
@@ -22,11 +21,9 @@ class FreeStyleObj {
     this.micLevel = 0;
     this.displayMicLevel = 0;
     this.waveOffset = 0;
-
   }
 
   display() {
-    // reset the wave angle for each new frame
     this.theta = this.waveOffset;
     this.context.fillStyle = this.fill_color;
     this.context.strokeStyle = this.stroke_color;
@@ -41,17 +38,15 @@ class FreeStyleObj {
   }
 
   update() {
-    // smooth the mic value so the wave changes nicely
     this.displayMicLevel = this.displayMicLevel + (this.micLevel - this.displayMicLevel) * 0.08;
 
-    // flatter when quiet and wavier when loud
+    // 2 properties to change
     this.waveHeight = this.baseWaveHeight + (this.displayMicLevel * 0.12);
     this.yOffset = this.baseYOffset + (this.displayMicLevel * 0.08);
 
-    // move the wave pattern over time
+    // wave keeps moving even when the sound is quiet
     this.waveOffset += 0.04 + (this.displayMicLevel * 0.0015);
 
-    // from light blue to green
     let greenValue = this.baseColorGreen + parseInt(this.displayMicLevel * 0.25);
     if (greenValue > 255) {
       greenValue = 255;

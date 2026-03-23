@@ -12,7 +12,7 @@ class RectangularObj {
     this.endAngle = Math.PI * 2;
     this.context = context;
 
-    // Extra values for Board B
+    // Values used for task 2
     this.baseWidth = w;
     this.baseHeight = h;
     this.middleY = y + (h / 2);
@@ -30,19 +30,17 @@ class RectangularObj {
   }
 
   update() {
-    // smooth the microphone value
     this.displayMicLevel = this.displayMicLevel + (this.micLevel - this.displayMicLevel) * 0.08;
 
-    // grow from sound
+    // gets bigger from sound input
     this.width = this.baseWidth + (this.displayMicLevel * 0.12);
     this.height = this.baseHeight + (this.displayMicLevel * 1.0);
 
-    // keep the height inside the canvas
     if (this.height > this.context.canvas.height - 10) {
       this.height = this.context.canvas.height - 10;
     }
 
-    // keep the rectangle centered vertically while it grows
+    // rectangle centered as it gets bigger
     this.y = this.middleY - (this.height / 2);
 
     // from red to green
@@ -58,7 +56,7 @@ class RectangularObj {
 
     this.fill_color = "rgb(" + redValue + "," + greenValue + ",0)";
 
-    // slide from one side of the canvas to the other
+    // slide left and right across the canvas
     this.x += this.slideSpeed;
 
     if (this.x <= 0) {
