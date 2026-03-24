@@ -14,6 +14,10 @@ class DrawingBoard {
     this.canvas.addEventListener("mousemove", function (e) {
       self.overCanvas(e);
     });
+
+    this.canvas.addEventListener("contextmenu", function (e) {
+      self.rightClickCanvas(e);
+    });
   }
 
   overCanvas(e) {
@@ -56,6 +60,7 @@ class DrawingBoard {
    //you can remove the console.logs /// 
      if(this.drawingBoardId ==="partA"){
       console.log("in A")
+      this.addCircleToBoardA(this.mouseOffsetX, this.mouseOffsetY);
     }
     if(this.drawingBoardId ==="partB"){
       console.log("in B")
@@ -77,6 +82,43 @@ class DrawingBoard {
       }
       }
   }
+
+  rightClickCanvas(e) {
+    this.canvasBoundingRegion = this.canvas.getBoundingClientRect();
+    this.mouseOffsetX = parseInt(e.clientX - this.canvasBoundingRegion.x);
+    this.mouseOffsetY = parseInt(e.clientY - this.canvasBoundingRegion.y);
+
+    if (this.drawingBoardId === "partA") {
+      e.preventDefault();
+      this.removeCircleFromBoardA();
+    }
+  }
+
+  addCircleToBoardA(mouseX, mouseY) {
+    let radius = Math.random() * 20 + 10;
+    let circle = new CircularObj(
+      mouseX,
+      mouseY,
+      radius,
+      `hsl(${Math.random() * 360}, 70%, 60%)`,
+      "#000000",
+      this.context
+    );
+
+    circle.isUserCreated = true;
+    this.addObj(circle);
+  }
+
+  removeCircleFromBoardA() {
+    for (let i = this.objectsOnCanvas.length - 1; i >= 0; i--) {
+      let currentObj = this.objectsOnCanvas[i];
+
+      if (currentObj.isUserCreated === true) {
+        this.objectsOnCanvas.splice(i, 1);
+        break;
+      }
+    }
+  }
   /* method to add obj to canvas */
   addObj(objToAdd) {
     this.objectsOnCanvas.push(objToAdd);
@@ -91,9 +133,14 @@ class DrawingBoard {
 
   /* method to add animate objects on canvas */
   animate() {
+    this.context.clearRect(0,0,this.canvas.width,this.canvas.height)
     for (let i = 0; i < this.objectsOnCanvas.length; i++) {
-     this.context.clearRect(0,0,this.canvas.width,this.canvas.height)
-     this.objectsOnCanvas[i].update();
+     if (this.drawingBoardId === "partA") {
+      this.objectsOnCanvas[i].update(this.mouseOffsetX, this.mouseOffsetY);
+     }
+     else {
+      this.objectsOnCanvas[i].update();
+     }
      this.objectsOnCanvas[i].display();
     }
   }
