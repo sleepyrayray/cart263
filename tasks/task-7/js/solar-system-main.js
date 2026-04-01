@@ -47,7 +47,7 @@ for (let i = 0; i < starsCount * 3; i += 3) {
     const r = 150 + Math.random() * 100;
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.random() * Math.PI * 2;
-    
+
     starsPositions[i] = Math.sin(theta) * Math.cos(phi) * r;
     starsPositions[i + 1] = Math.sin(theta) * Math.sin(phi) * r;
     starsPositions[i + 2] = Math.cos(theta) * r;
@@ -66,25 +66,62 @@ const planets = [];
 // Team A's planet (closest to sun)
 //____ EXAMPLE CODE TO load the models using the loadAsync() ____
 // load some models using a gltfLoader - make one per team
-const gltfLoaderTeamA = new GLTFLoader();
+// const gltfLoaderTeamA = new GLTFLoader();
 
 //examples
-let foxModel = await gltfLoaderTeamA.loadAsync("models/Fox/glTF/Fox.gltf");
-let duckModel = await gltfLoaderTeamA.loadAsync("models/Duck/glTF/Duck.gltf");
+// let foxModel = await gltfLoaderTeamA.loadAsync("models/Fox/glTF/Fox.gltf");
+// let duckModel = await gltfLoaderTeamA.loadAsync("models/Duck/glTF/Duck.gltf");
 //array to hold ONLY teamA models
-let teamAModels = []
-teamAModels.push(foxModel)
-teamAModels.push(duckModel)
+// let teamAModels = []
+// teamAModels.push(foxModel)
+// teamAModels.push(duckModel)
 //pass teamA models to planetA
-const planetA = new PlanetA(scene, 8, 0.01,teamAModels);
-planets.push(planetA);
+// const planetA = new PlanetA(scene, 8, 0.01, teamAModels);
+// planets.push(planetA);
 
 
+// // Team B's planet
+// load some models using a gltfLoader - make one per team
+const gltfLoaderTeamB = new GLTFLoader();
 
+// load some textures using a textureLoader - make one per team
+const textureLoaderTeamB = new THREE.TextureLoader();
 
+let planetColorTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/planet/rock-color.jpg");
+let planetNormalTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/planet/rock-normal.jpg");
+let planetRoughnessTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/planet/rock-roughness.jpg");
 
-// // // Team B's planet
-const planetB = new PlanetB(scene, 15, 0.005);
+let moon1ColorTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/moon-1/moon1-color.jpg");
+let moon1NormalTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/moon-1/moon1-normal.jpg");
+let moon1RoughnessTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/moon-1/moon1-roughness.jpg");
+
+let moon2ColorTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/moon-2/moon2-color.jpg");
+let moon2NormalTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/moon-2/moon2-normal.jpg");
+let moon2RoughnessTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/moon-2/moon2-roughness.jpg");
+
+planetColorTextureTeamB.colorSpace = THREE.SRGBColorSpace;
+moon1ColorTextureTeamB.colorSpace = THREE.SRGBColorSpace;
+moon2ColorTextureTeamB.colorSpace = THREE.SRGBColorSpace;
+
+let teamBTextures = {
+    planet: {
+        color: planetColorTextureTeamB,
+        normal: planetNormalTextureTeamB,
+        roughness: planetRoughnessTextureTeamB
+    },
+    moon1: {
+        color: moon1ColorTextureTeamB,
+        normal: moon1NormalTextureTeamB,
+        roughness: moon1RoughnessTextureTeamB
+    },
+    moon2: {
+        color: moon2ColorTextureTeamB,
+        normal: moon2NormalTextureTeamB,
+        roughness: moon2RoughnessTextureTeamB
+    }
+}
+
+const planetB = new PlanetB(scene, 15, 0.005, teamBTextures);
 planets.push(planetB);
 
 // // Team C's planet
@@ -106,20 +143,20 @@ planets.push(planetF);
 let elapsedTime = 0;
 function animate(timer) {
     requestAnimationFrame(animate);
-    
-    const delta = 0.001*(timer - elapsedTime) ;
+
+    const delta = 0.001 * (timer - elapsedTime);
     //console.log(delta)
     elapsedTime = timer;
-    
+
     // Update sun
     sun.update(timer);
-    
+
     // Rotate stars slowly
-    stars.rotation.y += 0.1*delta;
-    
+    stars.rotation.y += 0.1 * delta;
+
     // Update all planets (this handles planet orbit, moon orbits, and critter animations)
     planets.forEach(planet => planet.update(delta));
-    
+
     controls.update();
     renderer.render(scene, camera);
 }
@@ -139,7 +176,7 @@ renderer.domElement.addEventListener('click', (event) => {
     // Calculate mouse position in normalized device coordinates
     mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
     mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
-    
+
 
     //  const raycaster = new THREE.Raycaster();
     // raycaster.setFromCamera(mouse, camera);
@@ -151,7 +188,7 @@ renderer.domElement.addEventListener('click', (event) => {
     // console.log(intersects)
 
 
-    planetA.click(mouse, scene, camera);
+    // planetA.click(mouse, scene, camera);
     planetB.click(mouse, scene, camera);
     planetC.click(mouse, scene, camera);
     planetD.click(mouse, scene, camera);
