@@ -10,26 +10,13 @@ export class PlanetA {
 
         //Create planet group
         this.group = new THREE.Group()
-
+              
         // Create planet
         //STEP 1:
         //TODO: Create a planet using THREE.SphereGeometry (Radius must be between 1.5 and 2).
-        const planetGeometry = new THREE.SphereGeometry(1.7, 32, 32);
-
         //TODO: Give it a custom material using THREE.MeshStandardMaterial.
-        const planetMaterial = new THREE.MeshStandardMaterial({
-            color: 0x3a3a3a,
-            roughness: 0.95,
-            metalness: 0.05
-        });
-
         //TODO: Use castShadow and receiveShadow on the mesh and all future ones so they can cast and receive shadows.
-        this.planet = new THREE.Mesh(planetGeometry, planetMaterial);
-        this.planet.castShadow = true;
-        this.planet.receiveShadow = true;
-
         //TODO: Add the planet mesh to the planet group.
-        this.group.add(this.planet);
 
         //STEP 2: 
         //TODO: Add from 1 to 3 orbiting moons to the planet group. 
@@ -38,22 +25,22 @@ export class PlanetA {
         //STEP 3:
         //TODO: Load Blender models to populate the planet with multiple props and critters by adding them to the planet group.
         //TODO: Make sure to rotate the models so they are oriented correctly relative to the surface of the planet.
-
+        
         //STEP 4:
         //TODO: Use raycasting in the click() method below to detect clicks on the models, and make an animation happen when a model is clicked.
         //TODO: Use your imagination and creativity!
 
         this.scene.add(this.group);
     }
-
+    
     update(delta) {
         // Orbit around sun
         this.angle += this.orbitSpeed * delta * 30;
         this.group.position.x = Math.cos(this.angle) * this.orbitRadius;
         this.group.position.z = Math.sin(this.angle) * this.orbitRadius;
-
+        
         // Rotate planet
-        this.group.rotation.y += delta * 0.5;
+        this.group.rotation.y += delta*0.5;
 
         //TODO: Do the moon orbits and the model animations here.
     }
@@ -62,3 +49,4 @@ export class PlanetA {
         //TODO: Do the raycasting here.
     }
 }
+
