@@ -1,5 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+//NEW ENSURE
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
 import { Sun } from './Sun.js';
 import { PlanetA } from './TeamA.js';
 import { PlanetB } from './TeamB.js';
@@ -60,8 +64,24 @@ const sun = new Sun(scene);
 const planets = [];
 
 // Team A's planet (closest to sun)
-const planetA = new PlanetA(scene, 8, 0.01);
+//____ EXAMPLE CODE TO load the models using the loadAsync() ____
+// load some models using a gltfLoader - make one per team
+const gltfLoaderTeamA = new GLTFLoader();
+
+//examples
+let foxModel = await gltfLoaderTeamA.loadAsync("models/Fox/glTF/Fox.gltf");
+let duckModel = await gltfLoaderTeamA.loadAsync("models/Duck/glTF/Duck.gltf");
+//array to hold ONLY teamA models
+let teamAModels = []
+teamAModels.push(foxModel)
+teamAModels.push(duckModel)
+//pass teamA models to planetA
+const planetA = new PlanetA(scene, 8, 0.01,teamAModels);
 planets.push(planetA);
+
+
+
+
 
 // // // Team B's planet
 const planetB = new PlanetB(scene, 15, 0.005);
@@ -88,7 +108,7 @@ function animate(timer) {
     requestAnimationFrame(animate);
     
     const delta = 0.001*(timer - elapsedTime) ;
-    console.log(delta)
+    //console.log(delta)
     elapsedTime = timer;
     
     // Update sun
@@ -120,6 +140,17 @@ renderer.domElement.addEventListener('click', (event) => {
     mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
     mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
     
+
+    //  const raycaster = new THREE.Raycaster();
+    // raycaster.setFromCamera(mouse, camera);
+
+    //  const suns = [sun.mesh];
+    //  const intersects = raycaster.intersectObjects(suns);
+
+
+    // console.log(intersects)
+
+
     planetA.click(mouse, scene, camera);
     planetB.click(mouse, scene, camera);
     planetC.click(mouse, scene, camera);

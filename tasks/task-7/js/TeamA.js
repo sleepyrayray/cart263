@@ -1,9 +1,14 @@
 import * as THREE from 'three';
 
-// Planet class for Team A
+// Planet class for Team B
 export class PlanetA {
-    constructor(scene, orbitRadius, orbitSpeed) {
-        this.scene = scene;
+    constructor(scene, orbitRadius, orbitSpeed,teamAModels) {
+
+        //new
+        this.models = teamAModels
+        console.log(this.models)
+        //new
+        this.scene = scene
         this.orbitRadius = orbitRadius;
         this.orbitSpeed = orbitSpeed;
         this.angle = Math.random() * Math.PI * 2;
