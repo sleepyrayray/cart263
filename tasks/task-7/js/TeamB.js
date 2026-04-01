@@ -38,7 +38,53 @@ export class PlanetB {
 
         //STEP 2: 
         //TODO: Add from 1 to 3 orbiting moons to the planet group. 
+        const moon1ColorTexture = textureLoader.load('textures/teamB/moon-1/moon1-color.jpg');
+        const moon1NormalTexture = textureLoader.load('textures/teamB/moon-1/moon1-normal.jpg');
+        const moon1RoughnessTexture = textureLoader.load('textures/teamB/moon-1/moon1-roughness.jpg');
+        moon1ColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+        const moon2ColorTexture = textureLoader.load('textures/teamB/moon-2/moon2-color.jpg');
+        const moon2NormalTexture = textureLoader.load('textures/teamB/moon-2/moon2-normal.jpg');
+        const moon2RoughnessTexture = textureLoader.load('textures/teamB/moon-2/moon2-roughness.jpg');
+        moon2ColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+        this.moon1OrbitGroup = new THREE.Group();
+        this.moon2OrbitGroup = new THREE.Group();
+
+        const moon1Geometry = new THREE.SphereGeometry(0.35, 24, 24);
+        const moon2Geometry = new THREE.SphereGeometry(0.55, 24, 24);
+
+        const moon1Material = new THREE.MeshStandardMaterial({
+            map: moon1ColorTexture,
+            normalMap: moon1NormalTexture,
+            roughnessMap: moon1RoughnessTexture,
+            color: new THREE.Color('#8a8178')
+        });
+
+        const moon2Material = new THREE.MeshStandardMaterial({
+            map: moon2ColorTexture,
+            normalMap: moon2NormalTexture,
+            roughnessMap: moon2RoughnessTexture,
+            color: new THREE.Color('#9b7b67')
+        });
+
+        this.moon1Mesh = new THREE.Mesh(moon1Geometry, moon1Material);
+        this.moon2Mesh = new THREE.Mesh(moon2Geometry, moon2Material);
+        this.moon1Mesh.castShadow = true;
+        this.moon1Mesh.receiveShadow = true;
+        this.moon2Mesh.castShadow = true;
+        this.moon2Mesh.receiveShadow = true;
+        this.moon1Mesh.position.x = 3.0;
+        this.moon2Mesh.position.x = 4.0;
+
         //TODO: The moons should rotate around the planet just like the planet group rotates around the Sun.
+        this.moon2OrbitGroup.rotation.y = Math.PI;
+        this.moon1OrbitSpeed = 1.0;
+        this.moon2OrbitSpeed = 0.5;
+        this.moon1OrbitGroup.add(this.moon1Mesh);
+        this.moon2OrbitGroup.add(this.moon2Mesh);
+        this.group.add(this.moon1OrbitGroup);
+        this.group.add(this.moon2OrbitGroup);
 
         //STEP 3:
         //TODO: Load Blender models to populate the planet with multiple props and critters by adding them to the planet group.
@@ -61,6 +107,8 @@ export class PlanetB {
         this.group.rotation.y += delta * 0.5;
 
         //TODO: Do the moon orbits and the model animations here.
+        this.moon1OrbitGroup.rotation.z += delta * this.moon1OrbitSpeed;
+        this.moon2OrbitGroup.rotation.y += delta * this.moon2OrbitSpeed;
     }
 
     click(mouse, scene, camera) {
