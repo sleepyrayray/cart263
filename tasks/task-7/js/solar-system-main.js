@@ -85,12 +85,11 @@ const planets = [];
 const gltfLoaderTeamB = new GLTFLoader();
 
 let duck2 = await gltfLoaderTeamB.loadAsync("models/teamB/little_duck/scene.gltf");
-let duck3 = await gltfLoaderTeamB.loadAsync("models/teamB/travelerduck/scene.gltf");
 let fox = await gltfLoaderTeamB.loadAsync("models/teamB/fox/scene.gltf");
 let fox2 = await gltfLoaderTeamB.loadAsync("models/teamB/fox2/scene.gltf");
 let robot1 = await gltfLoaderTeamB.loadAsync("models/teamB/space_maintenance_robot/scene.gltf");
 
-let teamBModels = [duck2, duck3, fox, fox2, robot1];
+let teamBModels = [duck2, fox, fox2, robot1];
 
 // texture loader
 const textureLoaderTeamB = new THREE.TextureLoader();
