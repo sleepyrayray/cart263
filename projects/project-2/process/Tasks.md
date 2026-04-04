@@ -4,6 +4,12 @@
 
 - Google Doc link: [Project 2 artist statement doc](https://docs.google.com/document/d/1HG39IsvVwkqfo0FcUq4mV_zVSTtfR0c2jGBhzdW5pVo/edit?usp=sharing)
 
+## Notes
+
+- each person writes about 500 words for their section
+- after a line that uses a source, put the citation source link in parenthesis right after that line
+- ray will format the final version after everyone is done
+
 ## Jason
 
 ### Main Task
