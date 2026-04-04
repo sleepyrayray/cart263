@@ -1,3 +1,8 @@
+/*
+ * base screen class for the project
+ * gives each screen shared functions
+ */
+
 "use strict";
 
 class Screen {
@@ -5,19 +10,34 @@ class Screen {
     this.app = app;
   }
 
-  // Use this later for setup when a screen starts.
+  // use this later for setup when a screen starts
   enter() {
   }
 
-  // Put screen logic here later.
+  // put screen logic here later
   update() {
   }
 
-  // Each screen draws its own content here.
+  // each screen draws its own content here
   display() {
   }
 
-  // Each screen can handle clicks here later.
+  // each screen can handle clicks here later
   mousePressed() {
+  }
+
+  // this keeps the background style the same for each screen
+  displayBackground() {
+    background(247, 241, 232);
+  }
+
+  // this draws a simple guide frame on the canvas
+  displayFrame() {
+    push();
+    noFill();
+    stroke(64, 51, 43);
+    strokeWeight(2);
+    rect(1, 1, width - 2, height - 2);
+    pop();
   }
 }

@@ -1,3 +1,8 @@
+/*
+ * main app file for pet shop
+ * sets up p5 and controls screen changes
+ */
+
 "use strict";
 
 const CANVAS_WIDTH = 960;
@@ -5,7 +10,7 @@ const CANVAS_HEIGHT = 540;
 
 let app = undefined;
 
-// p5 starts the project here.
+// p5 starts the project here
 function setup() {
   createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -13,14 +18,14 @@ function setup() {
   app.setup();
 }
 
-// p5 keeps calling draw every frame.
+// p5 keeps calling draw every frame
 function draw() {
   if (app !== undefined) {
     app.draw();
   }
 }
 
-// This sends mouse clicks into the app.
+// this sends mouse clicks into the app
 function mousePressed() {
   if (app !== undefined) {
     app.mousePressed();
@@ -29,16 +34,17 @@ function mousePressed() {
 
 class PetShopApp {
   constructor() {
-    // Shared project data can live here later.
+    // shared project data can live here later
     this.currentScreen = undefined;
   }
 
   setup() {
-    // These are basic text settings for now.
+    // these are basic text settings for now
     textAlign(CENTER, CENTER);
     textFont("Arial");
 
-    this.currentScreen = new PlaceholderScreen(this);
+    // start on the menu screen first
+    this.currentScreen = new MenuScreen(this);
     this.currentScreen.enter();
   }
 
@@ -55,7 +61,7 @@ class PetShopApp {
     }
   }
 
-  // Use this later to switch screens cleanly.
+  // use this later to switch screens cleanly
   setScreen(newScreen) {
     this.currentScreen = newScreen;
     this.currentScreen.enter();

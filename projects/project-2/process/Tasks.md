@@ -17,6 +17,7 @@ Build the **menu**.
 - create the instruction button
 - write the instruction text
 - make the menu feel welcoming and easy to understand
+- do his menu coding in `js/screens/MenuScreen.js`
 
 ### Deliverables
 
@@ -28,10 +29,11 @@ Build the **menu**.
 
 1. Make the menu layout.
 2. Add the title, play button, and instruction button.
-3. Write short and friendly instruction text.
-4. Test that the buttons work properly.
-5. Share the final menu work with Ray.
-6. Write the artist statement section on data collection.
+3. Do the menu code in `js/screens/MenuScreen.js`.
+4. Write short and friendly instruction text.
+5. Test that the buttons work properly.
+6. Share the final menu work with Ray.
+7. Write the artist statement section on data collection.
 
 ## Yann
 
