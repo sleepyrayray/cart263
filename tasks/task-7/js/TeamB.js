@@ -2,10 +2,12 @@ import * as THREE from 'three';
 
 // Planet class for Team B
 export class PlanetB {
-    constructor(scene, orbitRadius, orbitSpeed, teamBTextures) {
+    constructor(scene, orbitRadius, orbitSpeed, teamBTextures, teamBModels) {
 
         //new
         this.textures = teamBTextures
+        this.models = teamBModels || [];
+        this.spawnedModels = [];
         //new
         this.scene = scene
         this.orbitRadius = orbitRadius;
@@ -87,7 +89,61 @@ export class PlanetB {
 
         //STEP 3:
         //TODO: Load Blender models to populate the planet with multiple props and critters by adding them to the planet group.
+        const planetRadius = 2;
+        const numModels = this.models.length;
+
+        const modelAngles = [];
+        let totalAngle = 0;
+
+        this.models.forEach((gltf, i) => {
+            const model = gltf.scene.clone(true);
+            const modelScale = (i >= numModels - 2) ? 0.45 : 0.65;
+            model.scale.set(modelScale, modelScale, modelScale);
+
+            const bbox = new THREE.Box3().setFromObject(model);
+            const width = bbox.max.x - bbox.min.x;
+            const angularWidth = width / planetRadius;
+            modelAngles.push(angularWidth);
+            totalAngle += angularWidth;
+        });
+
+        let currentAngle = 0;
+        const gap = numModels > 0 ? (2 * Math.PI - totalAngle) / numModels : 0;
+
+        this.models.forEach((gltf, i) => {
+            const model = gltf.scene.clone(true);
+
+            let modelScale = 0.65;
+            if (i === numModels - 1) {
+                modelScale = 0.35;
+            }
+            model.scale.set(modelScale, modelScale, modelScale);
+
+            const bbox = new THREE.Box3().setFromObject(model);
+            const minY = bbox.min.y;
+
+            const angle = currentAngle + modelAngles[i] / 2;
+            const x = Math.cos(angle) * planetRadius * 0.70;
+            const z = Math.sin(angle) * planetRadius * 0.70;
+            const y = planetRadius * 0.70 - minY;
+
+            model.position.set(x, y, z);
         //TODO: Make sure to rotate the models so they are oriented correctly relative to the surface of the planet.
+            model.lookAt(new THREE.Vector3(0, planetRadius * 0.95, 0));
+            model.rotation.y += Math.random() * 0.3;
+
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            });
+
+            this.group.add(model);
+            this.spawnedModels.push(model);
+
+            currentAngle += modelAngles[i] + gap;
+        });
 
         //STEP 4:
         //TODO: Use raycasting in the click() method below to detect clicks on the models, and make an animation happen when a model is clicked.

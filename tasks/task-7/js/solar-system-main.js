@@ -84,7 +84,15 @@ const planets = [];
 // load some models using a gltfLoader - make one per team
 const gltfLoaderTeamB = new GLTFLoader();
 
-// load some textures using a textureLoader - make one per team
+let duck2 = await gltfLoaderTeamB.loadAsync("models/teamB/little_duck/scene.gltf");
+let duck3 = await gltfLoaderTeamB.loadAsync("models/teamB/travelerduck/scene.gltf");
+let fox = await gltfLoaderTeamB.loadAsync("models/teamB/fox/scene.gltf");
+let fox2 = await gltfLoaderTeamB.loadAsync("models/teamB/fox2/scene.gltf");
+let robot1 = await gltfLoaderTeamB.loadAsync("models/teamB/space_maintenance_robot/scene.gltf");
+
+let teamBModels = [duck2, duck3, fox, fox2, robot1];
+
+// texture loader
 const textureLoaderTeamB = new THREE.TextureLoader();
 
 let planetColorTextureTeamB = await textureLoaderTeamB.loadAsync("textures/teamB/planet/rock-color.jpg");
@@ -121,7 +129,7 @@ let teamBTextures = {
     }
 }
 
-const planetB = new PlanetB(scene, 15, 0.005, teamBTextures);
+const planetB = new PlanetB(scene, 15, 0.005, teamBTextures, teamBModels);
 planets.push(planetB);
 
 // // Team C's planet
