@@ -2,7 +2,7 @@
 
 ## Artist Statement Doc
 
-- Google Doc link: `https://docs.google.com/document/d/1HG39IsvVwkqfo0FcUq4mV_zVSTtfR0c2jGBhzdW5pVo/edit?usp=sharing`
+- Google Doc link: [Project 2 artist statement doc](https://docs.google.com/document/d/1HG39IsvVwkqfo0FcUq4mV_zVSTtfR0c2jGBhzdW5pVo/edit?usp=sharing)
 
 ## Jason
 

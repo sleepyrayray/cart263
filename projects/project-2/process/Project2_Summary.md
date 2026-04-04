@@ -27,7 +27,7 @@ The project is about:
 
 ## Project Link
 
-- GitHub Pages project link: `https://sleepyrayray.github.io/cart263/projects/project-2/`
+- GitHub Pages project link: [Pet Shop project page](https://sleepyrayray.github.io/cart263/projects/project-2/)
 
 ## User Flow
 
