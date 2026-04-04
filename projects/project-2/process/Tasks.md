@@ -53,14 +53,19 @@ Yann does **not** need to code.
 
 - find an API that gives a list of pet animals or pet animal information
 - make sure the API works with JavaScript `Fetch API`
-- find 3 sound choices for each pet animal
+- share the API links with Ray
+- find 2 sound choices for each pet animal
+- for example, if the pet is a dog, gather 2 dog sounds
+- share the actual sound files with Ray
+- name the sound files clearly like `dog-1.mp3`, `dog-2.mp3`
 - save the source link for each sound
 - check the license or usage rights for each sound
 
 ### Deliverables
 
-- pet API source
+- pet API source links shared with Ray
 - organized sound list or sound folder
+- sound files shared with Ray
 - license notes for all sound assets
 - about 500 words for the artist statement on **copyright**
 
@@ -68,11 +73,13 @@ Yann does **not** need to code.
 
 1. Find a pet API that can provide pet animal list data.
 2. Check that the API can be used with JavaScript `Fetch API`.
-3. Finalize which pet animals the project will use.
-4. Gather 3 sounds for each pet animal.
-5. Record each sound source and its license details.
-6. Organize everything clearly and share it with Ray.
-7. Write the artist statement section on copyright.
+3. Share the API links with Ray.
+4. Finalize which pet animals the project will use.
+5. Gather 2 sounds for each pet animal.
+6. Name the files clearly like `dog-1.mp3`, `dog-2.mp3`.
+7. Record each sound source and its license details.
+8. Organize the sound files clearly and share them with Ray.
+9. Write the artist statement section on copyright.
 
 ## Ray
 

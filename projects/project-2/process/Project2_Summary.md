@@ -114,7 +114,7 @@ Recommended limits:
 
 - 4 to 6 pet categories
 - 4 to 6 quiz questions
-- 3 sound choices per animal
+- 2 sound choices per animal
 - 3 to 5 type or breed options per pet
 - 1 strong final reveal animation
 
