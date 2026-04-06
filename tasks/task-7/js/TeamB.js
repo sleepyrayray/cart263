@@ -164,9 +164,72 @@ export class PlanetB {
         //TODO: Do the moon orbits and the model animations here.
         this.moon1OrbitGroup.rotation.z += delta * this.moon1OrbitSpeed;
         this.moon2OrbitGroup.rotation.y += delta * this.moon2OrbitSpeed;
+
+        this.spawnedModels.forEach((model) => {
+            if (model.userData.isAnimating) {
+                model.userData.animationTime += delta * 4;
+
+                model.position.y =
+                    model.userData.originalY +
+                    Math.sin(model.userData.animationTime * Math.PI) * 0.4;
+
+                model.rotation.y += delta * 4;
+
+                if (model.userData.animationTime >= 1) {
+                    model.userData.isAnimating = false;
+                    model.position.y = model.userData.originalY;
+                }
+            }
+        });
     }
 
     click(mouse, scene, camera) {
         //TODO: Do the raycasting here.
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+
+        const clickableObjects = [this.planetMesh];
+
+        this.spawnedModels.forEach((model) => {
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    clickableObjects.push(child);
+                }
+            });
+        });
+
+        const intersects = raycaster.intersectObjects(clickableObjects, true);
+
+        if (intersects.length > 0) {
+            const clickedObject = intersects[0].object;
+
+            if (clickedObject === this.planetMesh) {
+                this.planetMesh.material.emissiveIntensity = 1.0;
+
+                setTimeout(() => {
+                    this.planetMesh.material.emissiveIntensity = 0.2;
+                }, 300);
+                return;
+            }
+
+            let clickedModel = null;
+
+            for (const model of this.spawnedModels) {
+                if (
+                    model === clickedObject ||
+                    model.children.includes(clickedObject) ||
+                    model.getObjectById(clickedObject.id)
+                ) {
+                    clickedModel = model;
+                    break;
+                }
+            }
+
+            if (clickedModel) {
+                clickedModel.userData.isAnimating = true;
+                clickedModel.userData.animationTime = 0;
+                clickedModel.userData.originalY = clickedModel.position.y;
+            }
+        }
     }
 }
