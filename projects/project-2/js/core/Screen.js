@@ -31,13 +31,7 @@ class Screen {
     background(247, 241, 232);
   }
 
-  // this draws a simple guide frame on the canvas
+  // this can hold shared guide visuals later
   displayFrame() {
-    push();
-    noFill();
-    stroke(64, 51, 43);
-    strokeWeight(2);
-    rect(1, 1, width - 2, height - 2);
-    pop();
   }
 }

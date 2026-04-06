@@ -79,6 +79,7 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 
 ### What Yann Needs To Do
 
+- set up `Three.js` for the reveal section before building it
 - build the rotating package section
 - make the package clickable
 - make the package open
@@ -86,6 +87,7 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 - play the modified voice audio during the reveal
 - help keep the reveal section visually consistent
 - record and prepare the video walkthrough
+- do his reveal coding in `js/screens/RevealScreen.js`
 
 ### Deliverables
 
@@ -96,14 +98,16 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 
 ### Step By Step
 
-1. Build the rotating 3D package in `Three.js`.
-2. Add the click interaction.
-3. Make the package open.
-4. Show the final robot image in the reveal.
-5. Connect the modified voice audio to the reveal.
-6. Test the reveal section for timing and polish.
-7. Record the video walkthrough.
-8. Organize the final video and share it with Ray.
+1. Set up `Three.js` for the reveal section.
+2. Build the rotating 3D package in `Three.js`.
+3. Do the reveal code in `js/screens/RevealScreen.js`.
+4. Add the click interaction.
+5. Make the package open.
+6. Show the final robot image in the reveal.
+7. Connect the modified voice audio to the reveal.
+8. Test the reveal section for timing and polish.
+9. Record the video walkthrough.
+10. Organize the final video and share it with Ray.
 
 ## Ray
 
@@ -122,6 +126,10 @@ Handle the **questions**, **customization flow**, and **audio recording**.
 - build the voice recording step
 - apply a simple robotic filter to the recorded voice
 - connect all parts into one consistent experience
+- do the main coding in `js/screens/QuestionScreen.js`
+- do the voice section coding in `js/screens/VoiceScreen.js`
+- manage the robot data in `assets/data/robot-shop-data.json`
+- connect shared app flow in `js/app.js` when needed
 
 ### Deliverables
 

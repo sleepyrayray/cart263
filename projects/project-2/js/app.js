@@ -1,12 +1,13 @@
 /*
- * main app file for pet shop
- * sets up p5 and controls screen changes
+ * main app file for robot shop
+ * ray can connect the shared app flow here
  */
 
 "use strict";
 
 const CANVAS_WIDTH = 960;
 const CANVAS_HEIGHT = 540;
+const START_SCREEN = "menu";
 
 let app = undefined;
 
@@ -14,7 +15,7 @@ let app = undefined;
 function setup() {
   createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 
-  app = new PetShopApp();
+  app = new RobotShopApp();
   app.setup();
 }
 
@@ -32,10 +33,19 @@ function mousePressed() {
   }
 }
 
-class PetShopApp {
+class RobotShopApp {
   constructor() {
     // shared project data can live here later
+    this.screens = {};
+    this.currentScreenKey = undefined;
     this.currentScreen = undefined;
+    this.projectData = {
+      consentGiven: false,
+      selectedRobotType: null,
+      answers: [],
+      recordedAudio: null,
+      recordingDurationSeconds: 5
+    };
   }
 
   setup() {
@@ -43,9 +53,11 @@ class PetShopApp {
     textAlign(CENTER, CENTER);
     textFont("Arial");
 
+    // create the main project screens here
+    this.createScreens();
+
     // start on the menu screen first
-    this.currentScreen = new MenuScreen(this);
-    this.currentScreen.enter();
+    this.setScreen(START_SCREEN);
   }
 
   draw() {
@@ -61,9 +73,22 @@ class PetShopApp {
     }
   }
 
+  // this sets up each main screen for the project
+  createScreens() {
+    this.screens.menu = new MenuScreen(this);
+    this.screens.questions = new QuestionScreen(this);
+    this.screens.voice = new VoiceScreen(this);
+    this.screens.reveal = new RevealScreen(this);
+  }
+
   // use this later to switch screens cleanly
-  setScreen(newScreen) {
-    this.currentScreen = newScreen;
+  setScreen(screenKey) {
+    if (this.screens[screenKey] === undefined) {
+      return;
+    }
+
+    this.currentScreenKey = screenKey;
+    this.currentScreen = this.screens[screenKey];
     this.currentScreen.enter();
   }
 }

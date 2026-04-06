@@ -1,16 +1,16 @@
 /*
- * reveal screen file
- * yann can build the reveal here
+ * voice screen file
+ * ray can build the voice section here
  */
 
 "use strict";
 
-class RevealScreen extends Screen {
+class VoiceScreen extends Screen {
   constructor(app) {
     super(app);
   }
 
-  // this will hold the robot reveal later
+  // this will hold the voice screen later
   display() {
     this.displayBackground();
     this.displayFrame();

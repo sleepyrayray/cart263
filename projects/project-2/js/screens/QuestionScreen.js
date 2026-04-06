@@ -1,6 +1,6 @@
 /*
  * question screen file
- * this will hold the quiz section
+ * ray can build the question flow here
  */
 
 "use strict";
