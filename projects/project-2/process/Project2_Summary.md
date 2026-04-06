@@ -46,17 +46,11 @@ Each team member needs to submit:
 - the PDF link in their GitHub repo
 - the video link in their GitHub repo
 
-The video should include:
+The video will be one final edited walkthrough of the project.
 
-- a live walkthrough of the project
-- team members explaining intentions, strategies, or interesting code parts
+The PDF will document the project with screen grabs, short writing, and project references.
 
-The PDF should include:
-
-- at least 5 screen grabs from the project
-- a few paragraphs about the project intentions
-- a few paragraphs about implementation and libraries or techniques used
-- a description and summary of at least 2 references that inspired the project
+See `Tasks.md` for the detailed PDF and video requirements.
 
 There is no artist statement for Project 2.
 

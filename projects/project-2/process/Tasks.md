@@ -31,7 +31,11 @@ Jason will handle the PDF.
 The video should include:
 
 - a live walkthrough of the project
-- team members explaining intentions, strategies, or interesting code parts
+- each team member recording audio about the part they contributed
+- Yann putting all team audio clips together into one final video
+- Yann capturing the project walkthrough on video
+- Yann syncing the audio recordings with the video capture and editing everything together
+- a final video file small enough for GitHub
 
 Yann will handle the video.
 
@@ -51,6 +55,7 @@ Build the **menu** and handle the **PDF**.
 - make the menu feel welcoming, clear, and cartoonish
 - do his menu coding in `js/screens/MenuScreen.js`
 - organize the final PDF content
+- record a short audio clip talking about his own contribution and share it with Yann
 
 ### Deliverables
 
@@ -58,6 +63,7 @@ Build the **menu** and handle the **PDF**.
 - finished instruction text
 - working consent checkbox in the menu
 - finished PDF
+- short recorded audio clip shared with Yann for the final video
 
 ### Step By Step
 
@@ -69,7 +75,8 @@ Build the **menu** and handle the **PDF**.
 6. Test that the menu works properly.
 7. Collect screen grabs and writing for the PDF.
 8. Assemble the final PDF.
-9. Share the final menu work and PDF with Ray.
+9. Record a short audio clip about your contribution and share it with Yann.
+10. Share the final menu work and PDF with Ray.
 
 ## Yann
 
@@ -87,6 +94,12 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 - play the modified voice audio during the reveal
 - help keep the reveal section visually consistent
 - record and prepare the video walkthrough
+- collect the team audio clips from Jason and Ray
+- put all member audio clips together into one final video
+- capture the project walkthrough on video
+- edit the full video together
+- sync the audio recordings with the video capture
+- make sure the final video file is small enough for GitHub
 - do his reveal coding in `js/screens/RevealScreen.js`
 
 ### Deliverables
@@ -95,6 +108,7 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 - working package open interaction
 - robot reveal working with audio
 - finished video walkthrough
+- final edited video file sized for GitHub
 
 ### Step By Step
 
@@ -106,8 +120,12 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 6. Show the final robot image in the reveal.
 7. Connect the modified voice audio to the reveal.
 8. Test the reveal section for timing and polish.
-9. Record the video walkthrough.
-10. Organize the final video and share it with Ray.
+9. Collect the recorded audio clips from Jason and Ray.
+10. Capture the project walkthrough on video.
+11. Sync the audio recordings with the video capture.
+12. Edit the full video together.
+13. Make sure the video file is small enough for GitHub.
+14. Organize the final video and share it with Ray.
 
 ## Ray
 
@@ -130,6 +148,7 @@ Handle the **questions**, **customization flow**, and **audio recording**.
 - do the voice section coding in `js/screens/VoiceScreen.js`
 - manage the robot data in `assets/data/robot-shop-data.json`
 - connect shared app flow in `js/app.js` when needed
+- record a short audio clip talking about her own contribution and share it with Yann
 
 ### Deliverables
 
@@ -139,6 +158,7 @@ Handle the **questions**, **customization flow**, and **audio recording**.
 - working local JSON setup
 - working audio recording
 - working simple robotic audio effect
+- short recorded audio clip shared with Yann for the final video
 
 ### Step By Step
 
@@ -151,7 +171,8 @@ Handle the **questions**, **customization flow**, and **audio recording**.
 7. Build the 5 second voice recording step.
 8. Apply a simple robotic effect to the recorded voice.
 9. Connect Jason's menu and Yann's reveal into the full experience.
-10. Test the project for consistency and polish.
+10. Record a short audio clip about your contribution and share it with Yann.
+11. Test the project for consistency and polish.
 
 ## Robot Types
 
