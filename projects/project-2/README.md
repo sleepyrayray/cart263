@@ -1,4 +1,4 @@
-# Pet Shop
+# Robot Shop
 
 Ray Hernaez (40268579), Yann Kruplewicz, Zhuoheng Yang (40311134)
 

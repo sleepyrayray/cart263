@@ -1,20 +1,45 @@
 # Project 2: Team Tasks
 
-## Artist Statement Doc
+## Project 2 Deliverables
 
-- Google Doc link: [Project 2 artist statement doc](https://docs.google.com/document/d/1HG39IsvVwkqfo0FcUq4mV_zVSTtfR0c2jGBhzdW5pVo/edit?usp=sharing)
+The team needs to prepare:
 
-## Notes
+- the finished project link
+- the GitHub repo link
+- a video walkthrough
+- a PDF about the project
 
-- each person writes about 500 words for their section
-- after a line that uses a source, put the citation source link in parenthesis right after that line
-- ray will format the final version after everyone is done
+Each team member needs to submit:
+
+- the project link in their GitHub repo
+- the PDF link in their GitHub repo
+- the video link in their GitHub repo
+
+## PDF Notes
+
+The PDF should include:
+
+- at least 5 screen grabs from the project
+- a few paragraphs about the project intentions
+- a few paragraphs about implementation and libraries or techniques used
+- a description and summary of at least 2 references that inspired the project
+
+Jason will handle the PDF.
+
+## Video Notes
+
+The video should include:
+
+- a live walkthrough of the project
+- team members explaining intentions, strategies, or interesting code parts
+
+Yann will handle the video.
 
 ## Jason
 
 ### Main Task
 
-Build the **menu**.
+Build the **menu** and handle the **PDF**.
 
 ### What Jason Needs To Do
 
@@ -22,101 +47,119 @@ Build the **menu**.
 - create the play button
 - create the instruction button
 - write the instruction text
-- make the menu feel welcoming and easy to understand
+- add the required consent checkbox for voice recording and sampling
+- make the menu feel welcoming, clear, and cartoonish
 - do his menu coding in `js/screens/MenuScreen.js`
+- organize the final PDF content
 
 ### Deliverables
 
 - finished menu code
 - finished instruction text
-- about 500 words for the artist statement on **data collection**
+- working consent checkbox in the menu
+- finished PDF
 
 ### Step By Step
 
 1. Make the menu layout.
 2. Add the title, play button, and instruction button.
-3. Do the menu code in `js/screens/MenuScreen.js`.
-4. Write short and friendly instruction text.
-5. Test that the buttons work properly.
-6. Share the final menu work with Ray.
-7. Write the artist statement section on data collection.
+3. Add the consent checkbox and make it required.
+4. Do the menu code in `js/screens/MenuScreen.js`.
+5. Write short and friendly instruction text.
+6. Test that the menu works properly.
+7. Collect screen grabs and writing for the PDF.
+8. Assemble the final PDF.
+9. Share the final menu work and PDF with Ray.
 
 ## Yann
 
 ### Main Task
 
-Handle **pet research and sound research**.
-
-Yann does **not** need to code.
+Handle the **robot reveal animation** in `Three.js` and the **video walkthrough**.
 
 ### What Yann Needs To Do
 
-- find an API that gives a list of pet animals or pet animal information
-- make sure the API works with JavaScript `Fetch API`
-- share the API links with Ray
-- find 2 sound choices for each pet animal
-- for example, if the pet is a dog, gather 2 dog sounds
-- share the actual sound files with Ray
-- name the sound files clearly like `dog-1.mp3`, `dog-2.mp3`
-- save the source link for each sound
-- check the license or usage rights for each sound
+- build the rotating package section
+- make the package clickable
+- make the package open
+- reveal the final robot image
+- play the modified voice audio during the reveal
+- help keep the reveal section visually consistent
+- record and prepare the video walkthrough
 
 ### Deliverables
 
-- pet API source links shared with Ray
-- organized sound list or sound folder
-- sound files shared with Ray
-- license notes for all sound assets
-- about 500 words for the artist statement on **copyright**
+- working reveal animation
+- working package open interaction
+- robot reveal working with audio
+- finished video walkthrough
 
 ### Step By Step
 
-1. Find a pet API that can provide pet animal list data.
-2. Check that the API can be used with JavaScript `Fetch API`.
-3. Share the API links with Ray.
-4. Finalize which pet animals the project will use.
-5. Gather 2 sounds for each pet animal.
-6. Name the files clearly like `dog-1.mp3`, `dog-2.mp3`.
-7. Record each sound source and its license details.
-8. Organize the sound files clearly and share them with Ray.
-9. Write the artist statement section on copyright.
+1. Build the rotating 3D package in `Three.js`.
+2. Add the click interaction.
+3. Make the package open.
+4. Show the final robot image in the reveal.
+5. Connect the modified voice audio to the reveal.
+6. Test the reveal section for timing and polish.
+7. Record the video walkthrough.
+8. Organize the final video and share it with Ray.
 
 ## Ray
 
 ### Main Task
 
-Handle the main production and keep the project visually and technically consistent.
+Handle the **questions**, **customization flow**, and **audio recording**.
 
 ### What Ray Needs To Do
 
 - define the overall visual style
-- code the question stage
-- code the customization stage
-- code the final reveal stage
+- build the robot question flow
+- include customization choices inside the question section
+- map answers to the 5 robot types
+- set up the local JSON data
+- use `Fetch API` to load the local JSON data
+- build the voice recording step
+- apply a simple robotic filter to the recorded voice
 - connect all parts into one consistent experience
 
 ### Deliverables
 
 - finished visual direction in the project
 - working question flow
-- working customization flow
-- working reveal animation
-- about 500 words for the artist statement on **process** and **AI**
+- working robot type mapping
+- working local JSON setup
+- working audio recording
+- working simple robotic audio effect
 
 ### Step By Step
 
 1. Set the visual direction for the whole project.
 2. Build the question flow and answer logic.
-3. Build the customization stage for type, colour, and sound.
-4. Build the final 3D reveal.
-5. Connect Jason's menu and Yann's assets into the full experience.
-6. Test the project for consistency and polish.
-7. Write the artist statement section on process and AI.
+3. Add customization choices into the question flow.
+4. Map answers to the 5 robot types.
+5. Set up the local JSON structure.
+6. Use `Fetch API` to load the local JSON data.
+7. Build the 5 second voice recording step.
+8. Apply a simple robotic effect to the recorded voice.
+9. Connect Jason's menu and Yann's reveal into the full experience.
+10. Test the project for consistency and polish.
+
+## Robot Types
+
+The project will use:
+
+- companion robot
+- domestic robot
+- security robot
+- social robot
+- utility robot
 
 ## Shared Reminder
 
 - keep the project simple
-- do not add too many pet options
+- keep the design cartoonish
 - keep the style consistent
 - communicate finished work early
 - make sure all assets are organized
+- use local JSON instead of an outside API

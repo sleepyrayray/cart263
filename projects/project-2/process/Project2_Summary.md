@@ -1,18 +1,19 @@
-# Project 2: Pet Shop
+# Project 2: Robot Shop
 
 ## Project Overview
 
-**Pet Shop** is an interactive web project where the user finds and reveals their ideal pet.
+**Robot Shop** is an interactive web project where the user answers questions to find their ideal robot, records a short voice sample, and reveals their final robot from a package.
 
 The experience should feel:
 
 - playful
 - friendly
 - colorful
+- cartoonish
 - simple to use
 - polished
 
-The project should feel like a small digital pet adoption machine, not a formal survey.
+The project should feel like a fun robot store experience, not a formal survey.
 
 ## Main Goal
 
@@ -21,13 +22,45 @@ The goal is to build a short interactive experience that is clear, visually cons
 The project is about:
 
 - collecting user choices through a quiz
-- matching those choices to a pet category
-- letting the user customize the result
-- ending with a cute reveal animation
+- matching those choices to a robot type
+- customizing the robot through the question flow
+- recording the user's voice and changing it with a simple robotic filter
+- ending with a reveal animation and robot sound
 
 ## Project Link
 
-- GitHub Pages project link: [Pet Shop project page](https://sleepyrayray.github.io/cart263/projects/project-2/)
+- GitHub Pages project link: [Robot Shop project page](https://sleepyrayray.github.io/cart263/projects/project-2/)
+
+## Updated Project 2 Deliverables
+
+Project 2 now needs:
+
+- the finished project link
+- the GitHub repo link
+- a video walkthrough
+- a PDF about the project
+
+Each team member needs to submit:
+
+- the project link in their GitHub repo
+- the PDF link in their GitHub repo
+- the video link in their GitHub repo
+
+The video should include:
+
+- a live walkthrough of the project
+- team members explaining intentions, strategies, or interesting code parts
+
+The PDF should include:
+
+- at least 5 screen grabs from the project
+- a few paragraphs about the project intentions
+- a few paragraphs about implementation and libraries or techniques used
+- a description and summary of at least 2 references that inspired the project
+
+There is no artist statement for Project 2.
+
+There is no class presentation for Project 2.
 
 ## User Flow
 
@@ -41,26 +74,38 @@ It should include:
 - play button
 - instruction button
 - short instruction text
+- required consent checkbox for voice recording and voice sampling
+
+The user should not continue until they agree to the consent checkbox.
 
 ### 2. Question Stage
 
-The user answers a short set of multiple choice questions about what kind of pet they want.
+The user answers a short set of multiple choice questions about their ideal robot.
 
 This stage should:
 
 - collect user preferences
-- stay simple and easy to follow
-- guide the user toward a pet result
+- guide the user toward a robot type
+- include simple customization choices inside the question flow
 
-### 3. Customization Stage
+The questions can shape:
 
-After the quiz, the user is matched with a pet category and customizes the final pet.
+- robot appearance
+- personality
+- behavior
+- role or function
 
-Customization should include:
+### 3. Voice Recording Stage
 
-- type or breed
-- colour
-- sound
+The user records about 5 seconds of their voice.
+
+This stage should:
+
+- capture a short voice sample
+- keep the process simple and clear
+- apply a simple robotic audio effect
+
+The modified voice will be used later when the robot is revealed.
 
 ### 4. Final Reveal
 
@@ -71,7 +116,28 @@ The plan is:
 - show a rotating 3D package
 - let the user click it
 - open the package
-- reveal the chosen pet
+- reveal the chosen robot
+- play the modified voice audio
+
+For now, the revealed robot will use a 2D AI generated image.
+
+## Robot Types
+
+The project will use these 5 robot types:
+
+- companion robot
+- domestic robot
+- security robot
+- social robot
+- utility robot
+
+Each type should have a distinct look:
+
+- companion robot: humanoid, friendly, rounded
+- domestic robot: home helper, clean, compact
+- security robot: tougher, sensor-heavy, protective
+- social robot: expressive, sleek, approachable
+- utility robot: practical, mechanical, tool-based
 
 ## Technical Direction
 
@@ -85,6 +151,8 @@ The plan is:
 Use `p5.js` for:
 
 - interface screens
+- question flow
+- voice recording section
 - simple transitions
 - decorative 2D motion
 
@@ -96,14 +164,29 @@ Use `Three.js` for:
 - opening animation
 - final reveal
 
+### Data Setup
+
+Use a local JSON file for robot data instead of an outside API.
+
+This still works well with `Fetch API` because the project can fetch the local JSON file.
+
+The JSON can hold:
+
+- robot types
+- question data
+- answer mapping
+- robot descriptions
+
 ### Core Features Needed
 
 - clickable buttons
 - screen changes
 - saved user selections
-- pet matching logic
-- image changes or colour changes
-- sound preview and selection
+- consent checkbox logic
+- robot matching logic
+- image swapping
+- voice recording
+- simple robotic audio effect
 - final reveal logic
 
 ## Recommended Scope
@@ -112,29 +195,20 @@ To keep the project manageable, the first version should stay small and focused.
 
 Recommended limits:
 
-- 4 to 6 pet categories
+- 5 robot types
 - 4 to 6 quiz questions
-- 2 sound choices per animal
-- 3 to 5 type or breed options per pet
+- 1 voice recording step
 - 1 strong final reveal animation
 
 ## Core Themes
 
 ### Data Collection
 
-The project collects user answers and turns them into a pet result.
-
-### Copyright
-
-The project uses sound assets, so sound sources and licenses need to be checked.
+The project collects user answers and voice input and turns them into a robot result.
 
 ### AI
 
-The pet images are AI generated and help shape the visual identity of the project.
-
-### Process
-
-The project depends on design, coding, assets, and animation working together clearly.
+The robot images are AI generated and help shape the visual identity of the project.
 
 ## Team Workflow
 
@@ -148,13 +222,12 @@ The project depends on design, coding, assets, and animation working together cl
 
 The team should decide these early:
 
-- final pet list
 - final question list
-- how answers map to pet categories
-- how colour customization will work
-- whether the final pet is shown as 2D or 3D
+- how answers map to the 5 robot types
+- what appearance choices will be asked in the question flow
+- how the simple robotic voice effect will work
+- how the local JSON data should be organized
 - which AI image workflow will be used
-- which sound sources are legally safe
 
 ## Deadline
 
@@ -167,6 +240,7 @@ The finished project should feel like a small, polished interactive experience.
 By the end, the user should:
 
 - feel welcomed
-- enjoy the quiz
-- feel involved in the customization
+- understand the consent step
+- enjoy the robot questions
+- hear their voice turned into part of the robot experience
 - get a satisfying final reveal
