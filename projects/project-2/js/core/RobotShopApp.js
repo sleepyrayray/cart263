@@ -122,6 +122,27 @@ class RobotShopApp {
     return this.questionsData.scoredQuestions;
   }
 
+  // the color question can be read here from the loaded data
+  getColorQuestion() {
+    if (this.questionsData === null) {
+      return null;
+    }
+
+    return this.questionsData.colorQuestion;
+  }
+
+  // the full question count can be read here for progress text
+  getTotalQuestionCount() {
+    const scoredQuestionCount = this.getScoredQuestions().length;
+    const colorQuestion = this.getColorQuestion();
+
+    if (colorQuestion === null) {
+      return scoredQuestionCount;
+    }
+
+    return scoredQuestionCount + 1;
+  }
+
   // one scored question can be found here by its id
   findScoredQuestionById(questionId) {
     const scoredQuestions = this.getScoredQuestions();

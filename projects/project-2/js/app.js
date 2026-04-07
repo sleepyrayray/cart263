@@ -7,7 +7,7 @@
 
 const CANVAS_WIDTH = 960;
 const CANVAS_HEIGHT = 540;
-const START_SCREEN = "menu";
+const START_SCREEN = "questions";
 
 let app = undefined;
 
