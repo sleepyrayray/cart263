@@ -10,6 +10,7 @@ This doc only covers:
 
 - the main scored quiz questions
 - the color customization question
+- the data setup for Ray's section
 - the audio input flow
 - the audio button logic
 - the audio filter plan
@@ -28,6 +29,30 @@ This does not include:
 - use 5 options for each question
 - each option maps to 1 robot type
 - keep the color choice separate from the scored result questions
+
+## Data Setup Decisions
+
+- use 2 JSON files
+- keep one JSON file for robot data
+- keep one JSON file for question data
+- use `assets/data/robots-data.json` for robot data
+- use `assets/data/questions-data.json` for question data
+- save both selected option ids and running robot scores in app state
+- keep simple question and option mapping in JSON
+- keep final scoring and tie-break logic in JS
+- keep full shared state in the app for:
+  - current question index
+  - selected answers
+  - running scores
+  - selected color
+  - audio status
+
+## Image Plan
+
+- plan for 25 final robot images later
+- this means 5 robot types x 5 color variants
+- the images are not ready yet
+- the project should still be structured now to support that setup later
 
 ## Robot Types
 
@@ -178,7 +203,7 @@ Main rules:
 - the user already agreed to voice recording earlier in the menu
 - the user can preview the unfiltered recording before confirming it
 - the user can re-record if they do not like it
-- the user should be able to continue only after a recording exists
+- the user should be able to confirm once a recording exists
 - the recorded audio will later be processed into the robot voice
 
 ## Audio Button Plan
@@ -191,18 +216,18 @@ After the user records something:
 
 - `preview`
 - `record again`
-- `continue`
+- `confirm`
 
 Notes:
 
 - `preview` should only appear after a recording exists
 - `record again` should only appear after a recording exists
-- `continue` should only appear after a recording exists
+- `confirm` should only appear after a recording exists
 
 ## Audio Processing Plan
 
 - the original recorded audio stays available for preview
-- the project should process the recording in the background after it is captured
+- the project should process the recording only after the user confirms it
 - the robotic filter style should be bitcrushed and static-like
 - the filtered version is what should play later in the reveal
 
@@ -210,3 +235,4 @@ Notes:
 
 - Yann should be able to use the filtered audio later in the reveal section
 - the filtered audio needs to stay available for the final robot reveal
+- the filtered audio should auto-play once in the reveal with a slight delay

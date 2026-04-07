@@ -10,7 +10,7 @@ Your main job is to build:
 
 - the AI robot image set
 - the question flow
-- the customization choices inside the question flow
+- the color customization choice
 - the local JSON data setup
 - the voice recording section
 - the simple robotic audio effect
@@ -21,7 +21,9 @@ Your main job is to build:
 - `js/screens/QuestionScreen.js`
 - `js/screens/VoiceScreen.js`
 - `js/app.js`
-- `assets/data/robot-shop-data.json`
+- `assets/data/`
+- `assets/data/questions-data.json`
+- `assets/data/robots-data.json`
 - `assets/images/` when you add the robot images later
 
 ## Step By Step Roadmap
@@ -31,7 +33,7 @@ Your main job is to build:
 - decide the final list of questions
 - keep it simple and short
 - make sure the questions help sort users into the 5 robot types
-- include customization choices inside the question flow instead of making a separate customization screen
+- keep the color choice separate from the scored result questions
 
 ### 2. Finalize the robot type logic
 
@@ -47,19 +49,22 @@ Your main job is to build:
 ### 3. Plan the AI robot images
 
 - generate or prepare the robot images yourself
-- make one clear final image for each robot type
+- plan for 25 final images later
+- this means 5 robot types x 5 color variants
 - keep the style cartoonish and consistent
 - make sure each robot type has a distinct look
 - name the image files clearly so they are easy to connect later
 
 ### 4. Build the JSON structure
 
-- update `assets/data/robot-shop-data.json`
+- use 2 JSON files
+- keep one file for robot data
+- keep one file for question data
 - add the robot types
 - add the questions
 - add the answer options
 - add the result mapping rules
-- keep the file clean and organized
+- keep the files clean and organized
 
 ### 5. Load the JSON into the project
 
@@ -77,17 +82,20 @@ Your main job is to build:
 
 ### 7. Add the customization choices
 
-- fold the customization into the question stage
-- decide which choices affect:
-  - appearance
-  - personality
-  - behavior
-  - role
-- make sure these choices still help produce a final robot result
+- add the non-scored color choice
+- use these 5 color options:
+  - white
+  - red
+  - green
+  - blue
+  - black
+- keep the color choice separate from the robot result scoring
 
 ### 8. Connect the answers to a final robot type
 
 - take the saved answers
+- save the selected option ids
+- save the running robot scores
 - match them to one of the 5 robot types
 - store the selected result so it can be used later in the reveal
 - keep the logic clear and easy to adjust if needed
@@ -98,14 +106,17 @@ Your main job is to build:
 - create a simple recording flow
 - keep the recording around 5 seconds
 - make the steps clear for the user
-- decide if the user can re-record before moving on
+- let the user preview the unfiltered recording
+- let the user re-record before confirming
+- only show the confirm button once a recording exists
 
 ### 10. Add the robotic voice effect
 
 - keep the effect simple
 - make sure the original recording still works first
-- then apply the robotic sound change
+- apply the robotic sound change only after the user confirms the recording
 - save the modified audio so Yann can use it in the reveal later
+- plan for it to auto-play once in the reveal with a slight delay
 
 ### 11. Connect your screens into the app flow
 
@@ -150,7 +161,7 @@ Your main job is to build:
 
 - AI robot images are ready
 - question flow works
-- customization is included in the questions
+- color choice works
 - JSON data is working
 - result mapping works
 - voice recording works

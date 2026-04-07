@@ -131,14 +131,14 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 
 ### Main Task
 
-Handle the **questions**, **customization flow**, **AI robot images**, and **audio recording**.
+Handle the **questions**, **color customization**, **AI robot images**, and **audio recording**.
 
 ### What Ray Needs To Do
 
 - define the overall visual style
 - generate or prepare the AI robot images for the project
 - build the robot question flow
-- include customization choices inside the question section
+- include the color choice inside the question section
 - map answers to the 5 robot types
 - set up the local JSON data
 - use `Fetch API` to load the local JSON data
@@ -147,7 +147,7 @@ Handle the **questions**, **customization flow**, **AI robot images**, and **aud
 - connect all parts into one consistent experience
 - do the main coding in `js/screens/QuestionScreen.js`
 - do the voice section coding in `js/screens/VoiceScreen.js`
-- manage the robot data in `assets/data/robot-shop-data.json`
+- manage the data in `assets/data/questions-data.json` and `assets/data/robots-data.json`
 - connect shared app flow in `js/app.js` when needed
 - record a short audio clip talking about her own contribution and share it with Yann
 
@@ -167,7 +167,7 @@ Handle the **questions**, **customization flow**, **AI robot images**, and **aud
 1. Set the visual direction for the whole project.
 2. Generate or prepare the AI robot images and keep them organized.
 3. Build the question flow and answer logic.
-4. Add customization choices into the question flow.
+4. Add the color choice into the question flow.
 5. Map answers to the 5 robot types.
 6. Set up the local JSON structure.
 7. Use `Fetch API` to load the local JSON data.
