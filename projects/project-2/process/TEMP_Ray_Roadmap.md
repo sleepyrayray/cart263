@@ -26,6 +26,20 @@ Your main job is to build:
 - `assets/data/robots-data.json`
 - `assets/images/` when you add the robot images later
 
+## Coding Rules
+
+- use OOP and keep the code beginner friendly
+- keep the code clear and explicit instead of overly clever
+- use camelCase for variable and method names
+- use full clear names instead of vague short names
+- keep shared cross-screen data in `js/app.js`
+- keep screen-specific interaction state inside each screen class
+- write short casual comments that describe what the code block is doing
+- keep comments in lowercase
+- do not end comments with a period
+- do not start comments with `this`
+- do not write comments like commands or todo notes
+
 ## Step By Step Roadmap
 
 ### 1. Lock the question plan first

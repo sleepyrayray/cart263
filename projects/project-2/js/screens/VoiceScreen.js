@@ -10,7 +10,7 @@ class VoiceScreen extends Screen {
     super(app);
   }
 
-  // this will hold the voice screen later
+  // voice screen drawing will live here later
   display() {
     this.displayBackground();
     this.displayFrame();

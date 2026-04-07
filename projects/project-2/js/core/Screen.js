@@ -10,11 +10,11 @@ class Screen {
     this.app = app;
   }
 
-  // use this later for setup when a screen starts
+  // screen setup can run here when it starts
   enter() {
   }
 
-  // put screen logic here later
+  // screen logic can run here later
   update() {
   }
 
@@ -22,16 +22,16 @@ class Screen {
   display() {
   }
 
-  // each screen can handle clicks here later
+  // screen clicks can be handled here later
   mousePressed() {
   }
 
-  // this keeps the background style the same for each screen
+  // the background style stays the same here
   displayBackground() {
     background(247, 241, 232);
   }
 
-  // this can hold shared guide visuals later
+  // shared guide visuals can live here later
   displayFrame() {
   }
 }

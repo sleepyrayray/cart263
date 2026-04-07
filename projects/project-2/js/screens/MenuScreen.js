@@ -10,7 +10,7 @@ class MenuScreen extends Screen {
     super(app);
   }
 
-  // this is jason's main file for the menu later
+  // menu drawing will live here later
   display() {
     this.displayBackground();
     this.displayFrame();

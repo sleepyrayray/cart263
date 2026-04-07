@@ -10,7 +10,7 @@ class QuestionScreen extends Screen {
     super(app);
   }
 
-  // this will hold the quiz screen later
+  // question screen drawing will live here later
   display() {
     this.displayBackground();
     this.displayFrame();

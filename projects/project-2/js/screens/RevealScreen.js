@@ -10,7 +10,7 @@ class RevealScreen extends Screen {
     super(app);
   }
 
-  // this will hold the robot reveal later
+  // reveal drawing will live here later
   display() {
     this.displayBackground();
     this.displayFrame();
