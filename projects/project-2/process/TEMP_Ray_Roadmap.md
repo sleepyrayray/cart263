@@ -121,17 +121,21 @@ Your main job is to build:
 ### 11. Connect your screens into the app flow
 
 - update `js/app.js` when needed
+- keep shared cross-screen data in `js/app.js`
+- keep screen-specific interaction state inside each screen class
 - make sure the flow works from:
   - menu
   - questions
   - voice
   - reveal
 - make sure the app is passing the data your screens need
+- keep the shared data setup simple so it supports Jason and Yann without rewriting their screen files
 
 ### 12. Prepare for teammate integration
 
 - make sure Jason's menu can lead into your question flow
 - make sure your saved result and audio can later connect to Yann's reveal
+- make sure the app can pass selected robot type, selected color, and filtered audio into the reveal later
 - make sure Yann has the final robot images he needs for the reveal
 - keep your variable names and data names clear so integration is easier
 

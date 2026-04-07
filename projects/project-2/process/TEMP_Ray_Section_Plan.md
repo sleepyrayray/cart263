@@ -44,8 +44,19 @@ This does not include:
   - current question index
   - selected answers
   - running scores
+  - selected robot type
   - selected color
+  - raw audio
+  - filtered audio
   - audio status
+
+## Shared App State Note
+
+- keep shared cross-screen data in `js/app.js`
+- keep screen-specific interaction state inside each screen class
+- this should support Jason's and Yann's screens without changing their main file ownership
+- Jason's menu should only need to move the user into the question flow
+- Yann's reveal should later read the selected robot type, selected color, and filtered audio
 
 ## Image Plan
 
