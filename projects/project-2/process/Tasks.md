@@ -131,11 +131,12 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 
 ### Main Task
 
-Handle the **questions**, **customization flow**, and **audio recording**.
+Handle the **questions**, **customization flow**, **AI robot images**, and **audio recording**.
 
 ### What Ray Needs To Do
 
 - define the overall visual style
+- generate or prepare the AI robot images for the project
 - build the robot question flow
 - include customization choices inside the question section
 - map answers to the 5 robot types
@@ -153,6 +154,7 @@ Handle the **questions**, **customization flow**, and **audio recording**.
 ### Deliverables
 
 - finished visual direction in the project
+- finished AI robot images ready for the project
 - working question flow
 - working robot type mapping
 - working local JSON setup
@@ -163,16 +165,17 @@ Handle the **questions**, **customization flow**, and **audio recording**.
 ### Step By Step
 
 1. Set the visual direction for the whole project.
-2. Build the question flow and answer logic.
-3. Add customization choices into the question flow.
-4. Map answers to the 5 robot types.
-5. Set up the local JSON structure.
-6. Use `Fetch API` to load the local JSON data.
-7. Build the 5 second voice recording step.
-8. Apply a simple robotic effect to the recorded voice.
-9. Connect Jason's menu and Yann's reveal into the full experience.
-10. Record a short audio clip about your contribution and share it with Yann.
-11. Test the project for consistency and polish.
+2. Generate or prepare the AI robot images and keep them organized.
+3. Build the question flow and answer logic.
+4. Add customization choices into the question flow.
+5. Map answers to the 5 robot types.
+6. Set up the local JSON structure.
+7. Use `Fetch API` to load the local JSON data.
+8. Build the 5 second voice recording step.
+9. Apply a simple robotic effect to the recorded voice.
+10. Connect Jason's menu and Yann's reveal into the full experience.
+11. Record a short audio clip about your contribution and share it with Yann.
+12. Test the project for consistency and polish.
 
 ## Robot Types
 
