@@ -325,6 +325,47 @@ class RobotShopApp {
     return this.robotsData.colors;
   }
 
+  // one robot type can be found here by its id
+  getRobotTypeData(robotTypeId) {
+    if (this.robotsData === null) {
+      return null;
+    }
+
+    const selectedRobotData = this.robotsData.robotTypes.find((robotData) => {
+      return robotData.id === robotTypeId;
+    });
+
+    if (selectedRobotData === undefined) {
+      return null;
+    }
+
+    return selectedRobotData;
+  }
+
+  // the selected robot image path can be worked out here
+  getSelectedRobotImagePath() {
+    const selectedRobotType = this.projectData.selectedRobotType;
+    const selectedColor = this.projectData.selectedColor;
+
+    if (selectedRobotType === null || selectedColor === null) {
+      return null;
+    }
+
+    const selectedRobotData = this.getRobotTypeData(selectedRobotType);
+
+    if (selectedRobotData === null) {
+      return null;
+    }
+
+    const selectedImagePath = selectedRobotData.imagePaths[selectedColor];
+
+    if (typeof selectedImagePath !== "string" || selectedImagePath.length === 0) {
+      return null;
+    }
+
+    return selectedImagePath;
+  }
+
   // the raw recorded audio can be saved here
   saveRawAudio(rawAudioData) {
     this.projectData.rawAudio = rawAudioData;
