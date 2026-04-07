@@ -148,7 +148,7 @@ Handle the **questions**, **color customization**, **AI robot images**, and **au
 - do the main coding in `js/screens/QuestionScreen.js`
 - do the voice section coding in `js/screens/VoiceScreen.js`
 - manage the data in `assets/data/questions-data.json` and `assets/data/robots-data.json`
-- connect shared app flow in `js/app.js` when needed
+- connect shared app flow in `js/app.js` and `js/core/RobotShopApp.js` when needed
 - record a short audio clip talking about her own contribution and share it with Yann
 
 ### Deliverables

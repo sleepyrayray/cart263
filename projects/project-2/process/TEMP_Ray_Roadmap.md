@@ -21,6 +21,7 @@ Your main job is to build:
 - `js/screens/QuestionScreen.js`
 - `js/screens/VoiceScreen.js`
 - `js/app.js`
+- `js/core/RobotShopApp.js`
 - `assets/data/`
 - `assets/data/questions-data.json`
 - `assets/data/robots-data.json`
@@ -32,7 +33,7 @@ Your main job is to build:
 - keep the code clear and explicit instead of overly clever
 - use camelCase for variable and method names
 - use full clear names instead of vague short names
-- keep shared cross-screen data in `js/app.js`
+- keep shared cross-screen data in `js/core/RobotShopApp.js`
 - keep screen-specific interaction state inside each screen class
 - write short casual comments that describe what the code block is doing
 - keep comments in lowercase
@@ -134,8 +135,8 @@ Your main job is to build:
 
 ### 11. Connect your screens into the app flow
 
-- update `js/app.js` when needed
-- keep shared cross-screen data in `js/app.js`
+- update `js/app.js` and `js/core/RobotShopApp.js` when needed
+- keep shared cross-screen data in `js/core/RobotShopApp.js`
 - keep screen-specific interaction state inside each screen class
 - make sure the flow works from:
   - menu

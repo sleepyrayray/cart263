@@ -66,7 +66,7 @@ This does not include:
 
 ## Shared App State Note
 
-- keep shared cross-screen data in `js/app.js`
+- keep shared cross-screen data in `js/core/RobotShopApp.js`
 - keep screen-specific interaction state inside each screen class
 - this should support Jason's and Yann's screens without changing their main file ownership
 - Jason's menu should only need to move the user into the question flow
