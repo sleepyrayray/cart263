@@ -28,6 +28,15 @@ class RevealScreen extends Screen {
     this.revealAudioDelayMilliseconds = 750;
     this.audioElement = null;
     this.audioPlaybackTimeoutId = null;
+    this.hasFinishedIntroAudioPlayback = false;
+    this.hasStartedRobotMove = false;
+    this.robotMoveStartTime = 0;
+    this.robotMoveDuration = 650;
+    this.robotCurrentOffsetX = 0;
+    this.robotStartOffsetX = 0;
+    this.robotTargetOffsetX = 0;
+    this.descriptionFadeStartTime = 0;
+    this.descriptionFadeDuration = 700;
   }
 
   // reveal setup starts here when the screen opens
@@ -41,6 +50,7 @@ class RevealScreen extends Screen {
   update() {
     this.syncRendererToCanvas();
     this.updatePackageAnimation();
+    this.updateDescriptionSequence();
     this.updateRobotAnimation();
   }
 
@@ -49,6 +59,7 @@ class RevealScreen extends Screen {
     this.displayBackground();
     this.displayRevealHint();
     this.displayImageErrorMessage();
+    this.displayRobotDescription();
     this.renderThreeScene();
   }
 
@@ -271,8 +282,30 @@ class RevealScreen extends Screen {
     const revealScale = 0.35 + revealProgress * 0.65;
 
     this.robotImageMesh.scale.set(revealScale, revealScale, revealScale);
+    this.robotImageMesh.position.x = this.robotCurrentOffsetX;
     this.robotImageMesh.position.y = Math.sin(elapsedSeconds * 1.8) * 0.16;
     this.robotImageMesh.rotation.y = Math.sin(elapsedSeconds * 0.9) * 0.08;
+  }
+
+  // the robot move and text timing update here after the first sound ends
+  updateDescriptionSequence() {
+    if (this.hasStartedRobotMove === false) {
+      return;
+    }
+
+    const elapsedTime = performance.now() - this.robotMoveStartTime;
+    const moveProgress = Math.min(1, elapsedTime / this.robotMoveDuration);
+    this.robotCurrentOffsetX = this.lerpValue(
+      this.robotStartOffsetX,
+      this.robotTargetOffsetX,
+      moveProgress
+    );
+
+    if (moveProgress < 1 || this.descriptionFadeStartTime !== 0) {
+      return;
+    }
+
+    this.descriptionFadeStartTime = performance.now();
   }
 
   // the renderer stays lined up with the p5 canvas here
@@ -313,6 +346,23 @@ class RevealScreen extends Screen {
     textAlign(CENTER, CENTER);
     textSize(22);
     text("the robot image could not load", width / 2, height / 2 + 180);
+  }
+
+  // the robot description fades in after the intro reveal finishes
+  displayRobotDescription() {
+    const descriptionOpacity = this.getDescriptionOpacity();
+    const robotDescription = this.getSelectedRobotDescription();
+
+    if (descriptionOpacity <= 0 || robotDescription === "") {
+      return;
+    }
+
+    fill(20, 20, 20, descriptionOpacity);
+    noStroke();
+    textAlign(LEFT, TOP);
+    textSize(24);
+    textWrap(WORD);
+    text(robotDescription, 520, 165, 320);
   }
 
   // the current three scene renders here
@@ -368,6 +418,7 @@ class RevealScreen extends Screen {
       : 1;
 
     if (this.audioElement !== null) {
+      this.prepareIntroAudioEndHandler();
       this.audioElement.playbackRate = playbackRate;
       this.audioElement.currentTime = 0;
       this.audioElement.play().catch((error) => {
@@ -377,10 +428,66 @@ class RevealScreen extends Screen {
     }
 
     this.audioElement = new Audio(filteredAudioData.url);
+    this.prepareIntroAudioEndHandler();
     this.audioElement.playbackRate = playbackRate;
     this.audioElement.play().catch((error) => {
       console.warn("reveal audio could not start", error);
     });
+  }
+
+  // the first reveal audio finish is tracked here
+  prepareIntroAudioEndHandler() {
+    if (this.hasFinishedIntroAudioPlayback === true || this.audioElement === null) {
+      return;
+    }
+
+    this.audioElement.onended = () => {
+      this.handleIntroAudioFinished();
+    };
+  }
+
+  // the robot shifts left after the first reveal sound ends
+  handleIntroAudioFinished() {
+    if (this.hasFinishedIntroAudioPlayback === true) {
+      return;
+    }
+
+    this.hasFinishedIntroAudioPlayback = true;
+    this.hasStartedRobotMove = true;
+    this.robotMoveStartTime = performance.now();
+    this.robotStartOffsetX = this.robotCurrentOffsetX;
+    this.robotTargetOffsetX = -1.9;
+
+    if (this.audioElement !== null) {
+      this.audioElement.onended = null;
+    }
+  }
+
+  // the selected robot description is read here from the robot data
+  getSelectedRobotDescription() {
+    const selectedRobotType = this.app.projectData.selectedRobotType;
+    const robotTypeData = this.app.getRobotTypeData(selectedRobotType);
+
+    if (robotTypeData === null) {
+      return "";
+    }
+
+    if (typeof robotTypeData.description !== "string") {
+      return "";
+    }
+
+    return robotTypeData.description;
+  }
+
+  // the description fade amount is worked out here
+  getDescriptionOpacity() {
+    if (this.descriptionFadeStartTime === 0) {
+      return 0;
+    }
+
+    const elapsedTime = performance.now() - this.descriptionFadeStartTime;
+    const fadeProgress = Math.min(1, elapsedTime / this.descriptionFadeDuration);
+    return 255 * fadeProgress;
   }
 
   // old reveal data clears before a new reveal starts
@@ -400,6 +507,13 @@ class RevealScreen extends Screen {
     this.isPackageOpened = false;
     this.packageOpenStartTime = 0;
     this.robotRevealStartTime = 0;
+    this.hasFinishedIntroAudioPlayback = false;
+    this.hasStartedRobotMove = false;
+    this.robotMoveStartTime = 0;
+    this.robotCurrentOffsetX = 0;
+    this.robotStartOffsetX = 0;
+    this.robotTargetOffsetX = 0;
+    this.descriptionFadeStartTime = 0;
   }
 
   // mesh resources clear here when the reveal resets
@@ -473,8 +587,14 @@ class RevealScreen extends Screen {
       return;
     }
 
+    this.audioElement.onended = null;
     this.audioElement.pause();
     this.audioElement.currentTime = 0;
     this.audioElement = null;
+  }
+
+  // one value blends toward another here for the robot move
+  lerpValue(startValue, endValue, progressValue) {
+    return startValue + (endValue - startValue) * progressValue;
   }
 }
