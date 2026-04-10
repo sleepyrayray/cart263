@@ -15,6 +15,7 @@ class RevealScreen extends Screen {
     this.raycaster = null;
     this.mouseVector = null;
     this.packageMesh = null;
+    this.packageTextureMaps = null;
     this.robotImageMesh = null;
     this.robotTexture = null;
     this.selectedImagePath = null;
@@ -24,6 +25,9 @@ class RevealScreen extends Screen {
     this.packageOpenStartTime = 0;
     this.packageOpenDuration = 650;
     this.robotRevealStartTime = 0;
+    this.revealAudioDelayMilliseconds = 750;
+    this.audioElement = null;
+    this.audioPlaybackTimeoutId = null;
   }
 
   // reveal setup starts here when the screen opens
@@ -50,17 +54,26 @@ class RevealScreen extends Screen {
 
   // clicks only check the package while it is still closed
   mousePressed() {
-    if (this.isPackageOpened === true || this.isPackageOpening === true) {
+    if (this.packageMesh === null && this.robotImageMesh === null) {
       return;
     }
 
-    if (this.packageMesh === null || this.camera === null || this.raycaster === null || this.mouseVector === null) {
+    if (this.camera === null || this.raycaster === null || this.mouseVector === null) {
       return;
     }
 
     this.mouseVector.x = (mouseX / width) * 2 - 1;
     this.mouseVector.y = -(mouseY / height) * 2 + 1;
     this.raycaster.setFromCamera(this.mouseVector, this.camera);
+
+    if (this.isPackageOpened === true) {
+      this.handleRevealedRobotClick();
+      return;
+    }
+
+    if (this.isPackageOpening === true || this.packageMesh === null) {
+      return;
+    }
 
     const intersectedMeshes = this.raycaster.intersectObject(this.packageMesh, true);
 
@@ -107,11 +120,16 @@ class RevealScreen extends Screen {
     this.scene.add(mainLight);
   }
 
-  // the starting package uses the selected robot color here
+  // the starting package uses the saved cardboard texture here
   createPackage() {
+    this.packageTextureMaps = this.loadPackageTextureMaps();
+
     const packageGeometry = new THREE.BoxGeometry(2.4, 2.4, 2.4);
     const packageMaterial = new THREE.MeshStandardMaterial({
-      color: this.getSelectedColorHex(),
+      color: 0xffffff,
+      map: this.packageTextureMaps.baseColorTexture,
+      normalMap: this.packageTextureMaps.normalTexture,
+      roughnessMap: this.packageTextureMaps.roughnessTexture,
       roughness: 0.45,
       metalness: 0.2
     });
@@ -128,6 +146,22 @@ class RevealScreen extends Screen {
 
     const lineMesh = new THREE.Mesh(packageGeometry, lineMaterial);
     this.packageMesh.add(lineMesh);
+  }
+
+  // the package texture maps are loaded here for the reveal box
+  loadPackageTextureMaps() {
+    const textureLoader = new THREE.TextureLoader();
+    const baseColorTexture = textureLoader.load("assets/textures/package/package-box-color.jpg");
+    const normalTexture = textureLoader.load("assets/textures/package/package-box-normal..png");
+    const roughnessTexture = textureLoader.load("assets/textures/package/package-box-roughness..jpg");
+
+    baseColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+    return {
+      baseColorTexture: baseColorTexture,
+      normalTexture: normalTexture,
+      roughnessTexture: roughnessTexture
+    };
   }
 
   // the chosen robot image starts loading here
@@ -222,6 +256,7 @@ class RevealScreen extends Screen {
     this.robotImageMesh.position.set(0, 0, 0);
     this.robotImageMesh.scale.set(0.35, 0.35, 0.35);
     this.scene.add(this.robotImageMesh);
+    this.scheduleRevealAudioPlayback();
   }
 
   // the revealed robot image gently floats here
@@ -289,26 +324,74 @@ class RevealScreen extends Screen {
     this.renderer.render(this.scene, this.camera);
   }
 
-  // the selected robot color becomes the box color here
-  getSelectedColorHex() {
-    const colorHexMap = {
-      white: 0xf0ede8,
-      red: 0xdd1111,
-      green: 0x22bb44,
-      blue: 0x1166dd,
-      black: 0x222222
-    };
+  // clicks on the revealed robot replay the filtered voice here
+  handleRevealedRobotClick() {
+    if (this.robotImageMesh === null) {
+      return;
+    }
 
-    const selectedColor = this.app.projectData.selectedColor;
-    return colorHexMap[selectedColor] ?? 0xaaaaaa;
+    const intersectedMeshes = this.raycaster.intersectObject(this.robotImageMesh, true);
+
+    if (intersectedMeshes.length > 0) {
+      this.playFilteredAudio();
+    }
+  }
+
+  // the first reveal playback is delayed slightly here
+  scheduleRevealAudioPlayback() {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    this.clearAudioPlaybackTimeout();
+    this.audioPlaybackTimeoutId = window.setTimeout(() => {
+      this.audioPlaybackTimeoutId = null;
+      this.playFilteredAudio();
+    }, this.revealAudioDelayMilliseconds);
+  }
+
+  // the filtered robot voice plays here
+  playFilteredAudio() {
+    const filteredAudioData = this.app.projectData.filteredAudio;
+    const audioStatus = this.app.projectData.audioStatus;
+
+    if (filteredAudioData === null || audioStatus.isConfirmed === false) {
+      return;
+    }
+
+    if (typeof filteredAudioData.url !== "string" || filteredAudioData.url.length === 0) {
+      return;
+    }
+
+    const playbackRate = typeof filteredAudioData.playbackRate === "number"
+      ? filteredAudioData.playbackRate
+      : 1;
+
+    if (this.audioElement !== null) {
+      this.audioElement.playbackRate = playbackRate;
+      this.audioElement.currentTime = 0;
+      this.audioElement.play().catch((error) => {
+        console.warn("reveal audio replay could not start", error);
+      });
+      return;
+    }
+
+    this.audioElement = new Audio(filteredAudioData.url);
+    this.audioElement.playbackRate = playbackRate;
+    this.audioElement.play().catch((error) => {
+      console.warn("reveal audio could not start", error);
+    });
   }
 
   // old reveal data clears before a new reveal starts
   resetRevealState() {
+    this.clearAudioPlaybackTimeout();
+    this.stopRevealAudio();
     this.cleanupRenderer();
     this.raycaster = null;
     this.mouseVector = null;
     this.packageMesh = null;
+    this.packageTextureMaps = null;
     this.robotImageMesh = null;
     this.robotTexture = null;
     this.selectedImagePath = null;
@@ -358,6 +441,12 @@ class RevealScreen extends Screen {
       this.robotTexture.dispose();
     }
 
+    if (this.packageTextureMaps !== null) {
+      this.packageTextureMaps.baseColorTexture.dispose();
+      this.packageTextureMaps.normalTexture.dispose();
+      this.packageTextureMaps.roughnessTexture.dispose();
+    }
+
     if (this.renderer !== null) {
       this.renderer.dispose();
       this.renderer.domElement.remove();
@@ -366,5 +455,26 @@ class RevealScreen extends Screen {
     this.scene = null;
     this.camera = null;
     this.renderer = null;
+  }
+
+  // any pending reveal audio timer clears here
+  clearAudioPlaybackTimeout() {
+    if (this.audioPlaybackTimeoutId === null || typeof window === "undefined") {
+      return;
+    }
+
+    window.clearTimeout(this.audioPlaybackTimeoutId);
+    this.audioPlaybackTimeoutId = null;
+  }
+
+  // reveal audio playback stops here when the screen resets
+  stopRevealAudio() {
+    if (this.audioElement === null) {
+      return;
+    }
+
+    this.audioElement.pause();
+    this.audioElement.currentTime = 0;
+    this.audioElement = null;
   }
 }

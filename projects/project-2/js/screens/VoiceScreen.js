@@ -620,7 +620,8 @@ class VoiceScreen extends Screen {
       url: filteredAudioUrl,
       mimeType: "audio/wav",
       durationSeconds: rawAudioData.durationSeconds,
-      filterType: "bitcrushStatic"
+      filterType: "softBitcrushHighPitch",
+      playbackRate: 1.16
     };
   }
 
@@ -640,16 +641,15 @@ class VoiceScreen extends Screen {
     return this.processingAudioContext;
   }
 
-  // the bitcrush and static effect is built here sample by sample
+  // a softer bitcrush effect is built here for the robot voice
   createBitcrushedAudioBuffer(sourceAudioBuffer) {
     const channelCount = sourceAudioBuffer.numberOfChannels;
     const sampleCount = sourceAudioBuffer.length;
     const sampleRate = sourceAudioBuffer.sampleRate;
     const filteredAudioBuffer = this.getProcessingAudioContext().createBuffer(channelCount, sampleCount, sampleRate);
     const bitDepth = 5;
-    const holdSampleCount = 6;
+    const holdSampleCount = 5;
     const quantizeStepCount = Math.pow(2, bitDepth - 1);
-    const staticAmount = 0.02;
 
     for (let channelIndex = 0; channelIndex < channelCount; channelIndex += 1) {
       const sourceChannelData = sourceAudioBuffer.getChannelData(channelIndex);
@@ -663,9 +663,7 @@ class VoiceScreen extends Screen {
           heldSampleValue = Math.round(sourceSampleValue * quantizeStepCount) / quantizeStepCount;
         }
 
-        const staticNoiseValue = (Math.random() * 2 - 1) * staticAmount;
-        const filteredSampleValue = heldSampleValue * 0.92 + staticNoiseValue;
-
+        const filteredSampleValue = sourceSampleValue * 0.24 + heldSampleValue * 0.76;
         filteredChannelData[sampleIndex] = Math.max(-1, Math.min(1, filteredSampleValue));
       }
     }
