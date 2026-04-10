@@ -118,6 +118,9 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 - make the package open
 - reveal the final robot image
 - play the modified voice audio during the reveal
+- show a short robot description after the reveal audio
+- add the purchase button and thank you flow
+- reset the experience back to the menu after the final interaction
 - use `this.app.projectData.selectedRobotType` for the final robot type
 - use `this.app.projectData.selectedColor` for the chosen robot color
 - use `this.app.projectData.filteredAudio` for the final robot sound
@@ -138,6 +141,7 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 - working reveal animation
 - working package open interaction
 - robot reveal working with audio
+- robot description and purchase flow working
 - finished video walkthrough
 - final edited video file sized for GitHub
 
@@ -152,13 +156,15 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 7. Make the package open.
 8. Show the final robot image in the reveal.
 9. Connect the modified voice audio to the reveal.
-10. Test the reveal section for timing and polish.
-11. Collect the recorded audio clips from Jason and Ray.
-12. Capture the project walkthrough on video.
-13. Sync the audio recordings with the video capture.
-14. Edit the full video together.
-15. Make sure the video file is small enough for GitHub.
-16. Organize the final video and share it with Ray.
+10. Add the short robot description after the reveal audio.
+11. Add the purchase button, thank you message, and back to menu flow.
+12. Test the reveal section for timing and polish.
+13. Collect the recorded audio clips from Jason and Ray.
+14. Capture the project walkthrough on video.
+15. Sync the audio recordings with the video capture.
+16. Edit the full video together.
+17. Make sure the video file is small enough for GitHub.
+18. Organize the final video and share it with Ray.
 
 ## Ray
 

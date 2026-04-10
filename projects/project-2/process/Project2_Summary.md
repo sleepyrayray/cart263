@@ -112,6 +112,10 @@ The plan is:
 - open the package
 - reveal the chosen robot
 - play the modified voice audio
+- move the robot image to the left side after the intro reveal
+- show a short robot description
+- let the user press a purchase button
+- end with a short thank you message and a back to menu reset
 
 For now, the revealed robot will use a 2D AI generated image.
 

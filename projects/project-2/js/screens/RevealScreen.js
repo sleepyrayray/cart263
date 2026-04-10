@@ -37,6 +37,20 @@ class RevealScreen extends Screen {
     this.robotTargetOffsetX = 0;
     this.descriptionFadeStartTime = 0;
     this.descriptionFadeDuration = 700;
+    this.hasPurchasedRobot = false;
+    this.purchaseButtonX = 520;
+    this.purchaseButtonY = 350;
+    this.purchaseButtonWidth = 170;
+    this.purchaseButtonHeight = 52;
+    this.thankYouStartTime = 0;
+    this.thankYouDisplayDuration = 3000;
+    this.thankYouFadeStartTime = 0;
+    this.thankYouFadeDuration = 600;
+    this.showBackToMenuButton = false;
+    this.backButtonX = 520;
+    this.backButtonY = 350;
+    this.backButtonWidth = 190;
+    this.backButtonHeight = 52;
   }
 
   // reveal setup starts here when the screen opens
@@ -51,6 +65,7 @@ class RevealScreen extends Screen {
     this.syncRendererToCanvas();
     this.updatePackageAnimation();
     this.updateDescriptionSequence();
+    this.updateThankYouSequence();
     this.updateRobotAnimation();
   }
 
@@ -78,6 +93,14 @@ class RevealScreen extends Screen {
     this.raycaster.setFromCamera(this.mouseVector, this.camera);
 
     if (this.isPackageOpened === true) {
+      if (this.handlePurchaseButtonClick() === true) {
+        return;
+      }
+
+      if (this.handleBackToMenuButtonClick() === true) {
+        return;
+      }
+
       this.handleRevealedRobotClick();
       return;
     }
@@ -363,6 +386,66 @@ class RevealScreen extends Screen {
     textSize(24);
     textWrap(WORD);
     text(robotDescription, 520, 165, 320);
+    this.displayPurchaseSection(descriptionOpacity);
+  }
+
+  // the final purchase area shows under the description here
+  displayPurchaseSection(descriptionOpacity) {
+    if (this.hasPurchasedRobot === true) {
+      this.displayThankYouMessage(descriptionOpacity);
+      this.displayBackToMenuButton(descriptionOpacity);
+      return;
+    }
+
+    const isHovered = this.isMouseInsidePurchaseButton();
+    const buttonFillShade = isHovered === true ? 225 : 245;
+
+    fill(buttonFillShade, buttonFillShade, buttonFillShade, descriptionOpacity);
+    stroke(20, 20, 20, descriptionOpacity);
+    strokeWeight(2);
+    rect(this.purchaseButtonX, this.purchaseButtonY, this.purchaseButtonWidth, this.purchaseButtonHeight, 10);
+
+    fill(20, 20, 20, descriptionOpacity);
+    noStroke();
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    text("purchase", this.purchaseButtonX + this.purchaseButtonWidth / 2, this.purchaseButtonY + this.purchaseButtonHeight / 2);
+  }
+
+  // the thank you message fades out here before the reset button appears
+  displayThankYouMessage(descriptionOpacity) {
+    const thankYouOpacity = this.getThankYouOpacity(descriptionOpacity);
+
+    if (thankYouOpacity <= 0) {
+      return;
+    }
+
+    fill(20, 20, 20, thankYouOpacity);
+    noStroke();
+    textAlign(LEFT, CENTER);
+    textSize(28);
+    text("Thank you!", this.purchaseButtonX, this.purchaseButtonY + this.purchaseButtonHeight / 2);
+  }
+
+  // the back to menu button appears after the thank you text fades out
+  displayBackToMenuButton(descriptionOpacity) {
+    if (this.showBackToMenuButton === false) {
+      return;
+    }
+
+    const isHovered = this.isMouseInsideBackButton();
+    const buttonFillShade = isHovered === true ? 225 : 245;
+
+    fill(buttonFillShade, buttonFillShade, buttonFillShade, descriptionOpacity);
+    stroke(20, 20, 20, descriptionOpacity);
+    strokeWeight(2);
+    rect(this.backButtonX, this.backButtonY, this.backButtonWidth, this.backButtonHeight, 10);
+
+    fill(20, 20, 20, descriptionOpacity);
+    noStroke();
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    text("Back to menu", this.backButtonX + this.backButtonWidth / 2, this.backButtonY + this.backButtonHeight / 2);
   }
 
   // the current three scene renders here
@@ -385,6 +468,39 @@ class RevealScreen extends Screen {
     if (intersectedMeshes.length > 0) {
       this.playFilteredAudio();
     }
+  }
+
+  // the purchase button click is handled here after the reveal text appears
+  handlePurchaseButtonClick() {
+    if (this.hasPurchasedRobot === true) {
+      return false;
+    }
+
+    if (this.getDescriptionOpacity() <= 0) {
+      return false;
+    }
+
+    if (this.isMouseInsidePurchaseButton() === false) {
+      return false;
+    }
+
+    this.hasPurchasedRobot = true;
+    this.thankYouStartTime = performance.now();
+    return true;
+  }
+
+  // the back button sends the user to the menu here
+  handleBackToMenuButtonClick() {
+    if (this.showBackToMenuButton === false) {
+      return false;
+    }
+
+    if (this.isMouseInsideBackButton() === false) {
+      return false;
+    }
+
+    this.resetProjectForMenu();
+    return true;
   }
 
   // the first reveal playback is delayed slightly here
@@ -490,6 +606,71 @@ class RevealScreen extends Screen {
     return 255 * fadeProgress;
   }
 
+  // the thank you timing updates here after purchase
+  updateThankYouSequence() {
+    if (this.hasPurchasedRobot === false || this.showBackToMenuButton === true) {
+      return;
+    }
+
+    if (this.thankYouStartTime === 0) {
+      return;
+    }
+
+    const elapsedTime = performance.now() - this.thankYouStartTime;
+
+    if (elapsedTime < this.thankYouDisplayDuration) {
+      return;
+    }
+
+    if (this.thankYouFadeStartTime === 0) {
+      this.thankYouFadeStartTime = performance.now();
+      return;
+    }
+
+    const fadeElapsedTime = performance.now() - this.thankYouFadeStartTime;
+
+    if (fadeElapsedTime >= this.thankYouFadeDuration) {
+      this.showBackToMenuButton = true;
+    }
+  }
+
+  // the thank you opacity is worked out here
+  getThankYouOpacity(baseOpacity) {
+    if (this.hasPurchasedRobot === false) {
+      return 0;
+    }
+
+    if (this.thankYouFadeStartTime === 0) {
+      return baseOpacity;
+    }
+
+    const fadeElapsedTime = performance.now() - this.thankYouFadeStartTime;
+    const fadeProgress = Math.min(1, fadeElapsedTime / this.thankYouFadeDuration);
+    return baseOpacity * (1 - fadeProgress);
+  }
+
+  // purchase button hit testing runs here
+  isMouseInsidePurchaseButton() {
+    const isInsideX = mouseX >= this.purchaseButtonX && mouseX <= this.purchaseButtonX + this.purchaseButtonWidth;
+    const isInsideY = mouseY >= this.purchaseButtonY && mouseY <= this.purchaseButtonY + this.purchaseButtonHeight;
+    return isInsideX && isInsideY;
+  }
+
+  // back button hit testing runs here
+  isMouseInsideBackButton() {
+    const isInsideX = mouseX >= this.backButtonX && mouseX <= this.backButtonX + this.backButtonWidth;
+    const isInsideY = mouseY >= this.backButtonY && mouseY <= this.backButtonY + this.backButtonHeight;
+    return isInsideX && isInsideY;
+  }
+
+  // the shared project flow resets here before returning to menu
+  resetProjectForMenu() {
+    this.resetRevealState();
+    this.app.resetQuestionFlow();
+    this.app.resetAudioData();
+    this.app.setScreen(START_SCREEN);
+  }
+
   // old reveal data clears before a new reveal starts
   resetRevealState() {
     this.clearAudioPlaybackTimeout();
@@ -514,6 +695,10 @@ class RevealScreen extends Screen {
     this.robotStartOffsetX = 0;
     this.robotTargetOffsetX = 0;
     this.descriptionFadeStartTime = 0;
+    this.hasPurchasedRobot = false;
+    this.thankYouStartTime = 0;
+    this.thankYouFadeStartTime = 0;
+    this.showBackToMenuButton = false;
   }
 
   // mesh resources clear here when the reveal resets
