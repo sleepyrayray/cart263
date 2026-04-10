@@ -7,13 +7,14 @@
 
 const CANVAS_WIDTH = 960;
 const CANVAS_HEIGHT = 540;
-const START_SCREEN = "menu";
+const START_SCREEN = "questions";
 
 let app = undefined;
+let projectCanvas = undefined;
 
 // p5 starts the project here
 function setup() {
-  createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  projectCanvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 
   app = new RobotShopApp();
   app.setup();
