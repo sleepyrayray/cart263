@@ -8,15 +8,15 @@
 class VoiceScreen extends Screen {
   constructor(app) {
     super(app);
-    this.voicePanelX = 100;
-    this.voicePanelY = 70;
-    this.voicePanelWidth = 760;
-    this.voicePanelHeight = 400;
+    this.voicePanelX = 92;
+    this.voicePanelY = 56;
+    this.voicePanelWidth = 776;
+    this.voicePanelHeight = 428;
     this.buttonWidth = 220;
     this.buttonHeight = 50;
     this.buttonSpacing = 18;
     this.visibleButtons = [];
-    this.voiceStatusMessage = "record a greeting for your robot";
+    this.voiceStatusMessage = "Record a greeting for your robot";
     this.statusMessageOverride = null;
     this.mediaRecorder = null;
     this.mediaStream = null;
@@ -52,11 +52,13 @@ class VoiceScreen extends Screen {
 
   // the title is shown here
   displayTitleText() {
-    fill(20);
+    push();
+    fill(this.getVoiceStyleValue("--voice-text", "#2b2d42"));
     noStroke();
-    textAlign(LEFT, TOP);
-    textSize(30);
-    text("give your robot a voice", this.voicePanelX + 30, this.voicePanelY + 30);
+    textAlign(CENTER, TOP);
+    textSize(this.getVoiceNumberValue("--voice-title-size", 30));
+    text("Give your robot a voice", this.voicePanelX + 72, this.voicePanelY + 94, this.voicePanelWidth - 144);
+    pop();
   }
 
   // mouse clicks check the current visible buttons here
@@ -81,14 +83,14 @@ class VoiceScreen extends Screen {
     this.visibleButtons = [];
 
     const audioStatus = this.app.projectData.audioStatus;
-    const buttonStartX = this.voicePanelX + 40;
-    const buttonY = this.voicePanelY + 320;
+    const tripleRowWidth = this.buttonWidth * 3 + this.buttonSpacing * 2;
+    const buttonY = this.voicePanelY + 338;
 
     if (audioStatus.hasRecording === false) {
       this.visibleButtons.push({
         buttonId: "record",
         label: this.getRecordButtonLabel(),
-        x: buttonStartX,
+        x: this.voicePanelX + (this.voicePanelWidth - this.buttonWidth) / 2,
         y: buttonY,
         width: this.buttonWidth,
         height: this.buttonHeight
@@ -100,7 +102,7 @@ class VoiceScreen extends Screen {
     this.visibleButtons.push({
       buttonId: "preview",
       label: "preview",
-      x: buttonStartX,
+      x: this.voicePanelX + (this.voicePanelWidth - tripleRowWidth) / 2,
       y: buttonY,
       width: this.buttonWidth,
       height: this.buttonHeight
@@ -109,7 +111,7 @@ class VoiceScreen extends Screen {
     this.visibleButtons.push({
       buttonId: "recordAgain",
       label: "record again",
-      x: buttonStartX + this.buttonWidth + this.buttonSpacing,
+      x: this.voicePanelX + (this.voicePanelWidth - tripleRowWidth) / 2 + this.buttonWidth + this.buttonSpacing,
       y: buttonY,
       width: this.buttonWidth,
       height: this.buttonHeight
@@ -118,7 +120,7 @@ class VoiceScreen extends Screen {
     this.visibleButtons.push({
       buttonId: "confirm",
       label: "confirm",
-      x: buttonStartX + (this.buttonWidth + this.buttonSpacing) * 2,
+      x: this.voicePanelX + (this.voicePanelWidth - tripleRowWidth) / 2 + (this.buttonWidth + this.buttonSpacing) * 2,
       y: buttonY,
       width: this.buttonWidth,
       height: this.buttonHeight
@@ -127,34 +129,48 @@ class VoiceScreen extends Screen {
 
   // the main voice panel is drawn here
   displayVoicePanel() {
+    const panelRadius = this.getVoiceNumberValue("--voice-panel-radius", 28);
+
+    push();
     rectMode(CORNER);
-    fill(255);
-    stroke(20);
-    strokeWeight(2);
-    rect(this.voicePanelX, this.voicePanelY, this.voicePanelWidth, this.voicePanelHeight);
+    noStroke();
+    fill(this.getVoiceStyleValue("--voice-panel-shadow", "rgba(255, 255, 255, 0.35)"));
+    rect(this.voicePanelX + 10, this.voicePanelY + 12, this.voicePanelWidth, this.voicePanelHeight, panelRadius);
+    fill(this.getVoiceStyleValue("--voice-panel", "#fff9f7"));
+    stroke(this.getVoiceStyleValue("--voice-text", "#2b2d42"));
+    strokeWeight(this.getVoiceNumberValue("--voice-stroke-weight", 2));
+    rect(this.voicePanelX, this.voicePanelY, this.voicePanelWidth, this.voicePanelHeight, panelRadius);
+    fill(this.getVoiceStyleValue("--voice-panel-accent", "#d6f4e6"));
+    noStroke();
+    rect(this.voicePanelX + 28, this.voicePanelY + 24, this.voicePanelWidth - 56, 18, 10);
+    pop();
   }
 
   // the current voice buttons are drawn here
   displayButtonRow() {
     this.visibleButtons.forEach((buttonData) => {
       const isHovered = this.isMouseInsideButton(buttonData);
+      const buttonRadius = this.getVoiceNumberValue("--voice-button-radius", 14);
+      const buttonColors = this.getButtonColors(buttonData.buttonId);
 
+      push();
       if (isHovered === true) {
-        fill(230);
+        fill(buttonColors.hoverColor);
       }
       else {
-        fill(245);
+        fill(buttonColors.fillColor);
       }
 
-      stroke(20);
-      strokeWeight(2);
-      rect(buttonData.x, buttonData.y, buttonData.width, buttonData.height);
+      stroke(this.getVoiceStyleValue("--voice-text", "#2b2d42"));
+      strokeWeight(this.getVoiceNumberValue("--voice-stroke-weight", 2));
+      rect(buttonData.x, buttonData.y, buttonData.width, buttonData.height, buttonRadius);
 
-      fill(20);
+      fill(this.getVoiceStyleValue("--voice-text", "#2b2d42"));
       noStroke();
       textAlign(CENTER, CENTER);
-      textSize(18);
+      textSize(this.getVoiceNumberValue("--voice-body-size", 18));
       text(buttonData.label, buttonData.x + buttonData.width / 2, buttonData.y + buttonData.height / 2);
+      pop();
     });
   }
 
@@ -164,35 +180,104 @@ class VoiceScreen extends Screen {
     const currentRecordingSeconds = this.getVisibleRecordingSeconds();
     const remainingSeconds = Math.max(0, Math.ceil(maxRecordingSeconds - currentRecordingSeconds));
     const timerRatio = currentRecordingSeconds / maxRecordingSeconds;
-    const timerBarX = this.voicePanelX + 30;
-    const timerBarY = this.voicePanelY + 170;
-    const timerBarWidth = this.voicePanelWidth - 60;
-    const timerBarHeight = 18;
+    const timerBarX = this.voicePanelX + 78;
+    const timerBarY = this.voicePanelY + 176;
+    const timerBarWidth = this.voicePanelWidth - 156;
+    const timerBarHeight = 20;
+    const timerFillHeight = 12;
+    const timerFillY = timerBarY + 30 + (timerBarHeight - timerFillHeight) / 2;
     const timerFillWidth = timerBarWidth * timerRatio;
 
-    fill(20);
+    push();
+    fill(this.getVoiceStyleValue("--voice-subtitle", "#6e7285"));
     noStroke();
-    textAlign(LEFT, TOP);
-    textSize(16);
-    text(`countdown: ${remainingSeconds} seconds`, timerBarX, timerBarY);
+    textAlign(CENTER, TOP);
+    textSize(this.getVoiceNumberValue("--voice-small-size", 16));
+    text(`Countdown: ${remainingSeconds} seconds`, timerBarX + timerBarWidth / 2, timerBarY);
 
-    fill(235);
-    stroke(20);
-    strokeWeight(2);
-    rect(timerBarX, timerBarY + 28, timerBarWidth, timerBarHeight);
+    fill(this.getVoiceStyleValue("--voice-timer-track", "#eef4ff"));
+    stroke(this.getVoiceStyleValue("--voice-text", "#2b2d42"));
+    strokeWeight(this.getVoiceNumberValue("--voice-stroke-weight", 2));
+    rect(timerBarX, timerBarY + 30, timerBarWidth, timerBarHeight, 10);
 
-    fill(20);
+    fill(this.getVoiceStyleValue("--voice-timer-fill", "#9ed8ff"));
     noStroke();
-    rect(timerBarX, timerBarY + 28, timerFillWidth, timerBarHeight);
+    rect(timerBarX + 4, timerFillY, Math.max(0, timerFillWidth - 8), timerFillHeight, 8);
+    pop();
   }
 
   // the current voice status text is shown here
   displayVoiceStatusText() {
-    fill(20);
+    push();
+    fill(this.getVoiceStyleValue("--voice-subtitle", "#6e7285"));
     noStroke();
-    textAlign(LEFT, TOP);
-    textSize(18);
-    text(this.voiceStatusMessage, this.voicePanelX + 30, this.voicePanelY + 280, this.voicePanelWidth - 60);
+    textAlign(CENTER, TOP);
+    textSize(this.getVoiceNumberValue("--voice-body-size", 18));
+    text(this.voiceStatusMessage, this.voicePanelX + 100, this.voicePanelY + 278, this.voicePanelWidth - 200);
+    pop();
+  }
+
+  // the voice screen uses a soft pastel background here
+  displayBackground() {
+    background(this.getVoiceStyleValue("--voice-background", "#fbf2ef"));
+    const leftGlowX = CANVAS_WIDTH * 0.18;
+    const leftGlowY = CANVAS_HEIGHT * 0.16;
+    const rightGlowX = CANVAS_WIDTH * 0.84;
+    const rightGlowY = CANVAS_HEIGHT * 0.78;
+    const leftGlowSize = Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) * 0.3;
+    const rightGlowSize = Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) * 0.36;
+
+    noStroke();
+    fill(this.getVoiceStyleValue("--voice-glow-blue", "rgba(211, 229, 255, 0.5)"));
+    ellipse(leftGlowX, leftGlowY, leftGlowSize, leftGlowSize);
+    fill(this.getVoiceStyleValue("--voice-glow-red", "rgba(248, 214, 221, 0.6)"));
+    ellipse(rightGlowX, rightGlowY, rightGlowSize, rightGlowSize);
+  }
+
+  // one button color set is chosen here
+  getButtonColors(buttonId) {
+    if (buttonId === "preview") {
+      return {
+        fillColor: this.getVoiceStyleValue("--voice-button-secondary", "#e3f1ff"),
+        hoverColor: this.getVoiceStyleValue("--voice-button-secondary-hover", "#d3e7fb")
+      };
+    }
+
+    if (buttonId === "recordAgain") {
+      return {
+        fillColor: this.getVoiceStyleValue("--voice-button-danger", "#ffe2dd"),
+        hoverColor: this.getVoiceStyleValue("--voice-button-danger-hover", "#ffd4cd")
+      };
+    }
+
+    return {
+      fillColor: this.getVoiceStyleValue("--voice-button-primary", "#d6f4e6"),
+      hoverColor: this.getVoiceStyleValue("--voice-button-primary-hover", "#c3e8d6")
+    };
+  }
+
+  // one css style value is read here for the voice screen
+  getVoiceStyleValue(variableName, fallbackValue) {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const styleValue = rootStyles.getPropertyValue(variableName).trim();
+
+    if (styleValue === "") {
+      return fallbackValue;
+    }
+
+    return styleValue;
+  }
+
+  // one numeric css style value is read here for the voice screen
+  getVoiceNumberValue(variableName, fallbackValue) {
+    const styleValue = this.getVoiceStyleValue(variableName, `${fallbackValue}`);
+    const parsedValue = Number(styleValue);
+
+    if (Number.isNaN(parsedValue) === true) {
+      return fallbackValue;
+    }
+
+    return parsedValue;
   }
 
   // the current status text is worked out here from the shared app state
@@ -205,26 +290,26 @@ class VoiceScreen extends Screen {
     }
 
     if (this.isRecording === true) {
-      this.voiceStatusMessage = "recording now and it will stop automatically after 5 seconds";
+      this.voiceStatusMessage = "Recording now and it will stop automatically after 5 seconds";
       return;
     }
 
     if (audioStatus.isProcessing === true) {
-      this.voiceStatusMessage = "your robot voice is processing right now";
+      this.voiceStatusMessage = "Your robot voice is processing right now";
       return;
     }
 
     if (audioStatus.isConfirmed === true) {
-      this.voiceStatusMessage = "your robot voice is ready for the reveal";
+      this.voiceStatusMessage = "Your robot voice is ready for the reveal";
       return;
     }
 
     if (audioStatus.hasRecording === true) {
-      this.voiceStatusMessage = "preview your audio or record again before you confirm it";
+      this.voiceStatusMessage = "Preview your audio or record again before you confirm it";
       return;
     }
 
-    this.voiceStatusMessage = "record a greeting for your robot";
+    this.voiceStatusMessage = "Record a greeting for your robot";
   }
 
   // the record button label changes here while recording is active
@@ -295,7 +380,7 @@ class VoiceScreen extends Screen {
   // recording begins here after the microphone is allowed
   async handleRecordButton() {
     if (this.isRecording === true) {
-      this.statusMessageOverride = "stopping your recording now";
+      this.statusMessageOverride = "Stopping your recording now";
       this.stopRecording();
       return;
     }
@@ -315,7 +400,7 @@ class VoiceScreen extends Screen {
     }
     catch (error) {
       this.stopRecordingState();
-      this.statusMessageOverride = "microphone access did not work";
+      this.statusMessageOverride = "Microphone access did not work";
       console.error(error);
     }
   }
@@ -333,7 +418,7 @@ class VoiceScreen extends Screen {
     }
 
     this.stopPreviewAudio();
-    this.statusMessageOverride = "playing your recorded voice now";
+    this.statusMessageOverride = "Playing your recorded voice now";
     this.previewAudioElement = new Audio(rawAudioData.url);
     this.previewAudioElement.onended = () => {
       this.previewAudioElement = null;
@@ -345,7 +430,7 @@ class VoiceScreen extends Screen {
     }
     catch (error) {
       this.previewAudioElement = null;
-      this.statusMessageOverride = "preview playback could not start";
+      this.statusMessageOverride = "Preview playback could not start";
       console.error(error);
     }
   }

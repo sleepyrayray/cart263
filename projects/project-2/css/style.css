@@ -51,6 +51,28 @@
   --question-title-size: 30;
   --question-body-size: 18;
   --question-progress-size: 16;
+  --voice-background: #fbf2ef;
+  --voice-glow-red: rgba(248, 214, 221, 0.6);
+  --voice-glow-blue: rgba(211, 229, 255, 0.5);
+  --voice-panel: #fff9f7;
+  --voice-panel-shadow: rgba(255, 255, 255, 0.35);
+  --voice-panel-accent: #d6f4e6;
+  --voice-text: #2b2d42;
+  --voice-subtitle: #6e7285;
+  --voice-button-primary: #d6f4e6;
+  --voice-button-primary-hover: #c3e8d6;
+  --voice-button-secondary: #e3f1ff;
+  --voice-button-secondary-hover: #d3e7fb;
+  --voice-button-danger: #ffe2dd;
+  --voice-button-danger-hover: #ffd4cd;
+  --voice-timer-track: #eef4ff;
+  --voice-timer-fill: #9ed8ff;
+  --voice-panel-radius: 28;
+  --voice-button-radius: 14;
+  --voice-stroke-weight: 2;
+  --voice-title-size: 30;
+  --voice-body-size: 18;
+  --voice-small-size: 16;
 }
 
 html,
