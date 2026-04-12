@@ -27,6 +27,9 @@
   --menu-guide-title-size: 34;
   --menu-body-size: 18;
   --menu-small-size: 15;
+  --menu-card-height: 352;
+  --menu-guide-button-bottom-gap: 36;
+  --menu-consent-size: 14;
   --question-background: #fbf2ef;
   --question-glow-red: rgba(248, 214, 221, 0.6);
   --question-glow-blue: rgba(211, 229, 255, 0.5);
@@ -83,7 +86,8 @@
   --reveal-stroke-weight: 2;
   --reveal-description-size: 24;
   --reveal-body-size: 20;
-  --reveal-message-size: 20;
+  --reveal-message-size: 18;
+  --reveal-message-leading: 24;
   --reveal-hint-size: 20;
 }
 

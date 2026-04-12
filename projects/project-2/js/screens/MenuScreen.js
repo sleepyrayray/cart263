@@ -32,10 +32,10 @@ class MenuScreen extends Screen {
       variant: "mint"
     };
     this.bulletItems = [
-      "You will answer a few quick questions so we can match you with a robot",
-      "You will choose a robot color before the final reveal",
-      "You will record up to 5 seconds of your voice for your robot",
-      "You will open the package and meet the robot that fits you best"
+      "Answer a few quick questions so we can match you with a robot",
+      "Choose a robot color before the final reveal",
+      "Record up to 5 seconds of your voice for your robot",
+      "Open the package and meet the robot that fits you best"
     ];
 
     // the menu starts with consent unchecked
@@ -196,14 +196,14 @@ class MenuScreen extends Screen {
     const consentCardY = this.guidePanel.y + this.guidePanel.height - consentCardHeight - 28;
     const helperTextX = consentCardX + 18;
     const helperTextY = consentCardY + 10;
-    const consentTextX = this.checkbox.x + this.checkbox.size + 14;
-    const consentTextY = consentCardY + 32;
     const checkboxRadius = this.getMenuNumberValue("--menu-checkbox-radius", 6);
-    const bodySize = this.getMenuNumberValue("--menu-body-size", 18);
     const smallSize = this.getMenuNumberValue("--menu-small-size", 15);
+    const consentTextSize = this.getMenuNumberValue("--menu-consent-size", 14);
 
     this.checkbox.x = consentCardX + 18;
     this.checkbox.y = consentCardY + 42;
+    const consentTextX = this.checkbox.x + this.checkbox.size + 14;
+    const consentTextY = this.checkbox.y + this.checkbox.size / 2;
 
     push();
     fill(this.getMenuStyleValue("--menu-consent-card", "#eef4ff"));
@@ -224,8 +224,9 @@ class MenuScreen extends Screen {
     textSize(smallSize - 1);
     text("Please agree to start", helperTextX, helperTextY);
     fill(this.getMenuStyleValue("--menu-text", "#2b2d42"));
-    textSize(bodySize - 1);
-    text("I agree to let RoboShop record and sample my voice for my robot", consentTextX, consentTextY, consentCardWidth - 82, 40);
+    textSize(consentTextSize);
+    textAlign(LEFT, CENTER);
+    text("I agree to let RoboShop record and sample my voice for my robot", consentTextX, consentTextY);
 
     pop();
   }
@@ -389,9 +390,10 @@ class MenuScreen extends Screen {
     const layoutScale = this.getMenuNumberValue("--menu-layout-scale", 1);
     const popupScale = this.getMenuNumberValue("--menu-popup-scale", 1);
     const scaledCardWidth = 640 * layoutScale;
-    const scaledCardHeight = 324 * layoutScale;
+    const scaledCardHeight = this.getMenuNumberValue("--menu-card-height", 352) * layoutScale;
     const scaledGuideButtonWidth = 196 * layoutScale;
     const scaledGuideButtonHeight = 54 * layoutScale;
+    const scaledGuideButtonBottomGap = this.getMenuNumberValue("--menu-guide-button-bottom-gap", 36) * layoutScale;
     const scaledGuidePanelWidth = 760 * popupScale;
     const scaledGuidePanelHeight = 436 * popupScale;
     const scaledStartButtonWidth = 128 * layoutScale;
@@ -405,7 +407,7 @@ class MenuScreen extends Screen {
     this.mainCard.height = scaledCardHeight;
 
     this.guideButton.x = (CANVAS_WIDTH - scaledGuideButtonWidth) / 2;
-    this.guideButton.y = this.mainCard.y + this.mainCard.height - scaledGuideButtonHeight - 12;
+    this.guideButton.y = this.mainCard.y + this.mainCard.height - scaledGuideButtonHeight - scaledGuideButtonBottomGap;
     this.guideButton.width = scaledGuideButtonWidth;
     this.guideButton.height = scaledGuideButtonHeight;
 

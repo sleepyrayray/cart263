@@ -38,8 +38,8 @@ class RevealScreen extends Screen {
     this.descriptionFadeStartTime = 0;
     this.descriptionFadeDuration = 700;
     this.hasPurchasedRobot = false;
-    this.purchaseButtonX = 595;
-    this.purchaseButtonY = 350;
+    this.purchaseButtonX = 520;
+    this.purchaseButtonY = 330;
     this.purchaseButtonWidth = 170;
     this.purchaseButtonHeight = 52;
     this.thankYouStartTime = 0;
@@ -47,8 +47,8 @@ class RevealScreen extends Screen {
     this.thankYouFadeStartTime = 0;
     this.thankYouFadeDuration = 600;
     this.showBackToMenuButton = false;
-    this.backButtonX = 585;
-    this.backButtonY = 350;
+    this.backButtonX = 520;
+    this.backButtonY = 330;
     this.backButtonWidth = 190;
     this.backButtonHeight = 52;
   }
@@ -418,6 +418,9 @@ class RevealScreen extends Screen {
   // the thank you message fades out here before the reset button appears
   displayThankYouMessage(descriptionOpacity) {
     const thankYouOpacity = this.getThankYouOpacity(descriptionOpacity);
+    const thankYouMessage = "Thank you";
+    const thankYouTextX = 520;
+    const thankYouTextY = this.purchaseButtonY + this.purchaseButtonHeight / 2;
 
     if (thankYouOpacity <= 0) {
       return;
@@ -425,9 +428,9 @@ class RevealScreen extends Screen {
 
     fill(43, 45, 66, thankYouOpacity);
     noStroke();
-    textAlign(CENTER, CENTER);
-    textSize(this.getRevealNumberValue("--reveal-message-size", 28));
-    text("Thank you and enjoy your new robot!", this.purchaseButtonX + this.purchaseButtonWidth / 2, this.purchaseButtonY + this.purchaseButtonHeight / 2);
+    textAlign(LEFT, CENTER);
+    textSize(this.getRevealNumberValue("--reveal-message-size", 18));
+    text(thankYouMessage, thankYouTextX, thankYouTextY);
   }
 
   // the back to menu button appears after the thank you text fades out
