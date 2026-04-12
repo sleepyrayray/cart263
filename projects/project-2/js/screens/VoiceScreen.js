@@ -151,14 +151,14 @@ class VoiceScreen extends Screen {
     this.visibleButtons.forEach((buttonData) => {
       const isHovered = this.isMouseInsideButton(buttonData);
       const buttonRadius = this.getVoiceNumberValue("--voice-button-radius", 14);
-      const buttonColors = this.getButtonColors(buttonData.buttonId);
+      const buttonColours = this.getButtonColours(buttonData.buttonId);
 
       push();
       if (isHovered === true) {
-        fill(buttonColors.hoverColor);
+        fill(buttonColours.hoverColour);
       }
       else {
-        fill(buttonColors.fillColor);
+        fill(buttonColours.fillColour);
       }
 
       stroke(this.getVoiceStyleValue("--voice-text", "#2b2d42"));
@@ -234,25 +234,25 @@ class VoiceScreen extends Screen {
     ellipse(rightGlowX, rightGlowY, rightGlowSize, rightGlowSize);
   }
 
-  // one button color set is chosen here
-  getButtonColors(buttonId) {
+  // one button colour set is chosen here
+  getButtonColours(buttonId) {
     if (buttonId === "preview") {
       return {
-        fillColor: this.getVoiceStyleValue("--voice-button-secondary", "#e3f1ff"),
-        hoverColor: this.getVoiceStyleValue("--voice-button-secondary-hover", "#d3e7fb")
+        fillColour: this.getVoiceStyleValue("--voice-button-secondary", "#e3f1ff"),
+        hoverColour: this.getVoiceStyleValue("--voice-button-secondary-hover", "#d3e7fb")
       };
     }
 
     if (buttonId === "recordAgain") {
       return {
-        fillColor: this.getVoiceStyleValue("--voice-button-danger", "#ffe2dd"),
-        hoverColor: this.getVoiceStyleValue("--voice-button-danger-hover", "#ffd4cd")
+        fillColour: this.getVoiceStyleValue("--voice-button-danger", "#ffe2dd"),
+        hoverColour: this.getVoiceStyleValue("--voice-button-danger-hover", "#ffd4cd")
       };
     }
 
     return {
-      fillColor: this.getVoiceStyleValue("--voice-button-primary", "#d6f4e6"),
-      hoverColor: this.getVoiceStyleValue("--voice-button-primary-hover", "#c3e8d6")
+      fillColour: this.getVoiceStyleValue("--voice-button-primary", "#d6f4e6"),
+      hoverColour: this.getVoiceStyleValue("--voice-button-primary-hover", "#c3e8d6")
     };
   }
 

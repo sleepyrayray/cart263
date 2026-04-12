@@ -33,7 +33,7 @@ class MenuScreen extends Screen {
     };
     this.bulletItems = [
       "Answer a few quick questions so we can match you with a robot",
-      "Choose a robot color before the final reveal",
+      "Choose a robot colour before the final reveal",
       "Record up to 5 seconds of your voice for your robot",
       "Open the package and meet the robot that fits you best"
     ];
@@ -69,7 +69,7 @@ class MenuScreen extends Screen {
     ellipse(rightGlowX, rightGlowY, rightGlowSize, rightGlowSize);
   }
 
-  // the main centered menu card is drawn here
+  // the main centred menu card is drawn here
   displayMainCard() {
     const cardRadius = this.getMenuNumberValue("--menu-panel-radius", 28);
 
@@ -87,7 +87,7 @@ class MenuScreen extends Screen {
     pop();
   }
 
-  // the title and subtitle sit in the center here
+  // the title and subtitle sit in the centre here
   displayTitle() {
     const titleX = CANVAS_WIDTH / 2;
     const titleY = this.mainCard.y + 118;
@@ -248,15 +248,15 @@ class MenuScreen extends Screen {
   // the shared button style is drawn here
   displayButton(buttonData, isEnabled) {
     const isHovered = this.isMouseInsideButton(buttonData);
-    let fillColor = this.getMenuStyleValue("--menu-button-blue", "#d3e5ff");
-    let hoverColor = this.getMenuStyleValue("--menu-button-blue-hover", "#c2dbff");
+    let fillColour = this.getMenuStyleValue("--menu-button-blue", "#d3e5ff");
+    let hoverColour = this.getMenuStyleValue("--menu-button-blue-hover", "#c2dbff");
     const buttonRadius = this.getMenuNumberValue("--menu-button-radius", 14);
     const titleFontName = this.getMenuStyleValue("--menu-title-font", "Trebuchet MS").replaceAll("\"", "");
     const bodySize = this.getMenuNumberValue("--menu-body-size", 18);
 
     if (buttonData.variant === "mint") {
-      fillColor = this.getMenuStyleValue("--menu-button-green", "#d6f4e6");
-      hoverColor = this.getMenuStyleValue("--menu-button-green-hover", "#c3e8d6");
+      fillColour = this.getMenuStyleValue("--menu-button-green", "#d6f4e6");
+      hoverColour = this.getMenuStyleValue("--menu-button-green-hover", "#c3e8d6");
     }
 
     push();
@@ -268,10 +268,10 @@ class MenuScreen extends Screen {
       fill(222);
     }
     else if (isHovered === true) {
-      fill(hoverColor);
+      fill(hoverColour);
     }
     else {
-      fill(fillColor);
+      fill(fillColour);
     }
 
     rect(buttonData.x, buttonData.y, buttonData.width, buttonData.height, buttonRadius);

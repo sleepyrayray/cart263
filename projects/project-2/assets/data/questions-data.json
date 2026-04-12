@@ -67,7 +67,7 @@
       ]
     },
     {
-      "id": "question-3-behavior-style",
+      "id": "question-3-behaviour-style",
       "text": "How should your robot act most of the time?",
       "points": 2,
       "scored": true,
@@ -79,7 +79,7 @@
         },
         {
           "id": "q3-domestic",
-          "text": "calm and organized",
+          "text": "calm and organised",
           "robotTypeId": "domestic"
         },
         {
@@ -166,35 +166,35 @@
       ]
     }
   ],
-  "colorQuestion": {
-    "id": "color-choice",
-    "text": "What color do you want your robot to be?",
+  "colourQuestion": {
+    "id": "colour-choice",
+    "text": "What colour do you want your robot to be?",
     "scored": false,
     "options": [
       {
-        "id": "color-white",
+        "id": "colour-white",
         "text": "white",
-        "colorId": "white"
+        "colourId": "white"
       },
       {
-        "id": "color-red",
+        "id": "colour-red",
         "text": "red",
-        "colorId": "red"
+        "colourId": "red"
       },
       {
-        "id": "color-green",
+        "id": "colour-green",
         "text": "green",
-        "colorId": "green"
+        "colourId": "green"
       },
       {
-        "id": "color-blue",
+        "id": "colour-blue",
         "text": "blue",
-        "colorId": "blue"
+        "colourId": "blue"
       },
       {
-        "id": "color-black",
+        "id": "colour-black",
         "text": "black",
-        "colorId": "black"
+        "colourId": "black"
       }
     ]
   }

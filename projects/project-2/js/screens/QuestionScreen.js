@@ -105,7 +105,7 @@ class QuestionScreen extends Screen {
     }
 
     if (currentQuestionIndex === scoredQuestions.length) {
-      return this.app.getColorQuestion();
+      return this.app.getColourQuestion();
     }
 
     return null;
@@ -288,12 +288,12 @@ class QuestionScreen extends Screen {
     const isHovered = this.isMouseInsideButton(buttonData);
     const isBackButton = buttonData.buttonId === "back";
     const buttonRadius = this.getQuestionNumberValue("--question-nav-radius", 14);
-    let fillColor = this.getQuestionStyleValue("--question-next-fill", "#d6f4e6");
-    let hoverColor = this.getQuestionStyleValue("--question-next-hover", "#c3e8d6");
+    let fillColour = this.getQuestionStyleValue("--question-next-fill", "#d6f4e6");
+    let hoverColour = this.getQuestionStyleValue("--question-next-hover", "#c3e8d6");
 
     if (isBackButton === true) {
-      fillColor = this.getQuestionStyleValue("--question-back-fill", "#ffe2dd");
-      hoverColor = this.getQuestionStyleValue("--question-back-hover", "#ffd4cd");
+      fillColour = this.getQuestionStyleValue("--question-back-fill", "#ffe2dd");
+      hoverColour = this.getQuestionStyleValue("--question-back-hover", "#ffd4cd");
     }
 
     push();
@@ -305,10 +305,10 @@ class QuestionScreen extends Screen {
       fill(228);
     }
     else if (isHovered === true) {
-      fill(hoverColor);
+      fill(hoverColour);
     }
     else {
-      fill(fillColor);
+      fill(fillColour);
     }
 
     rect(buttonData.x, buttonData.y, buttonData.width, buttonData.height, buttonRadius);
@@ -415,7 +415,7 @@ class QuestionScreen extends Screen {
       return;
     }
 
-    this.app.saveColor(optionData.colorId);
+    this.app.saveColour(optionData.colourId);
   }
 
   // one selected option can be checked here
@@ -428,7 +428,7 @@ class QuestionScreen extends Screen {
       return this.app.projectData.selectedAnswers[this.currentQuestionData.id] === optionData.id;
     }
 
-    return this.app.projectData.selectedColor === optionData.colorId;
+    return this.app.projectData.selectedColour === optionData.colourId;
   }
 
   // the screen can move back when there is a previous step
@@ -446,7 +446,7 @@ class QuestionScreen extends Screen {
       return this.app.projectData.selectedAnswers[this.currentQuestionData.id] !== undefined;
     }
 
-    return this.app.projectData.selectedColor !== null;
+    return this.app.projectData.selectedColour !== null;
   }
 
   // the back and next flow is handled here
@@ -487,7 +487,7 @@ class QuestionScreen extends Screen {
       return;
     }
 
-    this.handleNextColorStep();
+    this.handleNextColourStep();
   }
 
   // one scored question can move forward here
@@ -504,9 +504,8 @@ class QuestionScreen extends Screen {
     this.refreshQuestionState();
   }
 
-  // the color step moves into the voice screen here
-  handleNextColorStep() {
-
+  // the colour step moves into the voice screen here
+  handleNextColourStep() {
     if (this.app.projectData.selectedRobotType === null) {
       this.app.calculateFinalRobotType();
     }

@@ -1,5 +1,5 @@
 /*
- * RoboShop app class file
+ * roboshop app class file
  * ray can manage the shared app flow here
  */
 
@@ -24,7 +24,7 @@ class RobotShopApp {
       selectedAnswers: {},
       robotScores: this.createEmptyRobotScores(),
       selectedRobotType: null,
-      selectedColor: null,
+      selectedColour: null,
       rawAudio: null,
       filteredAudio: null,
       audioStatus: {
@@ -171,21 +171,21 @@ class RobotShopApp {
     return this.questionsData.scoredQuestions;
   }
 
-  // the color question can be read here from the loaded data
-  getColorQuestion() {
+  // the colour question can be read here from the loaded data
+  getColourQuestion() {
     if (this.questionsData === null) {
       return null;
     }
 
-    return this.questionsData.colorQuestion;
+    return this.questionsData.colourQuestion;
   }
 
   // the full question count can be read here for progress text
   getTotalQuestionCount() {
     const scoredQuestionCount = this.getScoredQuestions().length;
-    const colorQuestion = this.getColorQuestion();
+    const colourQuestion = this.getColourQuestion();
 
-    if (colorQuestion === null) {
+    if (colourQuestion === null) {
       return scoredQuestionCount;
     }
 
@@ -256,7 +256,7 @@ class RobotShopApp {
     this.projectData.selectedAnswers = {};
     this.projectData.robotScores = this.createEmptyRobotScores();
     this.projectData.selectedRobotType = null;
-    this.projectData.selectedColor = null;
+    this.projectData.selectedColour = null;
   }
 
   // scored questions can be sorted here for the tie break rule
@@ -351,27 +351,27 @@ class RobotShopApp {
     return tiedRobotTypes[0];
   }
 
-  // the chosen color can be saved here
-  saveColor(colorId) {
-    const availableColors = this.getAvailableColors();
-    const selectedColorData = availableColors.find((colorData) => {
-      return colorData.id === colorId;
+  // the chosen colour can be saved here
+  saveColour(colourId) {
+    const availableColours = this.getAvailableColours();
+    const selectedColourData = availableColours.find((colourData) => {
+      return colourData.id === colourId;
     });
 
-    if (selectedColorData === undefined) {
+    if (selectedColourData === undefined) {
       return;
     }
 
-    this.projectData.selectedColor = colorId;
+    this.projectData.selectedColour = colourId;
   }
 
-  // available colors can be read here from the robot data
-  getAvailableColors() {
+  // available colours can be read here from the robot data
+  getAvailableColours() {
     if (this.robotsData === null) {
       return [];
     }
 
-    return this.robotsData.colors;
+    return this.robotsData.colours;
   }
 
   // one robot type can be found here by its id
@@ -394,9 +394,9 @@ class RobotShopApp {
   // the selected robot image path can be worked out here
   getSelectedRobotImagePath() {
     const selectedRobotType = this.projectData.selectedRobotType;
-    const selectedColor = this.projectData.selectedColor;
+    const selectedColour = this.projectData.selectedColour;
 
-    if (selectedRobotType === null || selectedColor === null) {
+    if (selectedRobotType === null || selectedColour === null) {
       return null;
     }
 
@@ -406,7 +406,7 @@ class RobotShopApp {
       return null;
     }
 
-    const selectedImagePath = selectedRobotData.imagePaths[selectedColor];
+    const selectedImagePath = selectedRobotData.imagePaths[selectedColour];
 
     if (typeof selectedImagePath !== "string" || selectedImagePath.length === 0) {
       return null;

@@ -53,7 +53,7 @@ This is the current handoff plan:
 Useful shared data for reveal:
 
 - `this.app.projectData.selectedRobotType`
-- `this.app.projectData.selectedColor`
+- `this.app.projectData.selectedColour`
 - `this.app.projectData.filteredAudio`
 - `this.app.projectData.audioStatus.isConfirmed`
 - `this.app.getSelectedRobotImagePath()`
@@ -122,7 +122,7 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 - add the purchase button and thank you flow
 - reset the experience back to the menu after the final interaction
 - use `this.app.projectData.selectedRobotType` for the final robot type
-- use `this.app.projectData.selectedColor` for the chosen robot color
+- use `this.app.projectData.selectedColour` for the chosen robot colour
 - use `this.app.projectData.filteredAudio` for the final robot sound
 - only play the reveal audio after `this.app.projectData.audioStatus.isConfirmed` is true
 - use `this.app.getSelectedRobotImagePath()` to get the correct final robot image path

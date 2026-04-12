@@ -162,7 +162,7 @@ class RevealScreen extends Screen {
     const packageGeometry = new THREE.BoxGeometry(2.4, 2.4, 2.4);
     const packageMaterial = new THREE.MeshStandardMaterial({
       color: 0xffffff,
-      map: this.packageTextureMaps.baseColorTexture,
+      map: this.packageTextureMaps.baseColourTexture,
       normalMap: this.packageTextureMaps.normalTexture,
       roughnessMap: this.packageTextureMaps.roughnessTexture,
       roughness: 0.45,
@@ -186,14 +186,14 @@ class RevealScreen extends Screen {
   // the package texture maps are loaded here for the reveal box
   loadPackageTextureMaps() {
     const textureLoader = new THREE.TextureLoader();
-    const baseColorTexture = textureLoader.load("assets/textures/package/package-box-color.jpg");
-    const normalTexture = textureLoader.load("assets/textures/package/package-box-normal..png");
-    const roughnessTexture = textureLoader.load("assets/textures/package/package-box-roughness..jpg");
+    const baseColourTexture = textureLoader.load("assets/textures/package/package-box-colour.jpg");
+    const normalTexture = textureLoader.load("assets/textures/package/package-box-normal.png");
+    const roughnessTexture = textureLoader.load("assets/textures/package/package-box-roughness.jpg");
 
-    baseColorTexture.colorSpace = THREE.SRGBColorSpace;
+    baseColourTexture.colorSpace = THREE.SRGBColorSpace;
 
     return {
-      baseColorTexture: baseColorTexture,
+      baseColourTexture: baseColourTexture,
       normalTexture: normalTexture,
       roughnessTexture: roughnessTexture
     };
@@ -401,11 +401,11 @@ class RevealScreen extends Screen {
 
     const isHovered = this.isMouseInsidePurchaseButton();
     const buttonRadius = this.getRevealNumberValue("--reveal-button-radius", 14);
-    const fillColor = isHovered === true
+    const fillColour = isHovered === true
       ? this.getRevealStyleValue("--reveal-button-hover", "#c3e8d6")
       : this.getRevealStyleValue("--reveal-button-fill", "#d6f4e6");
 
-    fill(...this.getRevealColorWithOpacity(fillColor, descriptionOpacity));
+    fill(...this.getRevealColourWithOpacity(fillColour, descriptionOpacity));
     stroke(43, 45, 66, descriptionOpacity);
     strokeWeight(this.getRevealNumberValue("--reveal-stroke-weight", 2));
     rect(this.purchaseButtonX, this.purchaseButtonY, this.purchaseButtonWidth, this.purchaseButtonHeight, buttonRadius);
@@ -443,11 +443,11 @@ class RevealScreen extends Screen {
 
     const isHovered = this.isMouseInsideBackButton();
     const buttonRadius = this.getRevealNumberValue("--reveal-button-radius", 14);
-    const fillColor = isHovered === true
+    const fillColour = isHovered === true
       ? this.getRevealStyleValue("--reveal-button-secondary-hover", "#d3e7fb")
       : this.getRevealStyleValue("--reveal-button-secondary-fill", "#e3f1ff");
 
-    fill(...this.getRevealColorWithOpacity(fillColor, descriptionOpacity));
+    fill(...this.getRevealColourWithOpacity(fillColour, descriptionOpacity));
     stroke(43, 45, 66, descriptionOpacity);
     strokeWeight(this.getRevealNumberValue("--reveal-stroke-weight", 2));
     rect(this.backButtonX, this.backButtonY, this.backButtonWidth, this.backButtonHeight, buttonRadius);
@@ -632,17 +632,17 @@ class RevealScreen extends Screen {
     return parsedValue;
   }
 
-  // one hex color is turned into rgba values here
-  getRevealColorWithOpacity(colorValue, opacityValue) {
-    const hexColor = colorValue.replace("#", "");
+  // one hex colour is turned into rgba values here
+  getRevealColourWithOpacity(colourValue, opacityValue) {
+    const hexColour = colourValue.replace("#", "");
 
-    if (hexColor.length !== 6) {
+    if (hexColour.length !== 6) {
       return [245, 245, 245, opacityValue];
     }
 
-    const redValue = parseInt(hexColor.slice(0, 2), 16);
-    const greenValue = parseInt(hexColor.slice(2, 4), 16);
-    const blueValue = parseInt(hexColor.slice(4, 6), 16);
+    const redValue = parseInt(hexColour.slice(0, 2), 16);
+    const greenValue = parseInt(hexColour.slice(2, 4), 16);
+    const blueValue = parseInt(hexColour.slice(4, 6), 16);
 
     return [redValue, greenValue, blueValue, opacityValue];
   }
@@ -794,7 +794,7 @@ class RevealScreen extends Screen {
     }
 
     if (this.packageTextureMaps !== null) {
-      this.packageTextureMaps.baseColorTexture.dispose();
+      this.packageTextureMaps.baseColourTexture.dispose();
       this.packageTextureMaps.normalTexture.dispose();
       this.packageTextureMaps.roughnessTexture.dispose();
     }
