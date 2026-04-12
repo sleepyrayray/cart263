@@ -1,8 +1,8 @@
-# Project 2: Robot Shop
+# Project 2: RoboShop
 
 ## Project Overview
 
-**Robot Shop** is an interactive web project where the user answers questions to find their ideal robot, records a short voice sample, and reveals their final robot from a package.
+**RoboShop** is an interactive web project where the user answers questions to find their ideal robot, records a short voice sample, and reveals their final robot from a package.
 
 The experience should feel:
 
@@ -29,7 +29,7 @@ The project is about:
 
 ## Project Link
 
-- GitHub Pages project link: [Robot Shop project page](https://sleepyrayray.github.io/cart263/projects/project-2/)
+- GitHub Pages project link: [RoboShop project page](https://sleepyrayray.github.io/cart263/projects/project-2/)
 
 ## Updated Project 2 Deliverables
 

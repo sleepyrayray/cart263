@@ -1,4 +1,4 @@
-# Robot Shop
+# RoboShop
 
 Ray Hernaez (40268579), Yann Kruplewicz (40339621), Zhuoheng Yang (40311134)
 
