@@ -12,13 +12,29 @@ class QuestionScreen extends Screen {
     this.currentQuestionId = null;
     this.optionButtons = [];
     this.visibleOptions = [];
-    this.questionCardX = 100;
-    this.questionCardY = 70;
-    this.questionCardWidth = 760;
-    this.questionCardHeight = 400;
-    this.optionButtonWidth = 680;
-    this.optionButtonHeight = 48;
-    this.optionButtonSpacing = 14;
+    this.questionCardX = 92;
+    this.questionCardY = 56;
+    this.questionCardWidth = 776;
+    this.questionCardHeight = 428;
+    this.optionButtonWidth = 224;
+    this.optionButtonHeight = 74;
+    this.optionButtonSpacing = 16;
+    this.backButton = {
+      buttonId: "back",
+      label: "back",
+      x: this.questionCardX + 28,
+      y: this.questionCardY + this.questionCardHeight - 64,
+      width: 118,
+      height: 42
+    };
+    this.nextButton = {
+      buttonId: "next",
+      label: "next",
+      x: this.questionCardX + this.questionCardWidth - 146,
+      y: this.questionCardY + this.questionCardHeight - 64,
+      width: 118,
+      height: 42
+    };
   }
 
   // question data refreshes here when the screen opens
@@ -43,13 +59,20 @@ class QuestionScreen extends Screen {
     }
 
     this.displayQuestionPanel();
-    this.displayProgressText();
     this.displayQuestionText();
     this.displayOptionButtons();
+    this.displayNavigationButtons();
   }
 
   // mouse clicks check the current option buttons here
   mousePressed() {
+    const clickedNavigationButton = this.findClickedNavigationButton();
+
+    if (clickedNavigationButton !== null) {
+      this.handleNavigationButton(clickedNavigationButton);
+      return;
+    }
+
     const clickedButton = this.findClickedButton();
 
     if (clickedButton === null) {
@@ -101,14 +124,32 @@ class QuestionScreen extends Screen {
       return;
     }
 
-    const buttonStartX = this.questionCardX + 40;
-    const buttonStartY = this.questionCardY + 130;
+    const topRowCount = 3;
+    const topRowWidth = topRowCount * this.optionButtonWidth + (topRowCount - 1) * this.optionButtonSpacing;
+    const topRowX = this.questionCardX + (this.questionCardWidth - topRowWidth) / 2;
+    const topRowY = this.questionCardY + 186;
+    const bottomRowCount = 2;
+    const bottomRowWidth = bottomRowCount * this.optionButtonWidth + (bottomRowCount - 1) * this.optionButtonSpacing;
+    const bottomRowX = this.questionCardX + (this.questionCardWidth - bottomRowWidth) / 2;
+    const bottomRowY = topRowY + this.optionButtonHeight + this.optionButtonSpacing;
+
+    this.backButton.x = this.questionCardX + 30;
+    this.backButton.y = this.questionCardY + this.questionCardHeight - this.backButton.height - 28;
+    this.nextButton.x = this.questionCardX + this.questionCardWidth - this.nextButton.width - 30;
+    this.nextButton.y = this.questionCardY + this.questionCardHeight - this.nextButton.height - 28;
 
     this.visibleOptions.forEach((optionData, optionIndex) => {
-      const buttonY = buttonStartY + optionIndex * (this.optionButtonHeight + this.optionButtonSpacing);
+      let buttonX = topRowX + optionIndex * (this.optionButtonWidth + this.optionButtonSpacing);
+      let buttonY = topRowY;
+
+      if (optionIndex >= topRowCount) {
+        const bottomRowIndex = optionIndex - topRowCount;
+        buttonX = bottomRowX + bottomRowIndex * (this.optionButtonWidth + this.optionButtonSpacing);
+        buttonY = bottomRowY;
+      }
 
       this.optionButtons.push({
-        x: buttonStartX,
+        x: buttonX,
         y: buttonY,
         width: this.optionButtonWidth,
         height: this.optionButtonHeight,
@@ -147,57 +188,175 @@ class QuestionScreen extends Screen {
 
   // a simple panel behind the question content is drawn here
   displayQuestionPanel() {
+    const panelRadius = this.getQuestionNumberValue("--question-panel-radius", 28);
+
+    push();
     rectMode(CORNER);
-    fill(255);
-    stroke(20);
-    strokeWeight(2);
-    rect(this.questionCardX, this.questionCardY, this.questionCardWidth, this.questionCardHeight);
+    noStroke();
+    fill(this.getQuestionStyleValue("--question-panel-shadow", "rgba(255, 255, 255, 0.35)"));
+    rect(this.questionCardX + 10, this.questionCardY + 12, this.questionCardWidth, this.questionCardHeight, panelRadius);
+    fill(this.getQuestionStyleValue("--question-panel", "#fff9f7"));
+    stroke(this.getQuestionStyleValue("--question-text", "#2b2d42"));
+    strokeWeight(this.getQuestionNumberValue("--question-stroke-weight", 2));
+    rect(this.questionCardX, this.questionCardY, this.questionCardWidth, this.questionCardHeight, panelRadius);
+    fill(this.getQuestionStyleValue("--question-panel-accent", "#ffd8d3"));
+    noStroke();
+    rect(this.questionCardX + 28, this.questionCardY + 24, this.questionCardWidth - 56, 18, 10);
+    pop();
   }
 
   // progress text is drawn here above the question
   displayProgressText() {
     const totalQuestionCount = this.app.getTotalQuestionCount();
     const currentStepNumber = this.getCurrentStepNumber();
+    const chipX = this.questionCardX + 30;
+    const chipY = this.questionCardY + 58;
+    const chipWidth = 148;
+    const chipHeight = 34;
 
-    fill(20);
+    push();
+    rectMode(CORNER);
+    fill(this.getQuestionStyleValue("--question-progress-fill", "#eef4ff"));
+    stroke(this.getQuestionStyleValue("--question-option-stroke", "#2b2d42"));
+    strokeWeight(this.getQuestionNumberValue("--question-stroke-weight", 2));
+    rect(chipX, chipY, chipWidth, chipHeight, 12);
+    fill(this.getQuestionStyleValue("--question-text", "#2b2d42"));
     noStroke();
-    textAlign(LEFT, CENTER);
-    textSize(18);
-    text(`question ${currentStepNumber} of ${totalQuestionCount}`, this.questionCardX + 30, this.questionCardY + 35);
+    textAlign(CENTER, CENTER);
+    textSize(this.getQuestionNumberValue("--question-progress-size", 16));
+    text(`question ${currentStepNumber} of ${totalQuestionCount}`, chipX + chipWidth / 2, chipY + chipHeight / 2 + 1);
+    pop();
   }
 
   // the active question text is drawn here
   displayQuestionText() {
-    fill(20);
+    push();
+    fill(this.getQuestionStyleValue("--question-text", "#2b2d42"));
     noStroke();
-    textAlign(LEFT, TOP);
-    textSize(28);
+    textAlign(CENTER, TOP);
+    textSize(this.getQuestionNumberValue("--question-title-size", 30));
     textWrap(WORD);
-    text(this.currentQuestionData.text, this.questionCardX + 30, this.questionCardY + 65, this.questionCardWidth - 60);
+    text(this.currentQuestionData.text, this.questionCardX + 72, this.questionCardY + 92, this.questionCardWidth - 144);
+    pop();
   }
 
   // all current option buttons are drawn here
   displayOptionButtons() {
     this.optionButtons.forEach((buttonData) => {
       const isHovered = this.isMouseInsideButton(buttonData);
+      const buttonRadius = this.getQuestionNumberValue("--question-option-radius", 16);
+      const isSelected = this.isOptionSelected(buttonData.optionData);
 
-      if (isHovered === true) {
-        fill(230);
+      push();
+
+      if (isSelected === true) {
+        fill(this.getQuestionStyleValue("--question-option-selected", "#dbeeff"));
+      }
+      else if (isHovered === true) {
+        fill(this.getQuestionStyleValue("--question-option-hover", "#e3f1ff"));
       }
       else {
-        fill(245);
+        fill(this.getQuestionStyleValue("--question-option-fill", "#fff6f3"));
       }
 
-      stroke(20);
-      strokeWeight(2);
-      rect(buttonData.x, buttonData.y, buttonData.width, buttonData.height);
+      stroke(this.getQuestionStyleValue("--question-option-stroke", "#2b2d42"));
+      strokeWeight(this.getQuestionNumberValue("--question-stroke-weight", 2));
+      rect(buttonData.x, buttonData.y, buttonData.width, buttonData.height, buttonRadius);
 
-      fill(20);
+      fill(this.getQuestionStyleValue("--question-text", "#2b2d42"));
       noStroke();
-      textAlign(LEFT, CENTER);
-      textSize(18);
-      text(buttonData.optionData.text, buttonData.x + 20, buttonData.y + buttonData.height / 2);
+      textAlign(CENTER, CENTER);
+      textSize(this.getQuestionNumberValue("--question-body-size", 18));
+      text(buttonData.optionData.text, buttonData.x + 16, buttonData.y + 10, buttonData.width - 32, buttonData.height - 20);
+      pop();
     });
+  }
+
+  // the back and next buttons are drawn here
+  displayNavigationButtons() {
+    if (this.canGoBack() === true) {
+      this.displayNavigationButton(this.backButton, true);
+    }
+
+    this.displayNavigationButton(this.nextButton, this.canGoNext());
+  }
+
+  // one navigation button is drawn here
+  displayNavigationButton(buttonData, isEnabled) {
+    const isHovered = this.isMouseInsideButton(buttonData);
+    const isBackButton = buttonData.buttonId === "back";
+    const buttonRadius = this.getQuestionNumberValue("--question-nav-radius", 14);
+    let fillColor = this.getQuestionStyleValue("--question-next-fill", "#d6f4e6");
+    let hoverColor = this.getQuestionStyleValue("--question-next-hover", "#c3e8d6");
+
+    if (isBackButton === true) {
+      fillColor = this.getQuestionStyleValue("--question-back-fill", "#ffe2dd");
+      hoverColor = this.getQuestionStyleValue("--question-back-hover", "#ffd4cd");
+    }
+
+    push();
+    rectMode(CORNER);
+    stroke(this.getQuestionStyleValue("--question-option-stroke", "#2b2d42"));
+    strokeWeight(this.getQuestionNumberValue("--question-stroke-weight", 2));
+
+    if (isEnabled === false) {
+      fill(228);
+    }
+    else if (isHovered === true) {
+      fill(hoverColor);
+    }
+    else {
+      fill(fillColor);
+    }
+
+    rect(buttonData.x, buttonData.y, buttonData.width, buttonData.height, buttonRadius);
+    fill(this.getQuestionStyleValue("--question-text", "#2b2d42"));
+    noStroke();
+    textAlign(CENTER, CENTER);
+    textSize(this.getQuestionNumberValue("--question-body-size", 18));
+    text(buttonData.label, buttonData.x + buttonData.width / 2, buttonData.y + buttonData.height / 2 + 1);
+    pop();
+  }
+
+  // the question screen uses a soft pastel background here
+  displayBackground() {
+    background(this.getQuestionStyleValue("--question-background", "#fbf2ef"));
+    const leftGlowX = CANVAS_WIDTH * 0.16;
+    const leftGlowY = CANVAS_HEIGHT * 0.2;
+    const rightGlowX = CANVAS_WIDTH * 0.84;
+    const rightGlowY = CANVAS_HEIGHT * 0.76;
+    const leftGlowSize = Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) * 0.3;
+    const rightGlowSize = Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) * 0.36;
+
+    noStroke();
+    fill(this.getQuestionStyleValue("--question-glow-blue", "rgba(211, 229, 255, 0.5)"));
+    ellipse(leftGlowX, leftGlowY, leftGlowSize, leftGlowSize);
+    fill(this.getQuestionStyleValue("--question-glow-red", "rgba(248, 214, 221, 0.6)"));
+    ellipse(rightGlowX, rightGlowY, rightGlowSize, rightGlowSize);
+  }
+
+  // one css style value is read here for the question screen
+  getQuestionStyleValue(variableName, fallbackValue) {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const styleValue = rootStyles.getPropertyValue(variableName).trim();
+
+    if (styleValue === "") {
+      return fallbackValue;
+    }
+
+    return styleValue;
+  }
+
+  // one numeric css style value is read here for the question screen
+  getQuestionNumberValue(variableName, fallbackValue) {
+    const styleValue = this.getQuestionStyleValue(variableName, `${fallbackValue}`);
+    const parsedValue = Number(styleValue);
+
+    if (Number.isNaN(parsedValue) === true) {
+      return fallbackValue;
+    }
+
+    return parsedValue;
   }
 
   // a fallback message shows if question data is missing
@@ -220,6 +379,19 @@ class QuestionScreen extends Screen {
     return null;
   }
 
+  // one clicked navigation button is found here
+  findClickedNavigationButton() {
+    if (this.isMouseInsideButton(this.backButton) === true && this.canGoBack() === true) {
+      return this.backButton;
+    }
+
+    if (this.isMouseInsideButton(this.nextButton) === true && this.canGoNext() === true) {
+      return this.nextButton;
+    }
+
+    return null;
+  }
+
   // button hit testing runs here
   isMouseInsideButton(buttonData) {
     const isInsideX = mouseX >= buttonData.x && mouseX <= buttonData.x + buttonData.width;
@@ -235,17 +407,85 @@ class QuestionScreen extends Screen {
     }
 
     if (this.currentQuestionData.scored === true) {
-      this.handleScoredAnswer(optionData);
+      this.app.saveAnswer(this.currentQuestionData.id, optionData.id);
       return;
     }
 
-    this.handleColorAnswer(optionData);
+    this.app.saveColor(optionData.colorId);
   }
 
-  // scored answers save points and move to the next step here
-  handleScoredAnswer(optionData) {
-    this.app.saveAnswer(this.currentQuestionData.id, optionData.id);
+  // one selected option can be checked here
+  isOptionSelected(optionData) {
+    if (this.currentQuestionData === null) {
+      return false;
+    }
 
+    if (this.currentQuestionData.scored === true) {
+      return this.app.projectData.selectedAnswers[this.currentQuestionData.id] === optionData.id;
+    }
+
+    return this.app.projectData.selectedColor === optionData.colorId;
+  }
+
+  // the screen can move back when there is a previous step
+  canGoBack() {
+    return this.app.projectData.currentQuestionIndex > 0;
+  }
+
+  // the screen can move next after a choice is made
+  canGoNext() {
+    if (this.currentQuestionData === null) {
+      return false;
+    }
+
+    if (this.currentQuestionData.scored === true) {
+      return this.app.projectData.selectedAnswers[this.currentQuestionData.id] !== undefined;
+    }
+
+    return this.app.projectData.selectedColor !== null;
+  }
+
+  // the back and next flow is handled here
+  handleNavigationButton(buttonData) {
+    if (buttonData.buttonId === "back") {
+      this.handleBackButton();
+      return;
+    }
+
+    if (buttonData.buttonId === "next") {
+      this.handleNextButton();
+    }
+  }
+
+  // the back button moves to the previous step or menu
+  handleBackButton() {
+    const currentQuestionIndex = this.app.projectData.currentQuestionIndex;
+
+    if (currentQuestionIndex <= 0) {
+      this.app.setScreen("menu");
+      return;
+    }
+
+    this.app.setCurrentQuestionIndex(currentQuestionIndex - 1);
+    this.refreshQuestionState();
+  }
+
+  // the next button moves forward from the current step
+  handleNextButton() {
+    if (this.currentQuestionData === null) {
+      return;
+    }
+
+    if (this.currentQuestionData.scored === true) {
+      this.handleNextScoredStep();
+      return;
+    }
+
+    this.handleNextColorStep();
+  }
+
+  // one scored question can move forward here
+  handleNextScoredStep() {
     const scoredQuestionCount = this.app.getScoredQuestions().length;
     const currentQuestionIndex = this.app.projectData.currentQuestionIndex;
     const isLastScoredQuestion = currentQuestionIndex === scoredQuestionCount - 1;
@@ -258,9 +498,8 @@ class QuestionScreen extends Screen {
     this.refreshQuestionState();
   }
 
-  // the color answer saves here and then moves into the voice screen
-  handleColorAnswer(optionData) {
-    this.app.saveColor(optionData.colorId);
+  // the color step moves into the voice screen here
+  handleNextColorStep() {
 
     if (this.app.projectData.selectedRobotType === null) {
       this.app.calculateFinalRobotType();
