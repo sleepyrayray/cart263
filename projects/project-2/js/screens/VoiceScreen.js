@@ -16,7 +16,7 @@ class VoiceScreen extends Screen {
     this.buttonHeight = 50;
     this.buttonSpacing = 18;
     this.visibleButtons = [];
-    this.voiceStatusMessage = "record a short voice sample for your robot";
+    this.voiceStatusMessage = "record a greeting for your robot";
     this.statusMessageOverride = null;
     this.mediaRecorder = null;
     this.mediaStream = null;
@@ -46,7 +46,6 @@ class VoiceScreen extends Screen {
     this.displayVoicePanel();
     this.displayTitleText();
     this.displayInstructionText();
-    this.displayRobotSummary();
     this.displayRecordingTimer();
     this.displayButtonRow();
     this.displayVoiceStatusText();
@@ -142,21 +141,7 @@ class VoiceScreen extends Screen {
     noStroke();
     textAlign(LEFT, TOP);
     textSize(18);
-    text("record up to 5 seconds of your voice", this.voicePanelX + 30, this.voicePanelY + 80);
-    text("preview the raw audio first, then confirm it for the robot filter", this.voicePanelX + 30, this.voicePanelY + 108);
-  }
-
-  // the current robot result and color are shown here
-  displayRobotSummary() {
-    const selectedRobotLabel = this.getSelectedRobotLabel();
-    const selectedColorLabel = this.getSelectedColorLabel();
-
-    fill(20);
-    noStroke();
-    textAlign(LEFT, TOP);
-    textSize(20);
-    text(`robot type: ${selectedRobotLabel}`, this.voicePanelX + 30, this.voicePanelY + 155);
-    text(`robot color: ${selectedColorLabel}`, this.voicePanelX + 30, this.voicePanelY + 185);
+    text("record a greeting for your robot", this.voicePanelX + 30, this.voicePanelY + 86);
   }
 
   // the current voice buttons are drawn here
@@ -187,9 +172,10 @@ class VoiceScreen extends Screen {
   displayRecordingTimer() {
     const maxRecordingSeconds = this.app.projectData.recordingDurationSeconds;
     const currentRecordingSeconds = this.getVisibleRecordingSeconds();
+    const remainingSeconds = Math.max(0, Math.ceil(maxRecordingSeconds - currentRecordingSeconds));
     const timerRatio = currentRecordingSeconds / maxRecordingSeconds;
     const timerBarX = this.voicePanelX + 30;
-    const timerBarY = this.voicePanelY + 225;
+    const timerBarY = this.voicePanelY + 170;
     const timerBarWidth = this.voicePanelWidth - 60;
     const timerBarHeight = 18;
     const timerFillWidth = timerBarWidth * timerRatio;
@@ -198,11 +184,7 @@ class VoiceScreen extends Screen {
     noStroke();
     textAlign(LEFT, TOP);
     textSize(16);
-    text(
-      `${this.getRecordingTimerLabel()}: ${currentRecordingSeconds.toFixed(1)} / ${maxRecordingSeconds.toFixed(1)} seconds`,
-      timerBarX,
-      timerBarY
-    );
+    text(`countdown: ${remainingSeconds} seconds`, timerBarX, timerBarY);
 
     fill(235);
     stroke(20);
@@ -252,45 +234,7 @@ class VoiceScreen extends Screen {
       return;
     }
 
-    this.voiceStatusMessage = "record a short voice sample for your robot";
-  }
-
-  // the selected robot label is found here
-  getSelectedRobotLabel() {
-    const selectedRobotType = this.app.projectData.selectedRobotType;
-
-    if (selectedRobotType === null || this.app.robotsData === null) {
-      return "not selected yet";
-    }
-
-    const selectedRobotData = this.app.robotsData.robotTypes.find((robotData) => {
-      return robotData.id === selectedRobotType;
-    });
-
-    if (selectedRobotData === undefined) {
-      return "not selected yet";
-    }
-
-    return selectedRobotData.label;
-  }
-
-  // the selected color label is found here
-  getSelectedColorLabel() {
-    const selectedColor = this.app.projectData.selectedColor;
-
-    if (selectedColor === null || this.app.robotsData === null) {
-      return "not selected yet";
-    }
-
-    const selectedColorData = this.app.robotsData.colors.find((colorData) => {
-      return colorData.id === selectedColor;
-    });
-
-    if (selectedColorData === undefined) {
-      return "not selected yet";
-    }
-
-    return selectedColorData.label;
+    this.voiceStatusMessage = "record a greeting for your robot";
   }
 
   // the record button label changes here while recording is active
@@ -315,19 +259,6 @@ class VoiceScreen extends Screen {
     }
 
     return 0;
-  }
-
-  // the timer label changes here based on the recording state
-  getRecordingTimerLabel() {
-    if (this.isRecording === true) {
-      return "recording time";
-    }
-
-    if (this.app.projectData.rawAudio !== null) {
-      return "recorded time";
-    }
-
-    return "recording time";
   }
 
   // one clicked button is found here from the current mouse position

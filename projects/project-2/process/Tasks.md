@@ -66,13 +66,13 @@ Build the **menu** and handle the **PDF**.
 
 ### What Jason Needs To Do
 
-- create the title
-- create the play button
-- create the instruction button
-- write the instruction text
-- add the required consent checkbox for voice recording and sampling
+- create the title and subtitle
+- create the guide button
+- write the guide popup text
+- add the required consent checkbox for voice recording and sampling inside the guide popup
+- add the start button inside the guide popup
 - save the consent result in `this.app.projectData.consentGiven`
-- make the play button only continue when consent is checked
+- make the start button only continue when consent is checked
 - move the user to the question section with `this.app.setScreen("questions")`
 - make the menu feel welcoming, clear, and cartoonish
 - do his menu coding in `js/screens/MenuScreen.js`
@@ -83,21 +83,21 @@ Build the **menu** and handle the **PDF**.
 ### Deliverables
 
 - finished menu code
-- finished instruction text
+- finished guide popup text
 - working consent checkbox in the menu
-- working play button that enters the question screen
+- working start button that enters the question screen
 - finished PDF
 - short recorded audio clip shared with Yann for the final video
 
 ### Step By Step
 
 1. Make the menu layout.
-2. Add the title, play button, and instruction button.
-3. Add the consent checkbox and make it required.
+2. Add the title, subtitle, and guide button.
+3. Add the guide popup text, consent checkbox, and start button.
 4. Save the checkbox state in `this.app.projectData.consentGiven`.
-5. Make the play button go to `this.app.setScreen("questions")` only after consent is checked.
+5. Make the start button go to `this.app.setScreen("questions")` only after consent is checked.
 6. Do the menu code in `js/screens/MenuScreen.js`.
-7. Write short and friendly instruction text.
+7. Write short and friendly guide text.
 8. Test that the menu works properly.
 9. Collect screen grabs and writing for the PDF.
 10. Assemble the final PDF.

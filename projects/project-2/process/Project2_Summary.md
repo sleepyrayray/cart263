@@ -65,10 +65,11 @@ The first screen welcomes the user.
 It should include:
 
 - title
-- play button
-- instruction button
-- short instruction text
-- required consent checkbox for voice recording and voice sampling
+- short subtitle
+- guide button
+- guide popup with short and friendly instructions
+- required consent checkbox for voice recording and voice sampling inside the guide popup
+- start button inside the guide popup
 
 The user should not continue until they agree to the consent checkbox.
 

@@ -9,7 +9,9 @@ class QuestionScreen extends Screen {
   constructor(app) {
     super(app);
     this.currentQuestionData = null;
+    this.currentQuestionId = null;
     this.optionButtons = [];
+    this.visibleOptions = [];
     this.questionCardX = 100;
     this.questionCardY = 70;
     this.questionCardWidth = 760;
@@ -21,6 +23,7 @@ class QuestionScreen extends Screen {
 
   // question data refreshes here when the screen opens
   enter() {
+    this.currentQuestionId = null;
     this.refreshQuestionState();
   }
 
@@ -58,8 +61,15 @@ class QuestionScreen extends Screen {
 
   // question screen state updates here from the shared app data
   refreshQuestionState() {
-    this.currentQuestionData = this.getCurrentQuestionData();
-    this.buildOptionButtons();
+    const nextQuestionData = this.getCurrentQuestionData();
+    const nextQuestionId = this.getQuestionId(nextQuestionData);
+
+    if (nextQuestionId !== this.currentQuestionId) {
+      this.currentQuestionData = nextQuestionData;
+      this.currentQuestionId = nextQuestionId;
+      this.visibleOptions = this.getShuffledOptions(nextQuestionData);
+      this.buildOptionButtons();
+    }
   }
 
   // the current question is chosen here from the question index
@@ -94,7 +104,7 @@ class QuestionScreen extends Screen {
     const buttonStartX = this.questionCardX + 40;
     const buttonStartY = this.questionCardY + 130;
 
-    this.currentQuestionData.options.forEach((optionData, optionIndex) => {
+    this.visibleOptions.forEach((optionData, optionIndex) => {
       const buttonY = buttonStartY + optionIndex * (this.optionButtonHeight + this.optionButtonSpacing);
 
       this.optionButtons.push({
@@ -105,6 +115,34 @@ class QuestionScreen extends Screen {
         optionData: optionData
       });
     });
+  }
+
+  // the current question id is read here for stable option order
+  getQuestionId(questionData) {
+    if (questionData === null) {
+      return null;
+    }
+
+    return questionData.id;
+  }
+
+  // the current question options are shuffled here one time
+  getShuffledOptions(questionData) {
+    if (questionData === null) {
+      return [];
+    }
+
+    const shuffledOptions = [...questionData.options];
+
+    for (let optionIndex = shuffledOptions.length - 1; optionIndex > 0; optionIndex -= 1) {
+      const randomIndex = Math.floor(random(optionIndex + 1));
+      const currentOption = shuffledOptions[optionIndex];
+
+      shuffledOptions[optionIndex] = shuffledOptions[randomIndex];
+      shuffledOptions[randomIndex] = currentOption;
+    }
+
+    return shuffledOptions;
   }
 
   // a simple panel behind the question content is drawn here

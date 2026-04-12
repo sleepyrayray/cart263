@@ -43,7 +43,7 @@ class RevealScreen extends Screen {
     this.purchaseButtonWidth = 170;
     this.purchaseButtonHeight = 52;
     this.thankYouStartTime = 0;
-    this.thankYouDisplayDuration = 3000;
+    this.thankYouDisplayDuration = 2000;
     this.thankYouFadeStartTime = 0;
     this.thankYouFadeDuration = 600;
     this.showBackToMenuButton = false;
