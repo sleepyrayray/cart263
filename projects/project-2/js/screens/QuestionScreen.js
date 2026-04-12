@@ -17,7 +17,7 @@ class QuestionScreen extends Screen {
     this.questionCardWidth = 776;
     this.questionCardHeight = 428;
     this.optionButtonWidth = 224;
-    this.optionButtonHeight = 74;
+    this.optionButtonHeight = 84;
     this.optionButtonSpacing = 16;
     this.backButton = {
       buttonId: "back",
@@ -124,10 +124,11 @@ class QuestionScreen extends Screen {
       return;
     }
 
+    this.optionButtonHeight = this.getQuestionNumberValue("--question-option-height", 84);
     const topRowCount = 3;
     const topRowWidth = topRowCount * this.optionButtonWidth + (topRowCount - 1) * this.optionButtonSpacing;
     const topRowX = this.questionCardX + (this.questionCardWidth - topRowWidth) / 2;
-    const topRowY = this.questionCardY + 186;
+    const topRowY = this.questionCardY + 176;
     const bottomRowCount = 2;
     const bottomRowWidth = bottomRowCount * this.optionButtonWidth + (bottomRowCount - 1) * this.optionButtonSpacing;
     const bottomRowX = this.questionCardX + (this.questionCardWidth - bottomRowWidth) / 2;
@@ -266,8 +267,9 @@ class QuestionScreen extends Screen {
       fill(this.getQuestionStyleValue("--question-text", "#2b2d42"));
       noStroke();
       textAlign(CENTER, CENTER);
-      textSize(this.getQuestionNumberValue("--question-body-size", 18));
-      text(buttonData.optionData.text, buttonData.x + 16, buttonData.y + 10, buttonData.width - 32, buttonData.height - 20);
+      textSize(this.getQuestionNumberValue("--question-option-text-size", 16));
+      textLeading(this.getQuestionNumberValue("--question-option-text-leading", 20));
+      text(buttonData.optionData.text, buttonData.x + 16, buttonData.y + 12, buttonData.width - 32, buttonData.height - 24);
       pop();
     });
   }
@@ -406,6 +408,8 @@ class QuestionScreen extends Screen {
       return;
     }
 
+    this.app.playButtonBeep();
+
     if (this.currentQuestionData.scored === true) {
       this.app.saveAnswer(this.currentQuestionData.id, optionData.id);
       return;
@@ -448,11 +452,13 @@ class QuestionScreen extends Screen {
   // the back and next flow is handled here
   handleNavigationButton(buttonData) {
     if (buttonData.buttonId === "back") {
+      this.app.playButtonBeep();
       this.handleBackButton();
       return;
     }
 
     if (buttonData.buttonId === "next") {
+      this.app.playButtonBeep();
       this.handleNextButton();
     }
   }

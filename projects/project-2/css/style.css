@@ -49,6 +49,9 @@
   --question-next-hover: #c3e8d6;
   --question-panel-radius: 28;
   --question-option-radius: 16;
+  --question-option-height: 84;
+  --question-option-text-size: 16;
+  --question-option-text-leading: 20;
   --question-nav-radius: 14;
   --question-stroke-weight: 2;
   --question-title-size: 30;

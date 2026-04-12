@@ -27,6 +27,7 @@ class RevealScreen extends Screen {
     this.robotRevealStartTime = 0;
     this.revealAudioDelayMilliseconds = 750;
     this.audioElement = null;
+    this.packageSoundAudio = null;
     this.audioPlaybackTimeoutId = null;
     this.hasFinishedIntroAudioPlayback = false;
     this.hasStartedRobotMove = false;
@@ -232,6 +233,7 @@ class RevealScreen extends Screen {
 
   // the package opening starts here after the click
   startPackageOpening() {
+    this.playPackageSound();
     this.isPackageOpening = true;
     this.packageOpenStartTime = performance.now();
   }
@@ -418,7 +420,7 @@ class RevealScreen extends Screen {
   // the thank you message fades out here before the reset button appears
   displayThankYouMessage(descriptionOpacity) {
     const thankYouOpacity = this.getThankYouOpacity(descriptionOpacity);
-    const thankYouMessage = "Thank you";
+    const thankYouMessage = "Thank you so much!";
     const thankYouTextX = 520;
     const thankYouTextY = this.purchaseButtonY + this.purchaseButtonHeight / 2;
 
@@ -493,6 +495,7 @@ class RevealScreen extends Screen {
       return false;
     }
 
+    this.app.playButtonBeep();
     this.hasPurchasedRobot = true;
     this.thankYouStartTime = performance.now();
     return true;
@@ -508,6 +511,7 @@ class RevealScreen extends Screen {
       return false;
     }
 
+    this.app.playButtonBeep();
     this.resetProjectForMenu();
     return true;
   }
@@ -723,6 +727,7 @@ class RevealScreen extends Screen {
   resetRevealState() {
     this.clearAudioPlaybackTimeout();
     this.stopRevealAudio();
+    this.stopPackageSound();
     this.cleanupRenderer();
     this.raycaster = null;
     this.mouseVector = null;
@@ -824,6 +829,34 @@ class RevealScreen extends Screen {
     this.audioElement.pause();
     this.audioElement.currentTime = 0;
     this.audioElement = null;
+  }
+
+  // the package click sound starts here when the opening begins
+  playPackageSound() {
+    if (typeof Audio === "undefined") {
+      return;
+    }
+
+    if (this.packageSoundAudio !== null) {
+      this.packageSoundAudio.pause();
+      this.packageSoundAudio.currentTime = 0;
+    }
+
+    this.packageSoundAudio = new Audio("assets/sounds/package.mp3");
+    this.packageSoundAudio.volume = 0.3;
+    this.packageSoundAudio.play().catch(() => {
+    });
+  }
+
+  // the package click sound clears here when the reveal resets
+  stopPackageSound() {
+    if (this.packageSoundAudio === null) {
+      return;
+    }
+
+    this.packageSoundAudio.pause();
+    this.packageSoundAudio.currentTime = 0;
+    this.packageSoundAudio = null;
   }
 
   // one value blends toward another here for the robot move

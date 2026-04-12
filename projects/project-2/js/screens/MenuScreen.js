@@ -322,22 +322,26 @@ class MenuScreen extends Screen {
   // the guide, consent, and start actions are handled here
   handleSelectedItem(itemData) {
     if (itemData.buttonId === "guide") {
+      this.app.playButtonBeep();
       this.app.projectData.consentGiven = false;
       this.guideVisible = true;
       return;
     }
 
     if (itemData.buttonId === "closeGuide") {
+      this.app.playButtonBeep();
       this.guideVisible = false;
       return;
     }
 
     if (itemData.buttonId === "consent") {
+      this.app.playButtonBeep();
       this.app.projectData.consentGiven = !this.app.projectData.consentGiven;
       return;
     }
 
     if (itemData.buttonId === "start") {
+      this.app.playButtonBeep();
       this.guideVisible = false;
       this.app.resetQuestionFlow();
       this.app.resetAudioData();

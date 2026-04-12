@@ -15,6 +15,9 @@ class RobotShopApp {
     this.loadError = null;
     this.questionsData = null;
     this.robotsData = null;
+    this.buttonBeepAudio = null;
+    this.backgroundAudio = null;
+    this.hasStartedBackgroundAudio = false;
     this.projectData = {
       consentGiven: false,
       currentQuestionIndex: 0,
@@ -37,6 +40,7 @@ class RobotShopApp {
     // basic text settings start here
     textAlign(CENTER, CENTER);
     textFont("Arial");
+    this.setupUiAudio();
 
     // project data loads before the screens start
     await this.loadData();
@@ -71,9 +75,54 @@ class RobotShopApp {
   }
 
   mousePressed() {
+    this.ensureBackgroundAudio();
+
     if (this.currentScreen !== undefined) {
       this.currentScreen.mousePressed();
     }
+  }
+
+  // the shared ui sounds are prepared here once for the project
+  setupUiAudio() {
+    if (typeof Audio === "undefined") {
+      return;
+    }
+
+    this.buttonBeepAudio = new Audio("assets/sounds/beep.mp3");
+    this.buttonBeepAudio.preload = "auto";
+    this.buttonBeepAudio.volume = 0.2;
+    this.buttonBeepAudio.load();
+
+    this.backgroundAudio = new Audio("assets/sounds/bg.mp3");
+    this.backgroundAudio.preload = "auto";
+    this.backgroundAudio.loop = true;
+    this.backgroundAudio.volume = 0.05;
+    this.backgroundAudio.load();
+  }
+
+  // the looping background audio begins here after the first click
+  ensureBackgroundAudio() {
+    if (this.backgroundAudio === null || this.hasStartedBackgroundAudio === true) {
+      return;
+    }
+
+    this.backgroundAudio.play().then(() => {
+      this.hasStartedBackgroundAudio = true;
+    }).catch(() => {
+    });
+  }
+
+  // one short beep can play here for ui button presses
+  playButtonBeep() {
+    if (this.buttonBeepAudio === null) {
+      return;
+    }
+
+    const nextBeepAudio = this.buttonBeepAudio.cloneNode();
+    nextBeepAudio.volume = this.buttonBeepAudio.volume;
+    nextBeepAudio.currentTime = 0;
+    nextBeepAudio.play().catch(() => {
+    });
   }
 
   // empty score totals start here for each robot type

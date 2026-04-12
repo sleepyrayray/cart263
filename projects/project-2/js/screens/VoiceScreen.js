@@ -357,6 +357,8 @@ class VoiceScreen extends Screen {
 
   // button clicks are sorted here by button id
   async handleButtonClick(buttonId) {
+    this.app.playButtonBeep();
+
     if (buttonId === "record") {
       await this.handleRecordButton();
       return;
