@@ -15,6 +15,32 @@ The experience should feel:
 
 The project should feel like a fun robot store experience, not a formal survey.
 
+## Design Direction
+
+The visual direction is **cute sci-fi showroom**.
+
+The project should feel like a friendly future robot store:
+
+- soft futuristic
+- clean and welcoming
+- cartoonish but not too kiddish
+- polished and product-focused
+
+The main visual language should use:
+
+- rounded panels and buttons
+- neat dark outlines
+- soft showroom colors with a few brighter accents
+- big friendly titles with simple readable body text
+- smooth fades, slides, and floating motion
+
+Each section should still feel like part of the same shop:
+
+- the menu should feel like the front display
+- the questions should feel like a guided product matching screen
+- the voice section should feel like you are giving life to the robot
+- the reveal should feel like the final featured product display
+
 ## Main Goal
 
 The goal is to build a short interactive experience that is clear, visually consistent, and satisfying from start to finish.

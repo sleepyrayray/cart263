@@ -424,7 +424,7 @@ class RevealScreen extends Screen {
     noStroke();
     textAlign(LEFT, CENTER);
     textSize(28);
-    text("Thank you!", this.purchaseButtonX, this.purchaseButtonY + this.purchaseButtonHeight / 2);
+    text("Thank you and enjoy your new robot!", this.purchaseButtonX, this.purchaseButtonY + this.purchaseButtonHeight / 2);
   }
 
   // the back to menu button appears after the thank you text fades out

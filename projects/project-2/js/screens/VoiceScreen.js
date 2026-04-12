@@ -45,10 +45,18 @@ class VoiceScreen extends Screen {
     this.displayFrame();
     this.displayVoicePanel();
     this.displayTitleText();
-    this.displayInstructionText();
     this.displayRecordingTimer();
     this.displayButtonRow();
     this.displayVoiceStatusText();
+  }
+
+  // the title is shown here
+  displayTitleText() {
+    fill(20);
+    noStroke();
+    textAlign(LEFT, TOP);
+    textSize(30);
+    text("give your robot a voice", this.voicePanelX + 30, this.voicePanelY + 30);
   }
 
   // mouse clicks check the current visible buttons here
@@ -124,24 +132,6 @@ class VoiceScreen extends Screen {
     stroke(20);
     strokeWeight(2);
     rect(this.voicePanelX, this.voicePanelY, this.voicePanelWidth, this.voicePanelHeight);
-  }
-
-  // the title is shown here
-  displayTitleText() {
-    fill(20);
-    noStroke();
-    textAlign(LEFT, TOP);
-    textSize(30);
-    text("give your robot a voice", this.voicePanelX + 30, this.voicePanelY + 30);
-  }
-
-  // the main instructions are shown here
-  displayInstructionText() {
-    fill(20);
-    noStroke();
-    textAlign(LEFT, TOP);
-    textSize(18);
-    text("record a greeting for your robot", this.voicePanelX + 30, this.voicePanelY + 86);
   }
 
   // the current voice buttons are drawn here
@@ -318,7 +308,6 @@ class VoiceScreen extends Screen {
     this.clearStatusOverride();
     this.clearStoredAudioUrls();
     this.app.resetAudioData();
-    this.statusMessageOverride = "requesting microphone access";
 
     try {
       await this.startRecording();

@@ -175,6 +175,7 @@ Handle the **questions**, **color customization**, **AI robot images**, and **au
 ### What Ray Needs To Do
 
 - define the overall visual style
+- keep the visual style in the cute sci-fi showroom direction
 - generate or prepare the AI robot images for the project
 - build the robot question flow
 - include the color choice inside the question section
@@ -233,6 +234,7 @@ The project will use:
 
 - keep the project simple
 - keep the design cartoonish
+- keep the design in the cute sci-fi showroom direction
 - keep the style consistent
 - communicate finished work early
 - make sure all assets are organized
