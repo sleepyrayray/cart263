@@ -38,7 +38,7 @@ class RevealScreen extends Screen {
     this.descriptionFadeStartTime = 0;
     this.descriptionFadeDuration = 700;
     this.hasPurchasedRobot = false;
-    this.purchaseButtonX = 520;
+    this.purchaseButtonX = 595;
     this.purchaseButtonY = 350;
     this.purchaseButtonWidth = 170;
     this.purchaseButtonHeight = 52;
@@ -47,7 +47,7 @@ class RevealScreen extends Screen {
     this.thankYouFadeStartTime = 0;
     this.thankYouFadeDuration = 600;
     this.showBackToMenuButton = false;
-    this.backButtonX = 520;
+    this.backButtonX = 585;
     this.backButtonY = 350;
     this.backButtonWidth = 190;
     this.backButtonHeight = 52;
@@ -351,11 +351,11 @@ class RevealScreen extends Screen {
       return;
     }
 
-    fill(20);
+    fill(this.getRevealStyleValue("--reveal-text", "#2b2d42"));
     noStroke();
     textAlign(CENTER, CENTER);
-    textSize(20);
-    text("click the box to reveal your robot", width / 2, height - 40);
+    textSize(this.getRevealNumberValue("--reveal-hint-size", 20));
+    text("click the package to meet your robot", width / 2, height - 40);
   }
 
   // an image error message shows if the selected file is missing
@@ -364,10 +364,10 @@ class RevealScreen extends Screen {
       return;
     }
 
-    fill(20);
+    fill(this.getRevealStyleValue("--reveal-text", "#2b2d42"));
     noStroke();
     textAlign(CENTER, CENTER);
-    textSize(22);
+    textSize(this.getRevealNumberValue("--reveal-body-size", 20));
     text("the robot image could not load", width / 2, height / 2 + 180);
   }
 
@@ -380,10 +380,10 @@ class RevealScreen extends Screen {
       return;
     }
 
-    fill(20, 20, 20, descriptionOpacity);
+    fill(43, 45, 66, descriptionOpacity);
     noStroke();
     textAlign(LEFT, TOP);
-    textSize(24);
+    textSize(this.getRevealNumberValue("--reveal-description-size", 24));
     textWrap(WORD);
     text(robotDescription, 520, 165, 320);
     this.displayPurchaseSection(descriptionOpacity);
@@ -398,17 +398,20 @@ class RevealScreen extends Screen {
     }
 
     const isHovered = this.isMouseInsidePurchaseButton();
-    const buttonFillShade = isHovered === true ? 225 : 245;
+    const buttonRadius = this.getRevealNumberValue("--reveal-button-radius", 14);
+    const fillColor = isHovered === true
+      ? this.getRevealStyleValue("--reveal-button-hover", "#c3e8d6")
+      : this.getRevealStyleValue("--reveal-button-fill", "#d6f4e6");
 
-    fill(buttonFillShade, buttonFillShade, buttonFillShade, descriptionOpacity);
-    stroke(20, 20, 20, descriptionOpacity);
-    strokeWeight(2);
-    rect(this.purchaseButtonX, this.purchaseButtonY, this.purchaseButtonWidth, this.purchaseButtonHeight, 10);
+    fill(...this.getRevealColorWithOpacity(fillColor, descriptionOpacity));
+    stroke(43, 45, 66, descriptionOpacity);
+    strokeWeight(this.getRevealNumberValue("--reveal-stroke-weight", 2));
+    rect(this.purchaseButtonX, this.purchaseButtonY, this.purchaseButtonWidth, this.purchaseButtonHeight, buttonRadius);
 
-    fill(20, 20, 20, descriptionOpacity);
+    fill(43, 45, 66, descriptionOpacity);
     noStroke();
     textAlign(CENTER, CENTER);
-    textSize(20);
+    textSize(this.getRevealNumberValue("--reveal-body-size", 20));
     text("purchase", this.purchaseButtonX + this.purchaseButtonWidth / 2, this.purchaseButtonY + this.purchaseButtonHeight / 2);
   }
 
@@ -420,11 +423,11 @@ class RevealScreen extends Screen {
       return;
     }
 
-    fill(20, 20, 20, thankYouOpacity);
+    fill(43, 45, 66, thankYouOpacity);
     noStroke();
-    textAlign(LEFT, CENTER);
-    textSize(28);
-    text("Thank you and enjoy your new robot!", this.purchaseButtonX, this.purchaseButtonY + this.purchaseButtonHeight / 2);
+    textAlign(CENTER, CENTER);
+    textSize(this.getRevealNumberValue("--reveal-message-size", 28));
+    text("Thank you and enjoy your new robot!", this.purchaseButtonX + this.purchaseButtonWidth / 2, this.purchaseButtonY + this.purchaseButtonHeight / 2);
   }
 
   // the back to menu button appears after the thank you text fades out
@@ -434,18 +437,21 @@ class RevealScreen extends Screen {
     }
 
     const isHovered = this.isMouseInsideBackButton();
-    const buttonFillShade = isHovered === true ? 225 : 245;
+    const buttonRadius = this.getRevealNumberValue("--reveal-button-radius", 14);
+    const fillColor = isHovered === true
+      ? this.getRevealStyleValue("--reveal-button-secondary-hover", "#d3e7fb")
+      : this.getRevealStyleValue("--reveal-button-secondary-fill", "#e3f1ff");
 
-    fill(buttonFillShade, buttonFillShade, buttonFillShade, descriptionOpacity);
-    stroke(20, 20, 20, descriptionOpacity);
-    strokeWeight(2);
-    rect(this.backButtonX, this.backButtonY, this.backButtonWidth, this.backButtonHeight, 10);
+    fill(...this.getRevealColorWithOpacity(fillColor, descriptionOpacity));
+    stroke(43, 45, 66, descriptionOpacity);
+    strokeWeight(this.getRevealNumberValue("--reveal-stroke-weight", 2));
+    rect(this.backButtonX, this.backButtonY, this.backButtonWidth, this.backButtonHeight, buttonRadius);
 
-    fill(20, 20, 20, descriptionOpacity);
+    fill(43, 45, 66, descriptionOpacity);
     noStroke();
     textAlign(CENTER, CENTER);
-    textSize(20);
-    text("Back to menu", this.backButtonX + this.backButtonWidth / 2, this.backButtonY + this.backButtonHeight / 2);
+    textSize(this.getRevealNumberValue("--reveal-body-size", 20));
+    text("back to menu", this.backButtonX + this.backButtonWidth / 2, this.backButtonY + this.backButtonHeight / 2);
   }
 
   // the current three scene renders here
@@ -593,6 +599,45 @@ class RevealScreen extends Screen {
     }
 
     return robotTypeData.description;
+  }
+
+  // one css style value is read here for the reveal screen
+  getRevealStyleValue(variableName, fallbackValue) {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const styleValue = rootStyles.getPropertyValue(variableName).trim();
+
+    if (styleValue === "") {
+      return fallbackValue;
+    }
+
+    return styleValue;
+  }
+
+  // one numeric css style value is read here for the reveal screen
+  getRevealNumberValue(variableName, fallbackValue) {
+    const styleValue = this.getRevealStyleValue(variableName, `${fallbackValue}`);
+    const parsedValue = Number(styleValue);
+
+    if (Number.isNaN(parsedValue) === true) {
+      return fallbackValue;
+    }
+
+    return parsedValue;
+  }
+
+  // one hex color is turned into rgba values here
+  getRevealColorWithOpacity(colorValue, opacityValue) {
+    const hexColor = colorValue.replace("#", "");
+
+    if (hexColor.length !== 6) {
+      return [245, 245, 245, opacityValue];
+    }
+
+    const redValue = parseInt(hexColor.slice(0, 2), 16);
+    const greenValue = parseInt(hexColor.slice(2, 4), 16);
+    const blueValue = parseInt(hexColor.slice(4, 6), 16);
+
+    return [redValue, greenValue, blueValue, opacityValue];
   }
 
   // the description fade amount is worked out here

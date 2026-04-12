@@ -73,6 +73,18 @@
   --voice-title-size: 30;
   --voice-body-size: 18;
   --voice-small-size: 16;
+  --reveal-text: #2b2d42;
+  --reveal-subtitle: #6e7285;
+  --reveal-button-fill: #d6f4e6;
+  --reveal-button-hover: #c3e8d6;
+  --reveal-button-secondary-fill: #e3f1ff;
+  --reveal-button-secondary-hover: #d3e7fb;
+  --reveal-button-radius: 14;
+  --reveal-stroke-weight: 2;
+  --reveal-description-size: 24;
+  --reveal-body-size: 20;
+  --reveal-message-size: 20;
+  --reveal-hint-size: 20;
 }
 
 html,
