@@ -1,5 +1,5 @@
 /*
- * robot shop app class file
+ * RoboShop app class file
  * ray can manage the shared app flow here
  */
 
@@ -422,7 +422,7 @@ class RobotShopApp {
     fill(20);
     noStroke();
     textSize(24);
-    text("loading robot shop...", width / 2, height / 2);
+    text("loading RoboShop...", width / 2, height / 2);
   }
 
   // a simple error screen shows if the json files fail to load

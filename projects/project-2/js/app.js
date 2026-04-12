@@ -1,5 +1,5 @@
 /*
- * main entry file for robot shop
+ * main entry file for RoboShop
  * p5 starts the project here
  */
 

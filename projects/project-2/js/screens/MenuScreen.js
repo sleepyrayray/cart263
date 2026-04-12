@@ -10,53 +10,32 @@ class MenuScreen extends Screen {
     super(app);
     this.titleText = "RoboShop";
     this.subtitleText = "Your ideal robot starts here";
-    this.titleFontName = "Trebuchet MS";
-    this.titleX = CANVAS_WIDTH / 2;
-    this.titleY = 170;
-    this.subtitleX = CANVAS_WIDTH / 2;
-    this.subtitleY = 235;
+    this.mainCard = {};
     this.guideButton = {
       buttonId: "guide",
-      label: "guide",
-      x: CANVAS_WIDTH / 2 - 90,
-      y: 310,
-      width: 180,
-      height: 46
+      label: "Guide",
+      variant: "blue"
     };
     this.guideVisible = false;
-    this.guidePanel = {
-      x: 110,
-      y: 55,
-      width: CANVAS_WIDTH - 220,
-      height: CANVAS_HEIGHT - 110
-    };
+    this.guidePanel = {};
     this.closeButton = {
       buttonId: "closeGuide",
-      label: "",
-      x: this.guidePanel.x + this.guidePanel.width - 44,
-      y: this.guidePanel.y + 16,
-      width: 28,
-      height: 28
+      label: ""
     };
     this.checkbox = {
       buttonId: "consent",
-      x: this.guidePanel.x + 34,
-      y: this.guidePanel.y + 260,
       size: 24
     };
     this.startButton = {
       buttonId: "start",
       label: "start",
-      x: this.guidePanel.x + this.guidePanel.width - 156,
-      y: this.guidePanel.y + this.guidePanel.height - 66,
-      width: 120,
-      height: 40
+      variant: "mint"
     };
     this.bulletItems = [
-      "you will answer a few quick questions so we can match you with a robot",
-      "you will choose a robot color before the final reveal",
-      "you will record up to 5 seconds of your voice for your robot",
-      "you will open the package and meet the robot that fits you best"
+      "You will answer a few quick questions so we can match you with a robot",
+      "You will choose a robot color before the final reveal",
+      "You will record up to 5 seconds of your voice for your robot",
+      "You will open the package and meet the robot that fits you best"
     ];
 
     // the menu starts with consent unchecked
@@ -65,30 +44,74 @@ class MenuScreen extends Screen {
 
   // the full menu view is drawn here
   display() {
+    this.updateLayoutValues();
     this.displayBackground();
-    this.displayFrame();
+    this.displayMainCard();
     this.displayTitle();
     this.displayGuideButton();
     this.displayGuidePopup();
   }
 
-  // the main title and subtitle sit in the middle here
-  displayTitle() {
-    push();
-    fill(20);
+  // the menu uses a soft pastel background here
+  displayBackground() {
+    background(this.getMenuStyleValue("--menu-background", "#fbf1ef"));
+    const leftGlowX = CANVAS_WIDTH * 0.2;
+    const leftGlowY = CANVAS_HEIGHT * 0.14;
+    const rightGlowX = CANVAS_WIDTH * 0.82;
+    const rightGlowY = CANVAS_HEIGHT * 0.8;
+    const leftGlowSize = Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) * 0.34;
+    const rightGlowSize = Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) * 0.42;
+
     noStroke();
-    textAlign(CENTER, CENTER);
-    textFont(this.titleFontName);
-    textStyle(BOLD);
-    textSize(72);
-    text(this.titleText, this.titleX, this.titleY);
-    textStyle(NORMAL);
-    textSize(24);
-    text(this.subtitleText, this.subtitleX, this.subtitleY);
+    fill(this.getMenuStyleValue("--menu-glow-blue", "rgba(211, 229, 255, 0.58)"));
+    ellipse(leftGlowX, leftGlowY, leftGlowSize, leftGlowSize);
+    fill(this.getMenuStyleValue("--menu-glow-red", "rgba(248, 214, 221, 0.72)"));
+    ellipse(rightGlowX, rightGlowY, rightGlowSize, rightGlowSize);
+  }
+
+  // the main centered menu card is drawn here
+  displayMainCard() {
+    const cardRadius = this.getMenuNumberValue("--menu-panel-radius", 28);
+
+    push();
+    noStroke();
+    fill(this.getMenuStyleValue("--menu-panel-shadow", "rgba(255, 255, 255, 0.35)"));
+    rect(this.mainCard.x + 10, this.mainCard.y + 12, this.mainCard.width, this.mainCard.height, cardRadius);
+    fill(this.getMenuStyleValue("--menu-panel", "#fff9f7"));
+    stroke(this.getMenuStyleValue("--menu-text", "#2b2d42"));
+    strokeWeight(this.getMenuNumberValue("--menu-stroke-weight", 2));
+    rect(this.mainCard.x, this.mainCard.y, this.mainCard.width, this.mainCard.height, cardRadius);
+    fill(this.getMenuStyleValue("--menu-panel-accent", "#ffd8d3"));
+    noStroke();
+    rect(this.mainCard.x + 26, this.mainCard.y + 26, this.mainCard.width - 52, 20, 10);
     pop();
   }
 
-  // the main menu only shows the guide button
+  // the title and subtitle sit in the center here
+  displayTitle() {
+    const titleX = CANVAS_WIDTH / 2;
+    const titleY = this.mainCard.y + 118;
+    const titleFontName = this.getMenuStyleValue("--menu-title-font", "Trebuchet MS").replaceAll("\"", "");
+    const titleSize = this.getMenuNumberValue("--menu-title-size", 80);
+    const subtitleSize = this.getMenuNumberValue("--menu-subtitle-size", 24);
+
+    push();
+    textAlign(CENTER, CENTER);
+    textFont(titleFontName);
+    textStyle(BOLD);
+    textSize(titleSize);
+    fill(this.getMenuStyleValue("--menu-panel-accent", "#ffd8d3"));
+    text(this.titleText, titleX + 3, titleY + 4);
+    fill(this.getMenuStyleValue("--menu-text", "#2b2d42"));
+    text(this.titleText, titleX, titleY);
+    textStyle(NORMAL);
+    textSize(subtitleSize);
+    fill(this.getMenuStyleValue("--menu-subtitle", "#6e7285"));
+    text(this.subtitleText, titleX, this.mainCard.y + 192);
+    pop();
+  }
+
+  // the main menu only shows the guide button here
   displayGuideButton() {
     if (this.guideVisible === true) {
       return;
@@ -97,16 +120,25 @@ class MenuScreen extends Screen {
     this.displayButton(this.guideButton, true);
   }
 
-  // the guide popup opens here when the user clicks the guide button
+  // the guide popup is drawn here
   displayGuidePopup() {
     if (this.guideVisible === false) {
       return;
     }
 
+    const popupRadius = this.getMenuNumberValue("--menu-popup-radius", 24);
+
     push();
     noStroke();
-    fill(250, 248, 242);
-    rect(this.guidePanel.x, this.guidePanel.y, this.guidePanel.width, this.guidePanel.height, 24);
+    fill(0, 0, 0, 80);
+    rect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    fill(this.getMenuStyleValue("--menu-popup", "#fff8f5"));
+    stroke(this.getMenuStyleValue("--menu-text", "#2b2d42"));
+    strokeWeight(this.getMenuNumberValue("--menu-stroke-weight", 2));
+    rect(this.guidePanel.x, this.guidePanel.y, this.guidePanel.width, this.guidePanel.height, popupRadius);
+    fill(this.getMenuStyleValue("--menu-panel-accent", "#ffd8d3"));
+    noStroke();
+    rect(this.guidePanel.x + 20, this.guidePanel.y + 20, this.guidePanel.width - 40, 18, 10);
     pop();
 
     this.displayCloseButton();
@@ -118,48 +150,68 @@ class MenuScreen extends Screen {
     }
   }
 
-  // the guide popup title and customer-facing text are drawn here
+  // the guide title and bullet text are drawn here
   displayGuideText() {
-    const titleX = this.guidePanel.x + 34;
-    const titleY = this.guidePanel.y + 42;
-    const bulletStartY = this.guidePanel.y + 106;
-    const bulletDotX = this.guidePanel.x + 40;
+    const titleX = this.guidePanel.x + 42;
+    const titleY = this.guidePanel.y + 60;
+    const bulletStartY = this.guidePanel.y + 126;
+    const bulletDotX = this.guidePanel.x + 48;
     const bulletTextX = bulletDotX + 24;
-    const bulletSpacing = 48;
+    const bulletSpacing = 52;
+    const bulletWidth = this.guidePanel.width - 122;
+    const titleFontName = this.getMenuStyleValue("--menu-title-font", "Trebuchet MS").replaceAll("\"", "");
+    const guideTitleSize = this.getMenuNumberValue("--menu-guide-title-size", 34);
+    const bodySize = this.getMenuNumberValue("--menu-body-size", 18);
 
     push();
-    fill(20);
+    fill(this.getMenuStyleValue("--menu-text", "#2b2d42"));
     noStroke();
-    textAlign(LEFT, CENTER);
-    textFont(this.titleFontName);
+    textAlign(LEFT, TOP);
+    textFont(titleFontName);
     textStyle(BOLD);
-    textSize(30);
+    textSize(guideTitleSize);
     text("Guide", titleX, titleY);
     textStyle(NORMAL);
-    textSize(18);
+    textSize(bodySize);
+    fill(this.getMenuStyleValue("--menu-subtitle", "#6e7285"));
 
     for (let index = 0; index < this.bulletItems.length; index += 1) {
       const lineY = bulletStartY + index * bulletSpacing;
 
-      circle(bulletDotX, lineY, 8);
-      text(this.bulletItems[index], bulletTextX, lineY, this.guidePanel.width - 110, 48);
+      fill(this.getMenuStyleValue("--menu-panel-accent", "#ffd8d3"));
+      circle(bulletDotX, lineY + 8, 10);
+      fill(this.getMenuStyleValue("--menu-subtitle", "#6e7285"));
+      text(this.bulletItems[index], bulletTextX, lineY - 2, bulletWidth, 38);
     }
 
     pop();
   }
 
-  // the consent note and checkbox live inside the guide popup here
+  // the consent card is drawn near the bottom here
   displayConsentArea() {
     const consentGiven = this.app.projectData.consentGiven;
-    const consentTextX = this.checkbox.x + this.checkbox.size + 18;
-    const consentTextY = this.checkbox.y + this.checkbox.size / 2;
+    const consentCardX = this.guidePanel.x + 24;
+    const consentCardWidth = this.guidePanel.width - 210;
+    const consentCardHeight = 88;
+    const consentCardY = this.guidePanel.y + this.guidePanel.height - consentCardHeight - 28;
+    const helperTextX = consentCardX + 18;
+    const helperTextY = consentCardY + 10;
+    const consentTextX = this.checkbox.x + this.checkbox.size + 14;
+    const consentTextY = consentCardY + 32;
+    const checkboxRadius = this.getMenuNumberValue("--menu-checkbox-radius", 6);
+    const bodySize = this.getMenuNumberValue("--menu-body-size", 18);
+    const smallSize = this.getMenuNumberValue("--menu-small-size", 15);
+
+    this.checkbox.x = consentCardX + 18;
+    this.checkbox.y = consentCardY + 42;
 
     push();
-    rectMode(CORNER);
-    stroke(20);
-    strokeWeight(2);
+    fill(this.getMenuStyleValue("--menu-consent-card", "#eef4ff"));
+    stroke(this.getMenuStyleValue("--menu-text", "#2b2d42"));
+    strokeWeight(this.getMenuNumberValue("--menu-stroke-weight", 2));
+    rect(consentCardX, consentCardY, consentCardWidth, consentCardHeight, 18);
     noFill();
-    rect(this.checkbox.x, this.checkbox.y, this.checkbox.size, this.checkbox.size, 5);
+    rect(this.checkbox.x, this.checkbox.y, this.checkbox.size, this.checkbox.size, checkboxRadius);
 
     if (consentGiven === true) {
       line(this.checkbox.x + 4, this.checkbox.y + this.checkbox.size / 2, this.checkbox.x + this.checkbox.size / 2 - 1, this.checkbox.y + this.checkbox.size - 5);
@@ -167,58 +219,66 @@ class MenuScreen extends Screen {
     }
 
     noStroke();
-    fill(20);
-    textAlign(LEFT, CENTER);
-    textSize(17);
-    text("I agree to let RoboShop record and sample my voice for my robot", consentTextX, consentTextY, this.guidePanel.width - 120, 40);
-
-    if (consentGiven === false) {
-      fill(90);
-      textSize(15);
-      text("Please agree to start", this.checkbox.x, this.checkbox.y + 46);
-    }
+    textAlign(LEFT, TOP);
+    fill(this.getMenuStyleValue("--menu-subtitle", "#6e7285"));
+    textSize(smallSize - 1);
+    text("Please agree to start", helperTextX, helperTextY);
+    fill(this.getMenuStyleValue("--menu-text", "#2b2d42"));
+    textSize(bodySize - 1);
+    text("I agree to let RoboShop record and sample my voice for my robot", consentTextX, consentTextY, consentCardWidth - 82, 40);
 
     pop();
   }
 
-  // the small x button closes the guide popup here
+  // the close button is styled here
   displayCloseButton() {
+    const closeRadius = this.getMenuNumberValue("--menu-close-radius", 10);
+
     push();
-    rectMode(CORNER);
-    stroke(20);
-    strokeWeight(2);
-    noFill();
-    rect(this.closeButton.x, this.closeButton.y, this.closeButton.width, this.closeButton.height, 6);
-    line(this.closeButton.x + 6, this.closeButton.y + 6, this.closeButton.x + this.closeButton.width - 6, this.closeButton.y + this.closeButton.height - 6);
-    line(this.closeButton.x + 6, this.closeButton.y + this.closeButton.height - 6, this.closeButton.x + this.closeButton.width - 6, this.closeButton.y + 6);
+    fill(this.getMenuStyleValue("--menu-panel", "#fff9f7"));
+    stroke(this.getMenuStyleValue("--menu-text", "#2b2d42"));
+    strokeWeight(this.getMenuNumberValue("--menu-stroke-weight", 2));
+    rect(this.closeButton.x, this.closeButton.y, this.closeButton.width, this.closeButton.height, closeRadius);
+    line(this.closeButton.x + 8, this.closeButton.y + 8, this.closeButton.x + this.closeButton.width - 8, this.closeButton.y + this.closeButton.height - 8);
+    line(this.closeButton.x + 8, this.closeButton.y + this.closeButton.height - 8, this.closeButton.x + this.closeButton.width - 8, this.closeButton.y + 8);
     pop();
   }
 
-  // the shared button drawing style lives here
+  // the shared button style is drawn here
   displayButton(buttonData, isEnabled) {
     const isHovered = this.isMouseInsideButton(buttonData);
+    let fillColor = this.getMenuStyleValue("--menu-button-blue", "#d3e5ff");
+    let hoverColor = this.getMenuStyleValue("--menu-button-blue-hover", "#c2dbff");
+    const buttonRadius = this.getMenuNumberValue("--menu-button-radius", 14);
+    const titleFontName = this.getMenuStyleValue("--menu-title-font", "Trebuchet MS").replaceAll("\"", "");
+    const bodySize = this.getMenuNumberValue("--menu-body-size", 18);
+
+    if (buttonData.variant === "mint") {
+      fillColor = this.getMenuStyleValue("--menu-button-green", "#d6f4e6");
+      hoverColor = this.getMenuStyleValue("--menu-button-green-hover", "#c3e8d6");
+    }
 
     push();
     rectMode(CORNER);
-    stroke(20);
-    strokeWeight(2);
+    stroke(this.getMenuStyleValue("--menu-text", "#2b2d42"));
+    strokeWeight(this.getMenuNumberValue("--menu-stroke-weight", 2));
 
     if (isEnabled === false) {
-      fill(225);
+      fill(222);
     }
     else if (isHovered === true) {
-      fill(232);
+      fill(hoverColor);
     }
     else {
-      fill(245);
+      fill(fillColor);
     }
 
-    rect(buttonData.x, buttonData.y, buttonData.width, buttonData.height, 8);
-
-    fill(20);
+    rect(buttonData.x, buttonData.y, buttonData.width, buttonData.height, buttonRadius);
+    fill(this.getMenuStyleValue("--menu-text", "#2b2d42"));
     noStroke();
     textAlign(CENTER, CENTER);
-    textSize(20);
+    textFont(titleFontName);
+    textSize(bodySize + 4);
     text(buttonData.label, buttonData.x + buttonData.width / 2, buttonData.y + buttonData.height / 2 + 1);
     pop();
   }
@@ -258,7 +318,7 @@ class MenuScreen extends Screen {
     return null;
   }
 
-  // the guide popup, consent, and start actions are handled here
+  // the guide, consent, and start actions are handled here
   handleSelectedItem(itemData) {
     if (itemData.buttonId === "guide") {
       this.app.projectData.consentGiven = false;
@@ -284,7 +344,7 @@ class MenuScreen extends Screen {
     }
   }
 
-  // the checkbox has its own hit area here
+  // the checkbox hit area is checked here
   isMouseInsideCheckbox() {
     const isInsideX = mouseX >= this.checkbox.x && mouseX <= this.checkbox.x + this.checkbox.size;
     const isInsideY = mouseY >= this.checkbox.y && mouseY <= this.checkbox.y + this.checkbox.size;
@@ -298,5 +358,74 @@ class MenuScreen extends Screen {
     const isInsideY = mouseY >= buttonData.y && mouseY <= buttonData.y + buttonData.height;
 
     return isInsideX && isInsideY;
+  }
+
+  // one css style value is read here for the menu
+  getMenuStyleValue(variableName, fallbackValue) {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const styleValue = rootStyles.getPropertyValue(variableName).trim();
+
+    if (styleValue === "") {
+      return fallbackValue;
+    }
+
+    return styleValue;
+  }
+
+  // one numeric css style value is read here for the menu
+  getMenuNumberValue(variableName, fallbackValue) {
+    const styleValue = this.getMenuStyleValue(variableName, `${fallbackValue}`);
+    const parsedValue = Number(styleValue);
+
+    if (Number.isNaN(parsedValue) === true) {
+      return fallbackValue;
+    }
+
+    return parsedValue;
+  }
+
+  // the menu layout keeps the desktop ratio and scales from there
+  updateLayoutValues() {
+    const layoutScale = this.getMenuNumberValue("--menu-layout-scale", 1);
+    const popupScale = this.getMenuNumberValue("--menu-popup-scale", 1);
+    const scaledCardWidth = 640 * layoutScale;
+    const scaledCardHeight = 324 * layoutScale;
+    const scaledGuideButtonWidth = 196 * layoutScale;
+    const scaledGuideButtonHeight = 54 * layoutScale;
+    const scaledGuidePanelWidth = 760 * popupScale;
+    const scaledGuidePanelHeight = 436 * popupScale;
+    const scaledStartButtonWidth = 128 * layoutScale;
+    const scaledStartButtonHeight = 44 * layoutScale;
+    const scaledCheckboxSize = 24 * layoutScale;
+    const scaledCloseSize = 30 * layoutScale;
+
+    this.mainCard.x = (CANVAS_WIDTH - scaledCardWidth) / 2;
+    this.mainCard.y = 88 - (scaledCardHeight - 324) / 2;
+    this.mainCard.width = scaledCardWidth;
+    this.mainCard.height = scaledCardHeight;
+
+    this.guideButton.x = (CANVAS_WIDTH - scaledGuideButtonWidth) / 2;
+    this.guideButton.y = this.mainCard.y + this.mainCard.height - scaledGuideButtonHeight - 12;
+    this.guideButton.width = scaledGuideButtonWidth;
+    this.guideButton.height = scaledGuideButtonHeight;
+
+    this.guidePanel.x = (CANVAS_WIDTH - scaledGuidePanelWidth) / 2;
+    this.guidePanel.y = (CANVAS_HEIGHT - scaledGuidePanelHeight) / 2;
+    this.guidePanel.width = scaledGuidePanelWidth;
+    this.guidePanel.height = scaledGuidePanelHeight;
+
+    this.closeButton.x = this.guidePanel.x + this.guidePanel.width - scaledCloseSize - 18;
+    this.closeButton.y = this.guidePanel.y + 18;
+    this.closeButton.width = scaledCloseSize;
+    this.closeButton.height = scaledCloseSize;
+
+    this.checkbox.size = scaledCheckboxSize;
+    this.checkbox.x = this.guidePanel.x + 42;
+    this.checkbox.y = this.guidePanel.y + this.guidePanel.height - 82;
+
+    this.startButton.x = this.guidePanel.x + this.guidePanel.width - scaledStartButtonWidth - 40;
+    this.startButton.y = this.guidePanel.y + this.guidePanel.height - scaledStartButtonHeight - 28;
+    this.startButton.width = scaledStartButtonWidth;
+    this.startButton.height = scaledStartButtonHeight;
   }
 }
