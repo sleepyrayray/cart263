@@ -2,18 +2,18 @@
 
 ## Project Overview
 
-**RoboShop** is an interactive web project where the user answers questions to find their ideal robot, records a short voice sample, and reveals their final robot from a package.
+**RoboShop** is an interactive web project where the user visits a futuristic robot shop, answers a short set of matching questions, records a short greeting, and reveals a robot that fits them best.
 
-The experience should feel:
+The experience is meant to feel:
 
 - playful
 - friendly
-- colorful
+- colourful
 - cartoonish
 - simple to use
 - polished
 
-The project should feel like a fun robot store experience, not a formal survey.
+The project should feel like a fun robot store experience rather than a formal survey.
 
 ## Design Direction
 
@@ -26,7 +26,7 @@ The project should feel like a friendly future robot store:
 - cartoonish but not too kiddish
 - polished and product-focused
 
-The main visual language should use:
+The main visual language uses:
 
 - rounded panels and buttons
 - neat dark outlines
@@ -43,13 +43,13 @@ Each section should still feel like part of the same shop:
 
 ## Main Goal
 
-The goal is to build a short interactive experience that is clear, visually consistent, and satisfying from start to finish.
+The goal is to build a short interactive experience that feels clear, visually consistent, and satisfying from start to finish.
 
 The project is about:
 
 - collecting user choices through a quiz
 - matching those choices to a robot type
-- customizing the robot through the question flow
+- customising the robot through the question flow
 - recording the user's voice and changing it with a simple robotic filter
 - ending with a reveal animation and robot sound
 
@@ -57,98 +57,56 @@ The project is about:
 
 - GitHub Pages project link: [RoboShop project page](https://sleepyrayray.github.io/cart263/projects/project-2/)
 
-## Updated Project 2 Deliverables
-
-Project 2 now needs:
-
-- the finished project link
-- the GitHub repo link
-- a video walkthrough
-- a PDF about the project
-
-Each team member needs to submit:
-
-- the project link in their GitHub repo
-- the PDF link in their GitHub repo
-- the video link in their GitHub repo
-
-The video will be one final edited walkthrough of the project.
-
-The PDF will document the project with screen grabs, short writing, and project references.
-
-See `Tasks.md` for the detailed PDF and video requirements.
-
-There is no artist statement for Project 2.
-
-There is no class presentation for Project 2.
-
-## User Flow
+## Main Experience
 
 ### 1. Menu
 
-The first screen welcomes the user.
-
-It should include:
+The first screen welcomes the user with:
 
 - title
 - short subtitle
 - guide button
-- guide popup with short and friendly instructions
-- required consent checkbox for voice recording and voice sampling inside the guide popup
+- guide popup with short instructions
+- required consent checkbox for voice recording and voice sampling
 - start button inside the guide popup
 
-The user should not continue until they agree to the consent checkbox.
+The user only continues after agreeing to the consent checkbox.
 
 ### 2. Question Stage
 
-The user answers a short set of multiple choice questions about their ideal robot.
+The user answers a short set of multiple choice questions to match with one of five robot types.
 
-This stage should:
-
-- collect user preferences
-- guide the user toward a robot type
-- include simple customization choices inside the question flow
-
-The questions can shape:
-
-- robot appearance
-- personality
-- behavior
-- role or function
+This stage also includes the robot colour choice.
 
 ### 3. Voice Recording Stage
 
-The user records about 5 seconds of their voice.
+The user records a short greeting for the robot.
 
-This stage should:
+This stage includes:
 
-- capture a short voice sample
-- keep the process simple and clear
-- apply a simple robotic audio effect
-
-The modified voice will be used later when the robot is revealed.
+- up to 5 seconds of recording
+- previewing the recording
+- rerecording if needed
+- a simple robotic voice effect used later in the reveal
 
 ### 4. Final Reveal
 
-The project ends with a reward moment.
+The project ends with a reward moment:
 
-The plan is:
-
-- show a rotating 3D package
-- let the user click it
-- open the package
-- reveal the chosen robot
-- play the modified voice audio
-- move the robot image to the left side after the intro reveal
-- show a short robot description
-- let the user press a purchase button
-- end with a short thank you message and a back to menu reset
+- a rotating 3D package
+- click to open
+- the chosen robot image reveal
+- the modified robot voice playback
+- a short robot description
+- purchase button
+- thank you message
+- back to menu reset
 
 For now, the revealed robot will use a 2D AI generated image.
 
 ## Robot Types
 
-The project will use these 5 robot types:
+The project uses these 5 robot types:
 
 - companion robot
 - domestic robot
@@ -171,7 +129,7 @@ Each type should have a distinct look:
 - `p5.js`
 - `Three.js`
 
-### Planned Use
+### Current Use
 
 Use `p5.js` for:
 
@@ -191,16 +149,17 @@ Use `Three.js` for:
 
 ### Data Setup
 
-Use a local JSON file for robot data instead of an outside API.
+The project uses local JSON data instead of an outside API.
 
-This still works well with `Fetch API` because the project can fetch the local JSON file.
+This works well with `Fetch API` because the project can fetch the local files directly.
 
-The JSON can hold:
+The JSON files hold:
 
 - robot types
 - question data
 - answer mapping
 - robot descriptions
+- image path data
 
 ### Core Features Needed
 
@@ -214,17 +173,6 @@ The JSON can hold:
 - simple robotic audio effect
 - final reveal logic
 
-## Recommended Scope
-
-To keep the project manageable, the first version should stay small and focused.
-
-Recommended limits:
-
-- 5 robot types
-- 4 to 6 quiz questions
-- 1 voice recording step
-- 1 strong final reveal animation
-
 ## Core Themes
 
 ### Data Collection
@@ -235,24 +183,34 @@ The project collects user answers and voice input and turns them into a robot re
 
 The robot images are AI generated and help shape the visual identity of the project.
 
+## Deliverables
+
+Project 2 needs:
+
+- the finished project link
+- the GitHub repo link
+- a video walkthrough
+- a PDF about the project
+
+Each team member needs to submit:
+
+- the project link in their GitHub repo
+- the PDF link in their GitHub repo
+- the video link in their GitHub repo
+
+The video will be one final edited walkthrough of the project.
+
+The PDF will document the project with screen grabs, short writing, and references.
+
+See `Tasks.md` for the team responsibilities and deliverable notes.
+
 ## Team Workflow
 
-- keep file names organized
-- share finished work with Ray
+- keep file names organised
+- share finished work clearly
 - avoid duplicate code or conflicting styles
 - clearly label where assets are stored
 - communicate changes early
-
-## Important Decisions
-
-The team should decide these early:
-
-- final question list
-- how answers map to the 5 robot types
-- what appearance choices will be asked in the question flow
-- how the simple robotic voice effect will work
-- how the local JSON data should be organized
-- which AI image workflow will be used
 
 ## Deadline
 

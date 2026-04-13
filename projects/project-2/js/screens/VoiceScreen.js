@@ -1,6 +1,6 @@
 /*
  * voice screen file
- * ray can build the voice section here
+ * voice section content lives here
  */
 
 "use strict";
@@ -503,9 +503,13 @@ class VoiceScreen extends Screen {
     });
 
     const supportedMimeType = this.getSupportedRecordingMimeType();
-    const recorderOptions = supportedMimeType === "" ? undefined : {
-      mimeType: supportedMimeType
-    };
+    let recorderOptions = undefined;
+
+    if (supportedMimeType !== "") {
+      recorderOptions = {
+        mimeType: supportedMimeType
+      };
+    }
 
     this.recordedAudioChunks = [];
     this.mediaRecorder = new MediaRecorder(this.mediaStream, recorderOptions);
@@ -716,9 +720,11 @@ class VoiceScreen extends Screen {
 
     interleavedSampleData.forEach((sampleValue) => {
       const clampedSampleValue = Math.max(-1, Math.min(1, sampleValue));
-      const pcmSampleValue = clampedSampleValue < 0
-        ? clampedSampleValue * 32768
-        : clampedSampleValue * 32767;
+      let pcmSampleValue = clampedSampleValue * 32767;
+
+      if (clampedSampleValue < 0) {
+        pcmSampleValue = clampedSampleValue * 32768;
+      }
 
       dataView.setInt16(writeIndex, pcmSampleValue, true);
       writeIndex += 2;

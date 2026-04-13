@@ -277,8 +277,19 @@ class RevealScreen extends Screen {
       return;
     }
 
-    const imageWidth = this.robotTexture.image?.width ?? 1;
-    const imageHeight = this.robotTexture.image?.height ?? 1;
+    let imageWidth = 1;
+    let imageHeight = 1;
+
+    if (this.robotTexture.image !== undefined && this.robotTexture.image !== null) {
+      if (typeof this.robotTexture.image.width === "number") {
+        imageWidth = this.robotTexture.image.width;
+      }
+
+      if (typeof this.robotTexture.image.height === "number") {
+        imageHeight = this.robotTexture.image.height;
+      }
+    }
+
     const imageRatio = imageWidth / imageHeight;
     const planeHeight = 3.7;
     const planeWidth = planeHeight * imageRatio;
@@ -401,9 +412,11 @@ class RevealScreen extends Screen {
 
     const isHovered = this.isMouseInsidePurchaseButton();
     const buttonRadius = this.getRevealNumberValue("--reveal-button-radius", 14);
-    const fillColour = isHovered === true
-      ? this.getRevealStyleValue("--reveal-button-hover", "#c3e8d6")
-      : this.getRevealStyleValue("--reveal-button-fill", "#d6f4e6");
+    let fillColour = this.getRevealStyleValue("--reveal-button-fill", "#d6f4e6");
+
+    if (isHovered === true) {
+      fillColour = this.getRevealStyleValue("--reveal-button-hover", "#c3e8d6");
+    }
 
     fill(...this.getRevealColourWithOpacity(fillColour, descriptionOpacity));
     stroke(43, 45, 66, descriptionOpacity);
@@ -443,9 +456,11 @@ class RevealScreen extends Screen {
 
     const isHovered = this.isMouseInsideBackButton();
     const buttonRadius = this.getRevealNumberValue("--reveal-button-radius", 14);
-    const fillColour = isHovered === true
-      ? this.getRevealStyleValue("--reveal-button-secondary-hover", "#d3e7fb")
-      : this.getRevealStyleValue("--reveal-button-secondary-fill", "#e3f1ff");
+    let fillColour = this.getRevealStyleValue("--reveal-button-secondary-fill", "#e3f1ff");
+
+    if (isHovered === true) {
+      fillColour = this.getRevealStyleValue("--reveal-button-secondary-hover", "#d3e7fb");
+    }
 
     fill(...this.getRevealColourWithOpacity(fillColour, descriptionOpacity));
     stroke(43, 45, 66, descriptionOpacity);
@@ -542,9 +557,11 @@ class RevealScreen extends Screen {
       return;
     }
 
-    const playbackRate = typeof filteredAudioData.playbackRate === "number"
-      ? filteredAudioData.playbackRate
-      : 1;
+    let playbackRate = 1;
+
+    if (typeof filteredAudioData.playbackRate === "number") {
+      playbackRate = filteredAudioData.playbackRate;
+    }
 
     if (this.audioElement !== null) {
       this.prepareIntroAudioEndHandler();

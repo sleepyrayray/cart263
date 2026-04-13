@@ -1,6 +1,6 @@
 /*
  * question screen file
- * ray can build the question flow here
+ * question flow lives here
  */
 
 "use strict";

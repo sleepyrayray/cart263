@@ -89,21 +89,6 @@ Build the **menu** and handle the **PDF**.
 - finished PDF
 - short recorded audio clip shared with Yann for the final video
 
-### Step By Step
-
-1. Make the menu layout.
-2. Add the title, subtitle, and guide button.
-3. Add the guide popup text, consent checkbox, and start button.
-4. Save the checkbox state in `this.app.projectData.consentGiven`.
-5. Make the start button go to `this.app.setScreen("questions")` only after consent is checked.
-6. Do the menu code in `js/screens/MenuScreen.js`.
-7. Write short and friendly guide text.
-8. Test that the menu works properly.
-9. Collect screen grabs and writing for the PDF.
-10. Assemble the final PDF.
-11. Record a short audio clip about your contribution and share it with Yann.
-12. Share the final menu text, instruction text, and PDF with Ray.
-
 ## Yann
 
 ### Main Task
@@ -145,27 +130,6 @@ Handle the **robot reveal animation** in `Three.js` and the **video walkthrough*
 - finished video walkthrough
 - final edited video file sized for GitHub
 
-### Step By Step
-
-1. Set up `Three.js` for the reveal section.
-2. Do the reveal code in `js/screens/RevealScreen.js`.
-3. Read the final robot type, color, and filtered audio from the shared app state.
-4. Use `this.app.getSelectedRobotImagePath()` for the final robot image.
-5. Build the rotating 3D package in `Three.js`.
-6. Add the click interaction.
-7. Make the package open.
-8. Show the final robot image in the reveal.
-9. Connect the modified voice audio to the reveal.
-10. Add the short robot description after the reveal audio.
-11. Add the purchase button, thank you message, and back to menu flow.
-12. Test the reveal section for timing and polish.
-13. Collect the recorded audio clips from Jason and Ray.
-14. Capture the project walkthrough on video.
-15. Sync the audio recordings with the video capture.
-16. Edit the full video together.
-17. Make sure the video file is small enough for GitHub.
-18. Organize the final video and share it with Ray.
-
 ## Ray
 
 ### Main Task
@@ -203,22 +167,6 @@ Handle the **questions**, **color customization**, **AI robot images**, and **au
 - working simple robotic audio effect
 - shared result data ready for reveal use
 - short recorded audio clip shared with Yann for the final video
-
-### Step By Step
-
-1. Set the visual direction for the whole project.
-2. Generate or prepare the AI robot images and keep them organized.
-3. Build the question flow and answer logic.
-4. Add the color choice into the question flow.
-5. Map answers to the 5 robot types.
-6. Set up the local JSON structure.
-7. Use `Fetch API` to load the local JSON data.
-8. Build the 5 second voice recording step.
-9. Apply a simple robotic effect to the recorded voice.
-10. Keep the final robot type, selected color, and filtered audio ready in shared app state for Yann.
-11. Connect Jason's menu and Yann's reveal into the full experience.
-12. Record a short audio clip about your contribution and share it with Yann.
-13. Test the project for consistency and polish.
 
 ## Robot Types
 

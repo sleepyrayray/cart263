@@ -1,6 +1,6 @@
 /*
  * menu screen file
- * jason can build the menu here
+ * main menu content lives here
  */
 
 "use strict";

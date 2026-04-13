@@ -1,6 +1,6 @@
 /*
- * roboshop app class file
- * ray can manage the shared app flow here
+ * shared app class file
+ * shared project flow lives here
  */
 
 "use strict";
