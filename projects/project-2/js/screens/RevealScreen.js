@@ -28,6 +28,7 @@ class RevealScreen extends Screen {
     this.revealAudioDelayMilliseconds = 750;
     this.audioElement = null;
     this.packageSoundAudio = null;
+    this.purchaseSoundAudio = null;
     this.audioPlaybackTimeoutId = null;
     this.hasFinishedIntroAudioPlayback = false;
     this.hasStartedRobotMove = false;
@@ -511,6 +512,7 @@ class RevealScreen extends Screen {
     }
 
     this.app.playButtonBeep();
+    this.playPurchaseSound();
     this.hasPurchasedRobot = true;
     this.thankYouStartTime = performance.now();
     return true;
@@ -745,6 +747,7 @@ class RevealScreen extends Screen {
     this.clearAudioPlaybackTimeout();
     this.stopRevealAudio();
     this.stopPackageSound();
+    this.stopPurchaseSound();
     this.cleanupRenderer();
     this.raycaster = null;
     this.mouseVector = null;
@@ -874,6 +877,34 @@ class RevealScreen extends Screen {
     this.packageSoundAudio.pause();
     this.packageSoundAudio.currentTime = 0;
     this.packageSoundAudio = null;
+  }
+
+  // the purchase sound starts here after the button click
+  playPurchaseSound() {
+    if (typeof Audio === "undefined") {
+      return;
+    }
+
+    if (this.purchaseSoundAudio !== null) {
+      this.purchaseSoundAudio.pause();
+      this.purchaseSoundAudio.currentTime = 0;
+    }
+
+    this.purchaseSoundAudio = new Audio("assets/sounds/purchase.mp3");
+    this.purchaseSoundAudio.volume = 0.35;
+    this.purchaseSoundAudio.play().catch(() => {
+    });
+  }
+
+  // the purchase sound clears here when the reveal resets
+  stopPurchaseSound() {
+    if (this.purchaseSoundAudio === null) {
+      return;
+    }
+
+    this.purchaseSoundAudio.pause();
+    this.purchaseSoundAudio.currentTime = 0;
+    this.purchaseSoundAudio = null;
   }
 
   // one value blends toward another here for the robot move

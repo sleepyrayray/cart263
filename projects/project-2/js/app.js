@@ -15,6 +15,7 @@ let projectCanvas = undefined;
 // p5 starts the project here
 function setup() {
   projectCanvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  updateCanvasDisplaySize();
 
   app = new RobotShopApp();
   app.setup();
@@ -32,4 +33,30 @@ function mousePressed() {
   if (app !== undefined) {
     app.mousePressed();
   }
+}
+
+// the displayed canvas size adjusts here for smaller screens
+function updateCanvasDisplaySize() {
+  if (projectCanvas === undefined) {
+    return;
+  }
+
+  let displayWidth = CANVAS_WIDTH;
+  const availableWidth = window.innerWidth;
+
+  if (availableWidth < CANVAS_WIDTH) {
+    displayWidth = availableWidth;
+  }
+
+  displayWidth = Math.max(240, displayWidth);
+
+  const displayHeight = displayWidth * (CANVAS_HEIGHT / CANVAS_WIDTH);
+
+  projectCanvas.elt.style.width = `${displayWidth}px`;
+  projectCanvas.elt.style.height = `${displayHeight}px`;
+}
+
+// the displayed canvas size updates here when the window changes
+function windowResized() {
+  updateCanvasDisplaySize();
 }
