@@ -31,3 +31,8 @@ RoboShop is an interactive web experience where you visit a futuristic robot sho
 - `p5.js`
 - `Three.js`
 - local JSON data with `fetch()`
+
+## Project Docs
+
+- PDF: [`docs/Project2_PDF.pdf`](docs/Project2_PDF.pdf)
+- Video walkthrough: [`docs/Video_Walkthrough.mp4`](docs/Video_Walkthrough.mp4)
